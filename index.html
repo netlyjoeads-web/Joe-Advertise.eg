@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Joe Advertise — Graphic Designer & Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #090412;
+    --surface: #120824;
+    --accent1: #7c3aed;
+    --accent1b: #6d28d9;
+    --accent2: #c084fc;
+    --accent3: #a855f7;
+    --neon: #d946ef;
+    --neon2: #e879f9;
+    --text: #ffffff;
+    --muted: #9ca3af;
+    --grid: rgba(124, 58, 237, 0.05);
+
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html { 
+    scroll-behavior: smooth; 
+  }
+  
+  html, body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Cairo', sans-serif; 
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important; 
+    cursor: none; 
+    position: relative;
+  }
+
+  h1, h2, h3, .nav-logo, .hero-name, .section-title, .service-name, .exp-title, .contact-pill {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* ═══════════════════════ INTRO BRUSH ═══════════════════════ */
+  #intro {
+    position: fixed; inset: 0; z-index: 9000;
+    background: #1a0b2e;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; pointer-events: all;
+  }
+  #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #intro-name {
+    position: relative; z-index: 2;
+    font-family: 'Outfit', sans-serif; font-size: clamp(2.5rem, 7vw, 7rem);
+    font-weight: 900; letter-spacing: 4px; color: #ffffff;
+    opacity: 0; text-shadow: 0 0 40px rgba(255,255,255,0.4), 0 0 80px rgba(124,58,237,0.8);
+    transition: opacity 0.5s ease; text-align: center; line-height: 1.1;
+  }
+  #intro-name span { display: block; font-family: 'Space Mono', monospace; font-size: 0.25em; letter-spacing: 8px; color: rgba(255,255,255,0.7); margin-top: 1rem; font-weight: 400;}
+  #intro.done { animation: introDone 0.8s ease forwards; }
+  @keyframes introDone { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.05); pointer-events: none; } }
+
+  /* ═══════════════════════ CURSOR ═══════════════════════ */
+  .cursor { width: 10px; height: 10px; background: var(--neon); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: screen; box-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon); transition: transform 0.08s, background 0.2s; }
+  .cursor-ring { width: 40px; height: 40px; border: 1.5px solid rgba(217,70,239,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+
+  /* ═══════════════════════ BACKGROUND ═══════════════════════ */
+  .grid-bg { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 50px 50px; animation: gridShift 20s linear infinite; }
+  @keyframes gridShift { 0%{background-position:0 0} 100%{background-position:50px 50px} }
+  .aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .aurora-blob { position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.15; }
+  .aurora-blob:nth-child(1) { width: 600px; height: 600px; background: var(--accent1); top: -200px; left: -100px; animation: float1 12s ease-in-out infinite; }
+  .aurora-blob:nth-child(2) { width: 500px; height: 500px; background: var(--neon); bottom: -150px; right: -150px; animation: float2 15s ease-in-out infinite; }
+
+  .content { position: relative; z-index: 10; }
+
+  /* ═══════════════════════ NAV ═══════════════════════ */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 4, 18, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); }
+  .nav-logo { font-size: 2rem; font-weight: 900; letter-spacing: 2px; color: var(--text); text-decoration: none; text-shadow: 0 0 15px var(--accent1); cursor: none;}
+/* --- كود اللوجو المتحرك --- */
+  .animated-logo {
+    height: 80px; /* تقدر تزود أو تقلل الرقم ده عشان تظبط حجم اللوجو في الناف بار */
+    width: auto;
+    mix-blend-mode: screen; /* لدمج اللوجو مع الخلفية وإخفاء أي خلفية سوداء */
+    filter: drop-shadow(0 0 15px var(--neon)) drop-shadow(0 0 20px var(--accent1));
+    animation: impulse 2s infinite ease-in-out;
+  }
+
+  /* تأثير النبض */
+  @keyframes impulse {
+    0% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
+    50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 20px var(--neon)) drop-shadow(0 0 30px var(--accent1)); }
+    100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
+  }
+  .nav-logo span { color: var(--accent1); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; direction: ltr; }
+  .nav-links a { color: var(--text); text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s; cursor: none; }
+  .nav-links a:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+  .nav-cta { padding: 0.6rem 1.8rem; border: 1px solid var(--accent1); border-radius: 50px; background: linear-gradient(45deg, rgba(124,58,237,0.1), rgba(217,70,239,0.1)); transition: all 0.3s !important; }
+  .nav-cta:hover { background: var(--accent1) !important; box-shadow: 0 0 25px rgba(124,58,237,0.5) !important; border-color: transparent; }
+
+  /* ═══════════════════════ PAGE ISOLATION ═══════════════════════ */
+  #main-site, #services-page, #contact-page { display: none; }
+  .active-page { display: block !important; animation: fadeIn 0.5s ease forwards; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  .page-inner { max-width: 1200px; margin: 0 auto; }
+  .back-btn { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; color: var(--accent2); background: none; border: none; cursor: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 3rem; padding: 0; transition: color 0.3s; }
+  .back-btn:hover { color: var(--neon); }
+  
+  /* ═══════════════════════ SERVICES PAGE ═══════════════════════ */
+  #services-page, #contact-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
+  .services-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem;direction: ltr; }
+  .service-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 16px; padding: 3.5rem 2.5rem; text-align: center; position: relative; transition: all 0.4s; cursor: none; }
+  .service-card:hover { border-color: var(--neon); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(124,58,237,0.2); }
+  .service-num { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 4rem; color: rgba(124,58,237,0.15); line-height: 1; margin-bottom: 1.5rem; transition: color 0.3s; }
+  .service-card:hover .service-num { color: var(--accent1); }
+  .service-name { font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 1rem; font-weight: 900; }
+  .service-desc { color: var(--muted); font-size: 1rem; line-height: 1.8; direction: ltr; text-align: justify;}
+
+  /* ═══════════════════════ CONTACT PAGE ═══════════════════════ */
+  .contact-header { text-align: center; margin-bottom: 3rem; }
+  .contact-header h1 { font-size: clamp(3rem,6vw,5rem); letter-spacing: 3px; font-weight: 900; color: var(--text); text-shadow: 0 0 30px rgba(217,70,239,0.3); }
+  .contact-header p { color: var(--muted); font-size: 1.1rem; margin-top: 1rem; }
+  
+  .contact-pills { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 5rem; }
+  .contact-pill {
+    display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+    padding: 0.8rem 2rem; background: rgba(26, 11, 46, 0.6);
+    border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 50px;
+    color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.1rem;
+    transition: all 0.3s; cursor: none; direction:ltr;
+  }
+  .contact-pill svg { width: 22px; height: 22px; fill: var(--muted); transition: fill 0.3s; }
+  .contact-pill:hover { background: rgba(124, 58, 237, 0.2); border-color: var(--neon); box-shadow: 0 0 20px rgba(217,70,239,0.3); transform: translateY(-3px); }
+  .contact-pill:hover svg { fill: var(--neon); }
+
+  .contact-reasons-wrap { max-width: 800px; margin: 0 auto; position: relative; }
+  .contact-reasons-title { text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 2.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
+  .contact-reasons-title::before, .contact-reasons-title::after { content: '✦'; color: var(--neon); }
+  .reasons-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .reason-item { display: flex; gap: 1.5rem; align-items: center; padding: 2rem 2.5rem; border: 1px solid rgba(124, 58, 237, 0.15); background: rgba(18, 8, 36, 0.5); border-radius: 12px; backdrop-filter: blur(10px); transition: all 0.3s; cursor: none; }
+  .reason-item:hover { border-color: var(--accent2); background: rgba(124, 58, 237, 0.1); transform: translateX(-5px); }
+  .reason-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent1); color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.2rem; flex-shrink: 0; box-shadow: 0 0 15px var(--accent1); }
+  .reason-body h4 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+  .reason-body p { color: var(--muted); font-size: 0.95rem;text-align: justify; line-height: 1.7; direction: rtl; margin: 0;}
+
+  /* ═══════════════════════ MAIN SITE ═══════════════════════ */
+  section { padding: 8rem 4rem; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; color: var(--neon); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::before { content: ''; display: block; width: 40px; height: 2px; background: var(--neon); }
+  .section-title { font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 2px; margin-bottom: 3rem; font-weight: 900; text-transform: uppercase; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 4rem 4rem; }
+  .hero-inner { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+  .hero-name { font-size: clamp(3.5rem, 7vw, 7rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
+  .hero-name span { display: block; }
+  .hero-name .line1 { color: var(--text); }
+  .hero-name .line2 { color: transparent; -webkit-text-stroke: 2px var(--accent1); }
+  .hero-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--neon); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-desc { color: var(--muted); font-size: 1.1rem; line-height: 1.8; max-width: 500px; direction: ltr; margin-bottom: 2.5rem; }
+  .btn { padding: 1rem 2.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border-radius: 50px; transition: all 0.3s; cursor: none; display: inline-block; }
+  .btn-primary { background: var(--accent1); color: #fff; border: 1px solid var(--accent1); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
+  .btn-primary:hover { background: transparent; color: var(--text); border-color: var(--neon); box-shadow: 0 0 30px rgba(217,70,239,0.5); }
+  .hero-robot-wrap { position: relative; display: flex; align-items: center; justify-content: center; height: 600px; }
+  
+   #robotCanvas { 
+    width: 100%; 
+    max-width: 600px; 
+    height: auto; 
+    display: block; 
+    filter: drop-shadow(0 0 30px rgba(124,58,237,0.3)); 
+  }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+  .skill-card { background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 12px; padding: 2.5rem; transition: all 0.3s; cursor: none; }
+.counter-num {
+    font-variant-numeric: tabular-nums !important;
+    display: inline-block;
+}
+  .skill-card:hover { border-color: var(--accent1); transform: translateY(-5px); background: rgba(124, 58, 237, 0.1); }
+  .skill-name { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text); }
+  .skill-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; direction: ltr; }
+
+  /* ═══════════════════════ OUR WORK (3D Glowing Carousel) ═══════════════════════ */
+  .gallery-wrapper { 
+    perspective: 2000px; 
+    padding: 6rem 0; 
+    display: flex; justify-content: center; align-items: center; 
+    margin-top: 2rem; cursor: grab; 
+  }
+  .gallery-wrapper:active { cursor: grabbing; }
+  
+  .gallery-orbit { 
+    position: relative; width: 300px; height: 400px; 
+    transform-style: preserve-3d; 
+  }
+  
+  .gallery-orbit img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: contain; 
+    border-radius: 12px; 
+    background: rgba(18, 8, 36, 0.9);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    box-shadow: 0 0 25px var(--accent1), 0 0 50px rgba(124,58,237,0.2);
+    /* تم تعديل الحسبة لـ 51.42deg عشان الـ 7 صور يتوزعوا صح هندسياً */
+    transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(400px);
+    transition: box-shadow 0.4s, border-color 0.4s;
+    user-select: none; pointer-events: none;
+  }
+  .gallery-orbit img:hover { border-color: var(--neon); box-shadow: 0 0 40px var(--neon), 0 0 80px rgba(217,70,239,0.6); }
+
+  /* كود صور الـ Marquee المائل للكمبيوتر */
+  .mq-img {
+    width: 280px;  
+    height: 350px; 
+    object-fit: cover; 
+    border-radius: 12px;
+    background: rgba(18, 8, 36, 0.9);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);
+    transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+    cursor: none;
+    user-select: none; 
+    -webkit-user-drag: none; 
+  }
+
+  .mq-img:hover {
+    transform: scale(1.05);
+    border-color: var(--neon);
+    box-shadow: 0 0 30px var(--neon);
+    z-index: 10;
+    position: relative;
+  }
+
+  /* ═══════════════════════ INFINITE SLANTED MARQUEE ═══════════════════════ */
+  #more-work {
+    padding: 8rem 0 8rem; 
+    position: relative;
+    direction: ltr;
+    overflow: hidden !important; 
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+  /* 2. نعدل الـ marquee-wrapper عشان ميعملش "زحمة" على الجوانب */
+.marquee-wrapper {
+  transform: rotate(-4deg) scale(1.05); /* نرجع الـ scale عشان نغطي الحواف */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 4rem 0;
+  width: 100vw; /* نخليه بعرض الشاشة بالظبط */
+  margin-left: -5%; /* نعمل إزاحة بسيطة عشان نعوض الدوران */
+}
+ .marquee-track {
+    display: flex;
+    gap: 30px; /* جرب 30px أو عدلها حسب الذوق الذي تفضله */
+    will-change: transform;
+    backface-visibility: hidden;
+}
+  .marquee-track:active {
+    cursor: grabbing;
+  }
+
+  /* ═══════════════════════ MEDIA QUERIES (MOBILE) ═══════════════════════ */
+
+.wa-float { position: fixed; bottom: 2rem; left: 2rem; z-index: 500; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); text-decoration: none; cursor: none; animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
+.wa-float:hover { transform: scale(1.12); }
+.wa-float svg { width: 32px; height: 32px; fill: #fff; }
+@keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 0 rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 12px rgba(37,211,102,0)} }
+ @media (max-width: 1000px) {
+ #intro{
+    display:none !important;
+  }
+.hero-name {
+    font-size: clamp(2.5rem, 10vw, 4rem) !important;
+  }
+
+  .hero-title {
+    font-size: 0.9rem !important;
+  }
+ .hero-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.7;
+  }
+ .section-title {
+    font-size: 2rem !important;
+  }
+
+  .skill-card,
+  .service-card {
+    padding: 2rem 1.5rem !important;
+  }
+
+ .mq-img {
+    max-width: 200px; /* أو أي عرض مناسب، المهم تحديد العرض */
+    height: auto;
+}
+
+  .gallery-orbit {
+    width: 170px !important;
+    height: 250px !important;
+  }
+
+  .gallery-orbit img {
+    transform: rotateY(calc(var(--i) * 51.42deg))
+               translateZ(250px) !important;
+  }
+
+  .animated-logo {
+    height: 55px !important;
+  }
+
+  .contact-pill {
+    font-size: 0.9rem !important;
+    padding: 0.7rem 1rem !important;
+  }
+    nav { padding: 1rem 1.5rem !important; flex-direction: column; gap: 1rem; }
+  .nav-links { flex-wrap: wrap; justify-content: center; gap: 1rem; width: 100%; }
+  .nav-links a { font-size: 0.8rem; }
+  .nav-cta { padding: 0.5rem 1.2rem; }
+
+  .hero {
+    padding: 12rem 0.8rem 3rem !important;
+}
+  .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+  .hero-desc { margin: 0 auto 2.5rem; max-width: 90%; }
+  .hero-robot-wrap {
+    display: none !important;
+  }
+  .cursor, .cursor-ring {
+    display: none !important;
+  }
+  
+  html, body {
+    cursor: auto !important;
+  }
+  
+  /* 4. تنسيقات إضافية للعناصر التي كانت تتداخل */
+  .skills-grid, .services-cards { grid-template-columns: 1fr; }
+  section, #services-page, #contact-page { padding: 3rem 0.8rem; }
+ 
+
+}
+/* ═══════════════════════ GLITCH EFFECT ═══════════════════════ */
+.glitch-wrapper {
+  position: relative;
+  z-index: 2;
+  opacity: 0; /* الجافاسكريبت هيظهره لما البراش يخلص */
+  transition: opacity 0.5s ease;
+  text-align: center;
+}
+
+.glitch-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  position: relative;
+  letter-spacing: 5px;
+  animation: glitch-main 3s infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-text::before {
+  color: #00ffff; /* لون أزرق نيون */
+  z-index: -1;
+  animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.glitch-text::after {
+  color: #ff00ff; /* لون موف نيون */
+  z-index: -2;
+  animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+}
+
+@keyframes glitch-anim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-main {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.9; }
+}
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <canvas id="brushCanvas"></canvas>
+  
+  <div class="glitch-wrapper" id="intro-name">
+    <div class="glitch-text" data-text="JOE ADVERTISE">JOE ADVERTISE</div>
+    <span style="display: block; font-family: 'Space Mono', monospace; font-size: 0.25em; letter-spacing: 8px; color: rgba(255,255,255,0.7); margin-top: 1rem; font-weight: 400;">Graphic DESIGNER & DEVELOPER</span>
+  </div>
+</div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="grid-bg"></div>
+<div class="aurora"><div class="aurora-blob"></div><div class="aurora-blob"></div></div>
+
+<div class="content">
+<a href="https://wa.me/201035419531" target="_blank" class="wa-float" id="waFloat">
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+  </a>
+  <nav>
+ <a href="#" class="nav-logo" style="display: flex; align-items: center;" onclick="showMain(); return false;">
+  <img src="logo.png" alt="joe_advertise" class="animated-logo">
+</a>
+   <ul class="nav-links">
+  <li><a href="#" onclick="showMain(); return false;">Home</a></li>
+  <li><a href="https://www.behance.net/gallery/245003305/Portfolio-2026-Sr-Graphic-Designer-Youssef-Ebrahim" target="_blank">Portfolio</a></li>
+  <li><a href="#" onclick="showServices(); return false;">Services</a></li>
+  <li><a href="#" onclick="showContact(); return false;" class="nav-cta">Contact Us</a></li>
+  <li>
+    <button onclick="toggleLang()" id="langBtn" style="padding:0.6rem 1.8rem; border:1px solid var(--accent1); border-radius:50px; background:linear-gradient(45deg,rgba(124,58,237,0.1),rgba(217,70,239,0.1)); color:var(--text); font-family:'Outfit',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:1px; cursor:none; transition:all 0.3s;">
+      العربية
+    </button>
+  </li>
+</ul>
+  </nav>
+
+  <div id="services-page">
+    <div class="page-inner">
+      <button class="back-btn" onclick="showMain()">← Back to Home</button>
+      <p class="section-label" style="margin-bottom:0.5rem">What we Do</p>
+      <h1 class="section-title">SERVICES</h1>
+     <div class="services-cards">
+        <div class="service-card"><div class="service-num">01</div><div class="service-name">GRAPHIC DESIGN</div><p class="service-desc">Professional visual content design for social media platforms, including distinctive brand identity development, professional logo design, and high-converting creative assets that help brands grow, stand out, and thrive across diverse industries.</p></div>
+        <div class="service-card"><div class="service-num">02</div><div class="service-name">FRONT-END DEVELOPER</div><p class="service-desc">Development of interactive and creative web interfaces — portfolio websites, landing pages, and engaging user experiences powered by the latest web technologies.</p></div>
+        <div class="service-card"><div class="service-num">03</div><div class="service-name">AI CREATOR</div><p class="service-desc">Production of cinematic AI commercials and lifelike voiceovers, leveraging state-of-the-art artificial intelligence technologies to maximize engagement and drive marketing success.</p></div>
+      </div>
+    </div>
+  </div>
+
+<div id="contact-page">
+    <div class="page-inner">
+      <button class="back-btn" onclick="showMain()">← Back to Home</button>
+      <div class="contact-header">
+        <h1>GET IN TOUCH</h1>
+        <p>Ready to elevate your brand right now</p>
+      </div>
+      
+      <div class="contact-pills">
+        <a href="mailto:joeadvertise.eg@gmail.com" class="contact-pill">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            joeadvertise.eg@gmail.com
+        </a>
+        
+        <a href="https://wa.me/201035419531" target="_blank" class="contact-pill">
+            <svg viewBox="0 0 24 24" width="22" height="22" style="fill:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            +20 103 541 9531
+        </a>
+
+        <a href="https://www.facebook.com/profile.php?id=61581089424006" target="_blank" class="contact-pill">
+            <svg viewBox="0 0 24 24" width="22" height="22" style="fill:#1877F2">
+                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.118 4.388 23.118 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.118 24 18.118 24 12.073z"/>
+            </svg>
+            Facebook
+        </a>
+      </div>
+
+      <div class="contact-reasons-wrap">
+        <div class="contact-reasons-title">WHY CHOOSE US?</div>
+        <div class="reasons-list">
+          <div class="reason-item">
+            <div class="reason-num">1</div>
+            <div class="reason-body">
+              <h4>True Partnership & Flexibility</h4>
+              <p>We don't just design and disappear. We maintain constant communication with full flexibility in revisions until you are 100% satisfied. Our support continues even after delivery to ensure your brand's stability.</p>
+            </div>
+          </div>
+          <div class="reason-item">
+            <div class="reason-num">2</div>
+            <div class="reason-body">
+              <h4>Speed & Efficiency</h4>
+              <p>We value time in business. Once ideas are approved, execution begins immediately to ensure record-time delivery without compromising on quality or professionalism.</p>
+            </div>
+          </div>
+          <div class="reason-item">
+            <div class="reason-num">3</div>
+            <div class="reason-body">
+              <h4>Designs That Sell (Direct Response)</h4>
+              <p>We don’t believe design is merely about aesthetics. Every visual we create is engineered to solve a marketing challenge, communicate a powerful message, and tell a memorable brand story. Through continuous strategic ideation and customer psychology–driven creative concepts, we craft content that resonates with your audience, strengthens your positioning, and delivers the highest possible impact and performance.
+</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-site" class="active-page">
+    
+    <section class="hero" id="home">
+<div class="hero-inner">
+  <div class="hero-robot-wrap">
+    <canvas id="robotCanvas" width="600" height="600"></canvas>
+  </div>
+  <div class="hero-left">
+    <h1 class="hero-name"><span class="line1">JOE</span><span class="line2">Advertise</span></h1>
+    <p class="hero-title">Graphic Designer · AI Ads Creator · Front-End Dev</p>
+    <p class="hero-desc">Graphic Designer Designer, Front-End Developer . We engineer premium brand identities and cinematic AI commercials that elevate your business.</p>
+    <a href="https://wa.me/201035419531" target="_blank" class="btn btn-primary">Contact us</a>
+  </div>
+</div>
+    </section>
+
+   <section id="skills" style="padding-top:0">
+      <div class="section-inner">
+        <p class="section-label">AGENCY METRICS</p>
+        <h2 class="section-title">OUR IMPACT</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-name counter-num" data-target="50" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
+            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">HAPPY CLIENTS</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-name counter-num" data-target="95" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--accent2); text-shadow: 0 0 25px var(--accent1); margin-bottom: 0.5rem; direction: ltr;">+0</div>
+            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">PROJECTS DELIVERED</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-name counter-num" data-target="3" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon2); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
+            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">YEARS EXPERIENCE</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="our-work">
+      <div class="section-inner">
+        <p class="section-label">Latest projects</p>
+        <h2 class="section-title">OUR WORK</h2>
+        
+        <div class="gallery-wrapper">
+          <div class="gallery-orbit">
+            <img src="mockup.png" style="--i:1" alt="Work 1">
+            <img src="car.png" style="--i:2" alt="Work 2">
+            <img src="saudi.png" style="--i:3" alt="Work 3">
+            <img src="fortex.png" style="--i:4" alt="Work 4">
+            <img src="pizza.png" style="--i:5" alt="Work 5">
+            <img src="dental.png" style="--i:6" alt="Work 6">
+            <img src="carousel.png" style="--i:7" alt="Work 7">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="more-work">
+      <div class="marquee-wrapper">
+        <div class="marquee-track track-left">
+          <img src="sauce.png" class="mq-img" alt="Work">
+          <img src="car.png" class="mq-img" alt="Work">
+          <img src="1.png" class="mq-img" alt="Work">
+          <img src="OUD.png" class="mq-img" alt="Work">
+          <img src="3.png" class="mq-img" alt="Work">
+          <img src="perfume.png" class="mq-img" alt="Work">
+          <img src="car.png" class="mq-img" alt="Work">
+          <img src="saudi.png" class="mq-img" alt="Work">
+          <img src="perfume.png" class="mq-img" alt="Work">
+          <img src="6.png" class="mq-img" alt="Work">
+        </div>
+
+        <div class="marquee-track track-right">
+          <img src="delivery.png" class="mq-img" alt="Work">
+          <img src="fried.png" class="mq-img" alt="Work">
+          <img src="coffe.webp" class="mq-img" alt="Work">
+          <img src="sand.png" class="mq-img" alt="Work">
+          <img src="mer.jpeg" class="mq-img" alt="Work">
+          <img src="dents.jpeg" class="mq-img" alt="Work">
+          <img src="beauty.png" class="mq-img" alt="Work">
+           <img src="time.png" class="mq-img" alt="Work">
+    <img src="split.png" class="mq-img" alt="Work">
+          <img src="splash.png" class="mq-img" alt="Work">
+          <img src="mirror.jpeg" class="mq-img" alt="Work">
+          <img src="warn.png" class="mq-img" alt="Work">
+        </div>
+  <div class="marquee-track track-left">
+          <img src="pizza-iphone.jpeg" class="mq-img" alt="Work">
+          <img src="red.jpeg" class="mq-img" alt="Work">
+          <img src="rocket.jpeg" class="mq-img" alt="Work">
+          <img src="location.jpeg" class="mq-img" alt="Work">
+          <img src="peprone.jpeg" class="mq-img" alt="Work">
+          <img src="night.jpeg" class="mq-img" alt="Work">
+          <img src="GOOGLE.jpeg" class="mq-img" alt="Work">
+          <img src="fly.jpeg" class="mq-img" alt="Work">
+          <img src="king.jpeg" class="mq-img" alt="Work">
+          <img src="elegance.jpeg" class="mq-img" alt="Work">
+        </div>
+ <div class="marquee-track track-right">
+          <img src="fortex.png" class="mq-img" alt="Work">
+          <img src="blur.gif" class="mq-img" alt="Work">
+           <img src="trumble.gif" class="mq-img" alt="Work">
+          <img src="cap.jpeg" class="mq-img" alt="Work">
+          <img src="grey.jpeg" class="mq-img" alt="Work">
+          <img src="black.jpeg" class="mq-img" alt="Work">
+          <img src="flag.jpeg" class="mq-img" alt="Work">
+          <img src="lab.webp" class="mq-img" alt="Work">
+        </div>
+ <div class="marquee-track track-left">
+          <img src="aura.png" class="mq-img" alt="Work">
+          <img src="jar.png" class="mq-img" alt="Work">
+          <img src="box.webp" class="mq-img" alt="Work">
+          <img src="gift.webp" class="mq-img" alt="Work">
+  <img src="white.webp" class="mq-img" alt="Work">
+ <img src="sticker.jpeg" class="mq-img" alt="Work">
+ <img src="s.jpg" class="mq-img" alt="Work">
+
+
+        </div>
+ <div class="marquee-track track-right">
+          <img src="t.png" class="mq-img" alt="Work">
+          <img src="sec.png" class="mq-img" alt="Work">
+          <img src="p.png" class="mq-img" alt="Work">
+          <img src="crunchy.png" class="mq-img" alt="Work">
+<img src="cheder.png" class="mq-img" alt="Work">
+<img src="d.png" class="mq-img" alt="Work">
+<img src="fish.png" class="mq-img" alt="Work">
+<img src="face.png" class="mq-img" alt="Work">
+        </div>
+ <div class="marquee-track track-left">
+          <img src="diss.png" class="mq-img" alt="Work">
+          <img src="wheels.png" class="mq-img" alt="Work">
+          <img src="keys.png" class="mq-img" alt="Work">
+          <img src="eid.png" class="mq-img" alt="Work">
+<img src="service.png" class="mq-img" alt="Work">
+<img src="blue.png" class="mq-img" alt="Work">
+        </div>
+ <div class="marquee-track track-right">
+          <img src="b.webp" class="mq-img" alt="Work">
+          <img src="h.webp" class="mq-img" alt="Work">
+          <img src="o.png" class="mq-img" alt="Work">
+          <img src="osol.webp" class="mq-img" alt="Work">
+<img src="f.png" class="mq-img" alt="Work">
+        </div>
+
+     <div class="marquee-track track-left">
+          <img src="l.png" class="mq-img" alt="Work">
+          <img src="9.webp" class="mq-img" alt="Work">
+          <img src="22.png" class="mq-img" alt="Work">
+          <img src="23.png" class="mq-img" alt="Work">
+          <img src="24.png" class="mq-img" alt="Work">
+          <img src="10.png" class="mq-img" alt="Work">
+          <img src="7.png" class="mq-img" alt="Work">
+       <img src="3t.webp" class="mq-img" alt="Work">
+          <img src="adha.webp" class="mq-img" alt="Work">
+          <img src="becan.png" class="mq-img" alt="Work">
+<img src="m.webp" class="mq-img" alt="Work">
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<footer style="text-align:center; padding: 2rem 1rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
+  Joe_Advertise.eg — All Rights Reserved 2026 ©
+</footer>
+<script>
+// ═══════════════════════ INTRO BRUSH ═══════════════════════
+(function() {
+  const intro = document.getElementById('intro');
+  const canvas = document.getElementById('brushCanvas');
+  const ctx = canvas.getContext('2d');
+  const nameEl = document.getElementById('intro-name');
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  ctx.fillStyle = '#1a0b2e'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const W = () => canvas.width;
+  const brushSpeed = canvas.width / 80; 
+  let currentX = -300; let paintDone = false; let nameShown = false;
+
+  const strokes = [];
+  const STROKE_COUNT = 15;
+  for (let i = 0; i < STROKE_COUNT; i++) {
+    strokes.push({
+      y: (i / STROKE_COUNT) * canvas.height + canvas.height / STROKE_COUNT / 2,
+      offset: (i % 2 === 0) ? 0 : -100,
+      width: 100 + Math.random() * 80,
+      color: i % 2 === 0 ? '#4c1d95' : '#6d28d9'
+    });
+  }
+
+  function drawFrame() {
+    if (paintDone) return;
+    currentX += brushSpeed;
+    for (const s of strokes) {
+      const sx = currentX + s.offset;
+      ctx.save(); ctx.globalAlpha = 0.9;
+      const grad = ctx.createLinearGradient(sx - 80, 0, sx + s.width, 0);
+      grad.addColorStop(0, 'rgba(0,0,0,0)'); grad.addColorStop(0.2, s.color); grad.addColorStop(0.8, s.color); grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad; ctx.fillRect(sx - 80, s.y - s.width * 0.7, s.width + 160, s.width * 1.4);
+      ctx.restore();
+    }
+    if (!nameShown && currentX > W() * 0.3) { nameShown = true; nameEl.style.opacity = '1'; }
+    if (currentX > W() + 400) {
+      paintDone = true;
+      setTimeout(() => {
+        intro.classList.add('done');
+        setTimeout(() => { intro.style.display = 'none'; }, 800);
+      }, 500);
+      return;
+    }
+    requestAnimationFrame(drawFrame);
+  }
+  setTimeout(drawFrame, 100);
+})();
+
+// ═══════════════════════ PAGE NAVIGATION ═══════════════════════
+function showMain() {
+  document.getElementById('main-site').classList.add('active-page');
+  document.getElementById('services-page').classList.remove('active-page');
+  document.getElementById('contact-page').classList.remove('active-page');
+  window.scrollTo(0, 0);
+}
+function showServices() {
+  document.getElementById('main-site').classList.remove('active-page');
+  document.getElementById('contact-page').classList.remove('active-page');
+  document.getElementById('services-page').classList.add('active-page');
+  window.scrollTo(0, 0);
+}
+function showContact() {
+  document.getElementById('main-site').classList.remove('active-page');
+  document.getElementById('services-page').classList.remove('active-page');
+  document.getElementById('contact-page').classList.add('active-page');
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════ CURSOR ═══════════════════════
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx+'px'; cursor.style.top = my+'px';
+  rx += (mx-rx)*0.15; ry += (my-ry)*0.15;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('a, button, .skill-card, .service-card, .contact-pill, .reason-item, .gallery-orbit img')) {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+    ring.style.width = '60px'; ring.style.height = '60px';
+  } else {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.width = '40px'; ring.style.height = '40px';
+  }
+});
+
+// ═══════════════════════ ROBOT CANVAS ═══════════════════════
+(function() {
+  const canvas = document.getElementById('robotCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+  let targetHeadX = 0, targetHeadY = 0; let currentHeadX = 0, currentHeadY = 0; let t = 0;
+
+  document.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left; mouseY = e.clientY - rect.top;
+  });
+
+  const PURPLE = '#7c3aed'; const PURPLE_L = '#a855f7'; const NEON = '#d946ef'; const DARK = '#120824';
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); t += 0.03;
+    const cx = canvas.width / 2; const cy = canvas.height / 2 + 30; const hover = Math.sin(t) * 12;
+    const dx = (mouseX - canvas.width / 2) / canvas.width; const dy = (mouseY - canvas.height / 2) / canvas.height;
+    targetHeadX = dx * 35; targetHeadY = dy * 25;
+    currentHeadX += (targetHeadX - currentHeadX) * 0.08; currentHeadY += (targetHeadY - currentHeadY) * 0.08;
+    const hx = cx + currentHeadX; const hy = cy - 100 + hover + currentHeadY;
+
+    ctx.save(); ctx.translate(cx, cy + hover); ctx.shadowColor = PURPLE; ctx.shadowBlur = 25;
+    ctx.beginPath(); ctx.roundRect(-65, -30, 130, 120, 15); ctx.fillStyle = DARK; ctx.fill();
+    ctx.strokeStyle = PURPLE; ctx.lineWidth = 3; ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.shadowColor = NEON; ctx.shadowBlur = 20; ctx.beginPath(); ctx.arc(0, 30, 12, 0, Math.PI*2); ctx.fillStyle = NEON; ctx.fill(); ctx.shadowBlur = 0; ctx.restore();
+
+    ctx.save(); ctx.translate(hx, hy);
+    const aura = ctx.createRadialGradient(0, 0, 30, 0, 0, 100); aura.addColorStop(0, 'rgba(217,70,239,0.2)'); aura.addColorStop(1, 'rgba(217,70,239,0)');
+    ctx.fillStyle = aura; ctx.beginPath(); ctx.arc(0, 0, 100, 0, Math.PI*2); ctx.fill();
+    ctx.shadowColor = PURPLE; ctx.shadowBlur = 30; ctx.beginPath(); ctx.roundRect(-60, -55, 120, 110, 20); ctx.fillStyle = DARK; ctx.fill(); ctx.strokeStyle = PURPLE_L; ctx.lineWidth = 3; ctx.stroke(); ctx.shadowBlur = 0;
+
+    const ex = (mouseX - canvas.width/2) / canvas.width * 10; const ey = (mouseY - canvas.height/2) / canvas.height * 8;
+    for (const eyeX of [-25, 25]) {
+      ctx.beginPath(); ctx.roundRect(eyeX - 18, -15, 36, 20, 8); ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.fill(); ctx.strokeStyle = PURPLE_L; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.shadowColor = NEON; ctx.shadowBlur = 20; ctx.beginPath(); ctx.arc(eyeX + ex, ey - 5, 6, 0, Math.PI * 2); ctx.fillStyle = NEON; ctx.fill(); ctx.shadowBlur = 0;
+    }
+    ctx.beginPath(); ctx.moveTo(-25, 30); ctx.quadraticCurveTo(0, 30 + Math.sin(t*2)*5, 25, 30); ctx.strokeStyle = PURPLE_L; ctx.lineWidth = 3; ctx.stroke();
+    ctx.restore(); requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══════════════════════ 3D CAROUSEL DRAG & AUTO-SPIN (Fluid Momentum) ═══════════════════════
+(function() {
+  const orbit = document.querySelector('.gallery-orbit');
+  const wrapper = document.querySelector('.gallery-wrapper');
+  if (!orbit) return;
+
+  let currentAngle = 0;
+  let isDragging = false;
+  let startX = 0;
+  let prevX = 0;
+  
+  const autoRotateSpeed = -0.2; 
+  let velocity = autoRotateSpeed; 
+  let isHovered = false;
+
+  wrapper.addEventListener('mouseenter', () => {
+    isHovered = true;
+  });
+  
+  wrapper.addEventListener('mouseleave', () => {
+    isHovered = false;
+    isDragging = false;
+  });
+
+  function dragStart(e) {
+    isDragging = true;
+    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    prevX = startX;
+    velocity = 0; 
+  }
+
+  function dragMove(e) {
+    if (!isDragging) return;
+    const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    const delta = x - prevX;
+    velocity = delta * 0.4; 
+    prevX = x;
+  }
+
+  function dragEnd() {
+    isDragging = false;
+  }
+
+  wrapper.addEventListener('mousedown', dragStart);
+  window.addEventListener('mousemove', dragMove);
+  window.addEventListener('mouseup', dragEnd);
+
+  wrapper.addEventListener('touchstart', dragStart, {passive: true});
+  window.addEventListener('touchmove', dragMove, {passive: true});
+  window.addEventListener('touchend', dragEnd);
+
+  function animateCarousel() {
+    if (!isDragging) {
+      if (!isHovered) {
+        velocity += (autoRotateSpeed - velocity) * 0.05; 
+      } else {
+        velocity += (0 - velocity) * 0.05;
+      }
+    }
+
+    currentAngle += velocity;
+    orbit.style.transform = `rotateY(${currentAngle}deg)`;
+    requestAnimationFrame(animateCarousel);
+  }
+  
+  animateCarousel();
+})();
+
+// ═══════════════════════ SLANTED MARQUEE DRAG (1:1 Exact Movement) ═══════════════════════
+(function() {
+  const tracks = document.querySelectorAll('.marquee-track');
+
+  // منع المتصفح تماماً من سحب الصور كملفات (حل نهائي للتعليق والنتشتة)
+  document.querySelectorAll('.mq-img').forEach(img => {
+    img.addEventListener('dragstart', (e) => e.preventDefault());
+  });
+
+  tracks.forEach((track, index) => {
+    const autoSpeed = track.classList.contains('track-left') ? -1 : 1; 
+    let currentX = 0;
+    let isDragging = false;
+    let isHovered = false;
+    let prevX = 0;
+
+    track.innerHTML += track.innerHTML;
+
+    track.addEventListener('mouseenter', () => isHovered = true);
+    track.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
+
+    function dragStart(e) {
+      isDragging = true;
+      prevX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    }
+
+    function dragMove(e) {
+      if (!isDragging) return;
+      const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+      const delta = x - prevX;
+      
+      currentX += delta;
+      prevX = x;
+    }
+
+    function dragEnd() {
+      isDragging = false;
+    }
+
+    track.addEventListener('mousedown', dragStart);
+    window.addEventListener('mousemove', dragMove);
+    window.addEventListener('mouseup', dragEnd);
+
+    track.addEventListener('touchstart', dragStart, {passive: true});
+    window.addEventListener('touchmove', dragMove, {passive: true});
+    window.addEventListener('touchend', dragEnd);
+
+    function animateMarquee() {
+      if (!isDragging) {
+        if (!isHovered) {
+          currentX += autoSpeed; 
+        }
+      }
+
+      const halfWidth = track.scrollWidth / 2;
+
+      if (currentX <= -halfWidth) {
+        currentX += halfWidth;
+      } else if (currentX >= 0) {
+        currentX -= halfWidth;
+      }
+
+      track.style.transform = `translateX(${currentX}px)`;
+      requestAnimationFrame(animateMarquee);
+    }
+
+    animateMarquee();
+  });
+})();
+// ═══════════════════════ LANGUAGE TOGGLE ═══════════════════════
+let isArabic = false;
+
+function toggleLang() {
+  isArabic = !isArabic;
+  const btn = document.getElementById('langBtn');
+  let serviceCards = document.querySelectorAll('.service-card');
+
+  if (isArabic) {
+    btn.textContent = 'English';
+    document.querySelector('.nav-links').style.flexDirection = 'row-reverse';  
+    
+    // NAV
+    document.querySelector('.nav-links li:nth-child(1) a').textContent = 'الرئيسية';
+    document.querySelector('.nav-links li:nth-child(2) a').textContent = 'الأعمال';
+    document.querySelector('.nav-links li:nth-child(3) a').textContent = 'الخدمات';
+    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'تواصل معنا';
+    
+    // HERO
+    document.querySelector('.hero-title').textContent = 'مصمم جرافيك · منشئ إعلانات AI · مطور واجهات';
+    document.querySelector('.hero-desc').textContent = 'تصميم جرافيك، تطوير واجهات المواقع الأمامية ، و تصميم مشاهد تسويقية باستخدام أحدث تقنيات الذكاء الاصطناعي . نصمم هويات بصرية فاخرة للعلامات التجارية لرُقي علامتك التجارية و منحها حضورًا أكثر تميزًا..';
+    document.querySelector('.hero .btn-primary').textContent = 'تواصل معنا';
+
+    // METRICS SECTION
+    const skillsLabel = document.querySelector('#skills .section-label');
+    if(skillsLabel) {
+        skillsLabel.textContent = 'أرقامنا';
+        document.querySelector('#skills .section-title').textContent = `بصمة تصنع الفارق
+حيث تتحول الرؤية إلى نتائج`;
+        const metricCards = document.querySelectorAll('#skills .skill-card');
+        if(metricCards.length >= 3) {
+            metricCards[0].querySelector('.skill-desc').textContent = 'عميل وثق بنا';
+            metricCards[1].querySelector('.skill-desc').textContent = 'مشروعاً متكاملاً';
+            metricCards[2].querySelector('.skill-desc').textContent = 'سنوات خبرة';
+        }
+    }
+    
+    // OUR WORK 
+    document.querySelector('#our-work .section-label').textContent = 'أحدث أعمالنا';
+    document.querySelector('#our-work .section-title').textContent = 'أعمالنا';
+
+    // SERVICES PAGE
+    document.querySelector('#services-page .section-title').textContent = 'خدماتنا';
+
+    if(serviceCards.length >= 3) {
+        serviceCards[0].querySelector('.service-name').textContent = 'تصميم جرافيك';
+        serviceCards[1].querySelector('.service-name').textContent = 'تطوير واجهات المواقع الأمامية';
+        serviceCards[2].querySelector('.service-name').textContent = 'اعلان بالذكاء الاصطناعي';
+        
+        serviceCards[0].querySelector('.service-desc').textContent = 'تصميم محتوى بصري احترافي لمنصات التواصل الاجتماعي، وبناء هويات بصرية مميزة، وشعارات احترافية، وتصاميم عالية التحويل تساعد العلامات التجارية على النمو والتميز في مختلف القطاعات.';
+        serviceCards[1].querySelector('.service-desc').textContent = 'تطوير واجهات ويب تفاعلية وإبداعية — مواقع بورتفوليو، صفحات هبوط، وتجارب مستخدم مبهرة بأحدث تقنيات الويب';
+        serviceCards[2].querySelector('.service-desc').textContent = 'إنتاج إعلانات فيديو سينمائية وتعليقات صوتية واقعية بأحدث أدوات الذكاء الاصطناعي لتعزيز حملاتك التسويقية';
+    }
+
+    // CONTACT PAGE (صفحة تواصل معنا)
+    const contactHeaderH1 = document.querySelector('.contact-header h1');
+    if(contactHeaderH1) contactHeaderH1.textContent = 'تواصل معنا';
+    const contactHeaderP = document.querySelector('.contact-header p');
+    if(contactHeaderP) contactHeaderP.textContent = 'جاهزين لتطوير البراند الخاص بك الآن';
+    const contactTitle = document.querySelector('.contact-reasons-title');
+    if(contactTitle) contactTitle.textContent = 'لـــيــــه تـتـعــاون مــــعـــــانــــا ؟';
+
+    const reasonCards = document.querySelectorAll('.reason-item');
+    if(reasonCards.length >= 3) {
+        reasonCards[0].querySelector('h4').textContent = 'شراكة ومرونة تامة — Partnership';
+        reasonCards[0].querySelector('p').textContent = 'نحن لا ننفذ التصميم ونختفي. سيكون هناك تواصل دائم ومستمر طوال فترة العمل مع مرونة تامة في التعديلات للوصول إلى النتيجة التي ترضيك 100%، دعمنا مستمر حتى بعد تسليم العمل لضمان استقرار هويتك البصرية.';
+
+        reasonCards[1].querySelector('h4').textContent = 'سرعة وإنجاز — Efficiency';
+        reasonCards[1].querySelector('p').textContent = 'نقدر قيمة الوقت في البيزنس. بمجرد اعتماد الأفكار واستلام تفاصيل المشروع، يبدأ التنفيذ فوراً لضمان تسليمك في وقت قياسي دون أي تنازل عن الجودة والاحترافية.';
+
+        reasonCards[2].querySelector('h4').textContent = 'تصاميم تبيع — Direct Response';
+        reasonCards[2].querySelector('p').textContent = 'هدفنا ليس مجرد تقديم "تصميم جميل"، بل تصميم يحل مشكلة تسويقية يوصل رسالة يحكي قصة. سنقترح عليك أفكاراً وزوايا باستمرار للعب على سيكيولوجية العميل وتخدم رسالتك لضمان الوصول لأعلى وأفضل نتيجة ممكنة.';
+    }
+
+    // BACK BUTTONS
+    const backBtns = document.querySelectorAll('.back-btn');
+    backBtns.forEach(btn => btn.textContent = '← العودة للرئيسية');
+
+  } else {
+    btn.textContent = 'العربية';
+    document.querySelector('.nav-links').style.flexDirection = 'row';
+    
+    // NAV
+    document.querySelector('.nav-links li:nth-child(1) a').textContent = 'Home';
+    document.querySelector('.nav-links li:nth-child(2) a').textContent = 'Portfolio';
+    document.querySelector('.nav-links li:nth-child(3) a').textContent = 'Services';
+    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'Contact Us';
+    
+    // HERO
+    document.querySelector('.hero-title').textContent = 'Graphic Designer · AI Ads Creator · Front-End Dev';
+    document.querySelector('.hero-desc').textContent = 'Graphic Designer, Front-End Developer & AI creator. We engineer premium brand identities and cinematic AI commercials that elevate your business.';
+    document.querySelector('.hero .btn-primary').textContent = 'Contact us';
+
+    // METRICS SECTION
+    const skillsLabelEn = document.querySelector('#skills .section-label');
+    if(skillsLabelEn) {
+        skillsLabelEn.textContent = 'AGENCY METRICS';
+        document.querySelector('#skills .section-title').textContent = 'OUR IMPACT';
+        const metricCardsEn = document.querySelectorAll('#skills .skill-card');
+        if(metricCardsEn.length >= 3) {
+            metricCardsEn[0].querySelector('.skill-desc').textContent = 'HAPPY CLIENTS';
+            metricCardsEn[1].querySelector('.skill-desc').textContent = 'PROJECTS DELIVERED';
+            metricCardsEn[2].querySelector('.skill-desc').textContent = 'YEARS EXPERIENCE';
+        }
+    }
+    
+    // OUR WORK 
+    document.querySelector('#our-work .section-label').textContent = 'Latest projects';
+    document.querySelector('#our-work .section-title').textContent = 'OUR WORK';
+
+    // SERVICES PAGE
+    document.querySelector('#services-page .section-title').textContent = 'SERVICES';
+    
+    if(serviceCards.length >= 3) {
+        serviceCards[0].querySelector('.service-name').textContent = 'GRAPHIC DESIGN';
+        serviceCards[1].querySelector('.service-name').textContent = 'FRONT-END DEVELOPER';
+        serviceCards[2].querySelector('.service-name').textContent = 'AI CREATOR';
+        
+        serviceCards[0].querySelector('.service-desc').textContent = 'Professional visual content design for social media platforms, including distinctive brand identity development, professional logo design, and high-converting creative assets that help brands grow, stand out, and thrive across diverse industries.';
+        serviceCards[1].querySelector('.service-desc').textContent = 'Development of interactive and creative web interfaces — portfolio websites, landing pages, and engaging user experiences powered by the latest web technologies.';
+        serviceCards[2].querySelector('.service-desc').textContent = 'Production of cinematic AI commercials and lifelike voiceovers, leveraging state-of-the-art artificial intelligence technologies to maximize engagement and drive marketing success.';
+    }
+
+    // CONTACT PAGE (صفحة تواصل معنا بالإنجليزي)
+    const contactHeaderH1En = document.querySelector('.contact-header h1');
+    if(contactHeaderH1En) contactHeaderH1En.textContent = 'GET IN TOUCH';
+    const contactHeaderPEn = document.querySelector('.contact-header p');
+    if(contactHeaderPEn) contactHeaderPEn.textContent = 'Ready to elevate your brand right now';
+    const contactTitleEn = document.querySelector('.contact-reasons-title');
+    if(contactTitleEn) contactTitleEn.textContent = ' ? WHY CHOOSE US';
+
+    const reasonCardsEn = document.querySelectorAll('.reason-item');
+    if(reasonCardsEn.length >= 3) {
+        reasonCardsEn[0].querySelector('h4').textContent = 'True Partnership & Flexibility';
+        reasonCardsEn[0].querySelector('p').textContent = 'We don\'t just design and disappear. We maintain constant communication with full flexibility in revisions until you are 100% satisfied. Our support continues even after delivery to ensure your brand\'s stability.';
+
+        reasonCardsEn[1].querySelector('h4').textContent = 'Speed & Efficiency';
+        reasonCardsEn[1].querySelector('p').textContent = 'We value time in business. Once ideas are approved, execution begins immediately to ensure record-time delivery without compromising on quality or professionalism.';
+
+        reasonCardsEn[2].querySelector('h4').textContent = 'Designs That Sell (Direct Response)';
+        reasonCardsEn[2].querySelector('p').textContent = 'Our goal isn\'t just a "beautiful design", but a design that solves a marketing problem and tells a story. We will constantly suggest ideas to leverage customer psychology and achieve the highest possible conversion rates.';
+    }
+
+    // BACK BUTTONS
+    const backBtnsEn = document.querySelectorAll('.back-btn');
+    backBtnsEn.forEach(btn => btn.textContent = '← Back to Home');
+  }
+}
+
+// ═══════════════════════ ANIMATED COUNTER (DELAYED FOR INTRO) ═══════════════════════
+const counters = document.querySelectorAll('.counter-num');
+let countersStarted = false;
+
+function runCounters() {
+  if (countersStarted) return;
+  countersStarted = true;
+  
+  counters.forEach(counter => {
+    counter.innerText = '+0'; 
+    const target = +counter.getAttribute('data-target');
+    const duration = 6000; 
+    let startTime = null;
+
+    function updateCount(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      
+            const percentage = Math.min(progress / duration, 1);
+      
+      const current = Math.floor(percentage * target);
+      counter.innerText = '+' + current;
+      
+      if (percentage < 1) {
+        requestAnimationFrame(updateCount);
+      } else {
+        counter.innerText = '+' + target; 
+      }
+    }
+    
+    requestAnimationFrame(updateCount);
+  });
+}
+
+function checkCounterVisibility() {
+  const skillsSection = document.getElementById('skills');
+  if (skillsSection) {
+    const sectionPos = skillsSection.getBoundingClientRect().top;
+    const screenPos = window.innerHeight;
+    
+    if (sectionPos < screenPos - 100) {
+      runCounters();
+    }
+  }
+}
+
+setTimeout(() => {
+  window.addEventListener('scroll', checkCounterVisibility);
+  checkCounterVisibility();
+}, 2500);
+
+  // هذه الدالة ستقوم بإضافة الـ lazy loading لكل الصور في الصفحة تلقائياً
+  document.addEventListener("DOMContentLoaded", function() {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      // إضافة خاصية lazy loading
+      img.setAttribute('loading', 'lazy');
+      // تحسين أداء المعالجة
+      img.setAttribute('decoding', 'async');
+    });
+  });
+</script>
+</body>
+</html>
