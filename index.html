@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -79,7 +78,8 @@
   .content { position: relative; z-index: 10; }
 
   /* ═══════════════════════ NAV ═══════════════════════ */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 4, 18, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 4, 18, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); 
+  flex-direction: row-reverse;}
   .nav-logo { font-size: 2rem; font-weight: 900; letter-spacing: 2px; color: var(--text); text-decoration: none; text-shadow: 0 0 15px var(--accent1); cursor: none;}
 /* --- كود اللوجو المتحرك --- */
   .animated-logo {
@@ -88,6 +88,7 @@
     mix-blend-mode: screen; /* لدمج اللوجو مع الخلفية وإخفاء أي خلفية سوداء */
     filter: drop-shadow(0 0 15px var(--neon)) drop-shadow(0 0 20px var(--accent1));
     animation: impulse 2s infinite ease-in-out;
+    
   }
 
   /* تأثير النبض */
@@ -97,7 +98,7 @@
     100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
   }
   .nav-logo span { color: var(--accent1); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; direction: ltr; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center;  }
   .nav-links a { color: var(--text); text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s; cursor: none; }
   .nav-links a:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
   .nav-cta { padding: 0.6rem 1.8rem; border: 1px solid var(--accent1); border-radius: 50px; background: linear-gradient(45deg, rgba(124,58,237,0.1), rgba(217,70,239,0.1)); transition: all 0.3s !important; }
@@ -114,13 +115,13 @@
   
   /* ═══════════════════════ SERVICES PAGE ═══════════════════════ */
   #services-page, #contact-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
-  .services-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem;direction: ltr; }
+  .services-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem; }
   .service-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 16px; padding: 3.5rem 2.5rem; text-align: center; position: relative; transition: all 0.4s; cursor: none; }
   .service-card:hover { border-color: var(--neon); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(124,58,237,0.2); }
   .service-num { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 4rem; color: rgba(124,58,237,0.15); line-height: 1; margin-bottom: 1.5rem; transition: color 0.3s; }
   .service-card:hover .service-num { color: var(--accent1); }
   .service-name { font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 1rem; font-weight: 900; }
-  .service-desc { color: var(--muted); font-size: 1rem; line-height: 1.8; direction: ltr; text-align: justify;}
+  .service-desc { color: var(--muted); font-size: 1rem; line-height: 1.8;  text-align: justify;}
 
   /* ═══════════════════════ CONTACT PAGE ═══════════════════════ */
   .contact-header { text-align: center; margin-bottom: 3rem; }
@@ -133,7 +134,7 @@
     padding: 0.8rem 2rem; background: rgba(26, 11, 46, 0.6);
     border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 50px;
     color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.1rem;
-    transition: all 0.3s; cursor: none; direction:ltr;
+    transition: all 0.3s; cursor: none; 
   }
   .contact-pill svg { width: 22px; height: 22px; fill: var(--muted); transition: fill 0.3s; }
   .contact-pill:hover { background: rgba(124, 58, 237, 0.2); border-color: var(--neon); box-shadow: 0 0 20px rgba(217,70,239,0.3); transform: translateY(-3px); }
@@ -167,8 +168,13 @@
   .hero-desc { color: var(--muted); font-size: 1.1rem; line-height: 1.8; max-width: 500px; direction: ltr; margin-bottom: 2.5rem; }
   .btn { padding: 1rem 2.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border-radius: 50px; transition: all 0.3s; cursor: none; display: inline-block; }
   .btn-primary { background: var(--accent1); color: #fff; border: 1px solid var(--accent1); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
-  .btn-primary:hover { background: transparent; color: var(--text); border-color: var(--neon); box-shadow: 0 0 30px rgba(217,70,239,0.5); }
-  .hero-robot-wrap { position: relative; display: flex; align-items: center; justify-content: center; height: 600px; }
+.btn-primary:hover { 
+  background: var(--neon); 
+  color: #fff; 
+  border-color: var(--neon); 
+  box-shadow: 0 0 30px var(--neon), 0 0 60px rgba(217, 70, 239, 0.4); 
+  transform: translateY(-5px) scale(1.05); 
+}  .hero-robot-wrap { position: relative; display: flex; align-items: center; justify-content: center; height: 600px; }
   
    #robotCanvas { 
     width: 100%; 
@@ -179,7 +185,11 @@
   }
 
   /* SKILLS */
-  .skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+  .skills-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); /* 3 كروت بجانب بعض */
+    gap: 2rem; 
+  }
   .skill-card { background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 12px; padding: 2.5rem; transition: all 0.3s; cursor: none; }
 .counter-num {
     font-variant-numeric: tabular-nums !important;
@@ -199,19 +209,19 @@
   .gallery-wrapper:active { cursor: grabbing; }
   
   .gallery-orbit { 
-    position: relative; width: 300px; height: 400px; 
+    position: relative; width: 219px; height: 290px; 
     transform-style: preserve-3d; 
   }
   
   .gallery-orbit img {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: contain; 
+    objobject-fit: cover; /* عشان الصورة تملى الكارت بدون حواف */ect-fit: contain; 
     border-radius: 12px; 
     background: rgba(18, 8, 36, 0.9);
     border: 1px solid rgba(124, 58, 237, 0.4);
     box-shadow: 0 0 25px var(--accent1), 0 0 50px rgba(124,58,237,0.2);
     /* تم تعديل الحسبة لـ 51.42deg عشان الـ 7 صور يتوزعوا صح هندسياً */
-    transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(400px);
+    transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(300px);
     transition: box-shadow 0.4s, border-color 0.4s;
     user-select: none; pointer-events: none;
   }
@@ -219,8 +229,8 @@
 
   /* كود صور الـ Marquee المائل للكمبيوتر */
   .mq-img {
-    width: 280px;  
-    height: 350px; 
+    width: 200px;  
+    height: 200px; 
     object-fit: cover; 
     border-radius: 12px;
     background: rgba(18, 8, 36, 0.9);
@@ -268,7 +278,10 @@
   .marquee-track:active {
     cursor: grabbing;
   }
-
+/* إخفاء أيقونة الموبايل في الديسكتوب */
+.nav-toggle-label {
+  display: none;
+}
   /* ═══════════════════════ MEDIA QUERIES (MOBILE) ═══════════════════════ */
 
 .wa-float { position: fixed; bottom: 2rem; left: 2rem; z-index: 500; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); text-decoration: none; cursor: none; animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
@@ -276,8 +289,68 @@
 .wa-float svg { width: 32px; height: 32px; fill: #fff; }
 @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 0 rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 12px rgba(37,211,102,0)} }
  @media (max-width: 1000px) {
+  nav { 
+    padding: 1rem 1.5rem !important; 
+    flex-direction: row !important; 
+    justify-content: space-between !important; 
+    align-items: center;
+  }
+  .nav-toggle-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  /* رسم الـ 3 شرط */
+  .nav-toggle-label span, 
+  .nav-toggle-label::before, 
+  .nav-toggle-label::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+  }
+  /* تصميم القايمة المنسدلة (مخفية في البداية) */
+  .nav-links { 
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(9, 4, 18, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column !important;
+    padding: 2.5rem 0;
+    gap: 1.8rem !important;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+    /* دي التريك اللي هتعمل انيميشن النزول والطلوع */
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: clip-path 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+  }
+  /* إظهار القايمة لما العميل يدوس على الـ 3 شرط */
+  #nav-toggle:checked ~ .nav-links {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* تحويل الـ 3 شرط لعلامة (X) شيك لما القايمة تفتح */
+  #nav-toggle:checked ~ .nav-toggle-label span { 
+    opacity: 0; 
+    transform: scale(0);
+  }
+  #nav-toggle:checked ~ .nav-toggle-label::before { 
+    transform: translateY(9px) rotate(45deg); 
+  }
+  #nav-toggle:checked ~ .nav-toggle-label::after { 
+    transform: translateY(-9px) rotate(-45deg); 
+  }
  #intro{
     display:none !important;
+  }
+  #our-work {
+    padding: 0.3rem 0 !important; 
   }
 .hero-name {
     font-size: clamp(2.5rem, 10vw, 4rem) !important;
@@ -295,23 +368,54 @@
   }
 
   .skill-card,
-  .service-card {
-    padding: 2rem 1.5rem !important;
+  .services-cards {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
   }
 
- .mq-img {
-    max-width: 200px; /* أو أي عرض مناسب، المهم تحديد العرض */
-    height: auto;
-}
+/* 1. تصغير حجم بطاقات الأعمال لتناسب الموبايل بشكل أنيق */
+  .mq-img {
+    width: 160px !important; /* عرض أصغر */
+    height: 160px !important; /* طول متناسق */
+    border-radius: 10px !important; /* حواف ناعمة */
+    object-fit: cover !important;
+  }
+
+  /* 2. إضافة مسافة (تنفس) بين الصور أفقياً في نفس الصف */
+  .marquee-track {
+    gap: 15px !important; 
+  }
+
+  /* 3. تظبيط المسافة بين الصفوف رأسياً عشان متبقاش مكدسة */
+  .marquee-wrapper {
+    gap: 1.5rem !important;
+    padding: 2rem 0 !important;
+  }
 
   .gallery-orbit {
-    width: 170px !important;
-    height: 250px !important;
+    width: 130px !important;
+    height: 190px !important;
+  }
+  .gallery-wrapper {
+    padding: 0rem 0 !important; /* قللها لـ 0.5rem لو عايز تلمها أكتر */
+    margin-top: 0 !important;
   }
 
-  .gallery-orbit img {
-    transform: rotateY(calc(var(--i) * 51.42deg))
-               translateZ(250px) !important;
+.gallery-orbit img {
+    transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(160px) !important;
+    
+    /* 1. عشان الصورة تفرش وتلغي الفراغ الغامق تماماً */
+    object-fit: cover !important; 
+    
+    /* 2. للتحكم في دوران الحواف (لو عايزها دائرية أكتر كبر الرقم) */
+    border-radius: 10px !important; 
+    
+    /* 3. للتحكم في الإطار البنفسجي (لو عايز تلغيه خالص اكتب none بدل 1px solid...) */
+    border: 1px solid rgba(124, 58, 237, 0.4) !important; 
+    
+    /* 4. للتحكم في قوة التوهج/النيون حوالين الصورة */
+    box-shadow: 0 0 10px var(--accent1) !important; 
   }
 
   .animated-logo {
@@ -342,9 +446,24 @@
   html, body {
     cursor: auto !important;
   }
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr) !important; /* عمودين بجانب بعض */
+    gap: 1rem !important; /* تقليل المسافات بين الكروت */
+  }
+
+  /* تصغير حجم الخطوط والـ padding للكروت لتناسب العرض الجديد */
+  .skill-card {
+    padding: 1rem !important;
+  }
   
-  /* 4. تنسيقات إضافية للعناصر التي كانت تتداخل */
-  .skills-grid, .services-cards { grid-template-columns: 1fr; }
+  .skill-name {
+    font-size: 2rem !important; /* تصغير حجم الرقم */
+  }
+  
+  .skill-desc {
+    font-size: 0.8rem !important; /* تصغير حجم النص */
+  }
+}
   section, #services-page, #contact-page { padding: 3rem 0.8rem; }
  
 
@@ -405,6 +524,109 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.9; }
 }
+/* ═══════════════════════ CLIENT LOGOS MARQUEE ═══════════════════════ */
+.clients-logos-section {
+  padding: 10px 0;
+  background-color: transparent;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-top: 1px solid rgba(124, 58, 237, 0.1);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  margin-bottom: 2rem;
+  direction: ltr !important;
+}
+
+/* تدرج لوني على الأطراف عشان يدي تأثير اختفاء ناعم */
+.clients-logos-section::before,
+.clients-logos-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+}
+.clients-logos-section::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+.clients-logos-section::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+.logos-slide {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* السر هنا: بيمنع المتصفح من ضغط الشريط */
+  animation: 25s slide-logos linear infinite;
+}
+
+.logos-slide img {
+  height: 50px; /* تقدر تغير حجم الشعارات من هنا */
+  margin: 0 40px;
+  opacity: 0.3;
+  filter: grayscale(100%);
+  transition: all 0.4s ease;
+  cursor: none;
+  padding:0;
+}
+
+.logos-slide img:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6)); 
+}
+
+@keyframes slide-logos {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* تعديل للموبايل عشان الشعارات تظهر بحجم مناسب */
+@media (max-width: 1000px) {
+  .logos-slide img {
+    height: 35px;
+    margin: 0 20px;
+  }
+}
+/* ═══════════════════════ إجبار الشعارات على الحجم الدائري ═══════════════════════ */
+.clients-logos-section .logos-slide img {
+  width: 90px !important;
+  height: 90px !important;
+  border-radius: 50% !important;
+ object-fit: cover !important;!important;
+  background-color: #ffffff !important;
+  padding: 0px !important;
+  margin: 0 30px !important;
+  opacity: 0.6 !important;
+  filter: grayscale(100%) !important;
+  border: 2px solid transparent !important;
+  transition: all 0.4s ease !important;
+  -webkit-user-drag: none !important;
+  user-select: none !important;
+}
+
+.clients-logos-section .logos-slide img:hover {
+  opacity: 1 !important;
+  filter: grayscale(0%) !important;
+  transform: scale(1.15) !important;
+  border-color: rgba(124, 58, 237, 1) !important;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.6) !important;
+}
+
+@media (max-width: 1000px) {
+  .clients-logos-section .logos-slide img {
+    width: 50px !important;
+    height: 50px !important;
+    padding: 0px  !important;
+    margin: 0px 20px !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -429,9 +651,14 @@
 </a>
   </a>
   <nav>
+
  <a href="#" class="nav-logo" style="display: flex; align-items: center;" onclick="showMain(); return false;">
   <img src="logo.png" alt="joe_advertise" class="animated-logo">
 </a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle" style="display:none;">
+<label for="nav-toggle" class="nav-toggle-label">
+  <span></span>
+</label>
    <ul class="nav-links">
   <li><a href="#" onclick="showMain(); return false;">Home</a></li>
   <li><a href="https://www.behance.net/gallery/245003305/Portfolio-2026-Sr-Graphic-Designer-Youssef-Ebrahim" target="_blank">Portfolio</a></li>
@@ -448,8 +675,7 @@
   <div id="services-page">
     <div class="page-inner">
       <button class="back-btn" onclick="showMain()">← Back to Home</button>
-      <p class="section-label" style="margin-bottom:0.5rem">What we Do</p>
-      <h1 class="section-title">SERVICES</h1>
+      <h2 class="section-title">SERVICES</h2>
      <div class="services-cards">
         <div class="service-card"><div class="service-num">01</div><div class="service-name">GRAPHIC DESIGN</div><p class="service-desc">Professional visual content design for social media platforms, including distinctive brand identity development, professional logo design, and high-converting creative assets that help brands grow, stand out, and thrive across diverse industries.</p></div>
         <div class="service-card"><div class="service-num">02</div><div class="service-name">FRONT-END DEVELOPER</div><p class="service-desc">Development of interactive and creative web interfaces — portfolio websites, landing pages, and engaging user experiences powered by the latest web technologies.</p></div>
@@ -486,7 +712,7 @@
       </div>
 
       <div class="contact-reasons-wrap">
-        <div class="contact-reasons-title">WHY CHOOSE US?</div>
+        <div class="contact-reasons-title">  WHY CHOOSE US ?</div>
         <div class="reasons-list">
           <div class="reason-item">
             <div class="reason-num">1</div>
@@ -530,7 +756,43 @@
   </div>
 </div>
     </section>
+<div style="text-align: center; margin-top: 4rem;">
+      <h2 class="section-title" id="clients-title" style="margin-bottom: 0; font-size: 2.5rem;">OUR CLIENTS</h2>
+    </div>
 
+ <section class="clients-logos-section">
+      <div class="logos-slide">
+        <img src="lo2l2a.jpeg" alt="Client Logo">
+        <img src="yahya.jpeg" alt="Client Logo">
+        <img src="bettles.jpeg" alt="Client Logo">
+        <img src="adoomy.jpeg" alt="Client Logo">
+        <img src="fortex.png" alt="Client Logo">
+        <img src="OUD.png" alt="Client Logo">
+        <img src="aura.png" alt="Client Logo">
+        <img src="3alam.jpeg" alt="Client Logo">
+        <img src="boutique.jpeg" alt="Client Logo">
+        <img src="osoll.jpeg" alt="Client Logo">
+        <img src="tendy logo.png" alt="Client Logo">
+        <img src="openmart.jpeg" alt="Client Logo">
+        <img src="kribya.jpeg" alt="Client Logo">
+      </div>
+      
+      <div class="logos-slide">
+        <img src="lo2l2a.jpeg" alt="Client Logo">
+        <img src="yahya.jpeg" alt="Client Logo">
+        <img src="bettles.jpeg" alt="Client Logo">
+        <img src="adoomy.jpeg" alt="Client Logo">
+        <img src="fortex.png" alt="Client Logo">
+        <img src="OUD.png" alt="Client Logo">
+        <img src="aura.png" alt="Client Logo">
+        <img src="3alam.jpeg" alt="Client Logo">
+        <img src="boutique.jpeg" alt="Client Logo">
+        <img src="osoll.jpeg" alt="Client Logo">
+        <img src="tendy logo.png" alt="Client Logo">
+        <img src="openmart.jpeg" alt="Client Logo">
+        <img src="kribya.jpeg" alt="Client Logo">
+      </div>
+    </section>
    <section id="skills" style="padding-top:0">
       <div class="section-inner">
         <p class="section-label">AGENCY METRICS</p>
@@ -564,7 +826,7 @@
             <img src="saudi.png" style="--i:3" alt="Work 3">
             <img src="fortex.png" style="--i:4" alt="Work 4">
             <img src="pizza.png" style="--i:5" alt="Work 5">
-            <img src="dental.png" style="--i:6" alt="Work 6">
+            <img src="one.png" style="--i:6" alt="Work 6">
             <img src="carousel.png" style="--i:7" alt="Work 7">
           </div>
         </div>
@@ -654,7 +916,7 @@
         </div>
 
 
-     <div class="marquee-track track-left">
+     <div class="marquee-track track-right">
           <img src="l.png" class="mq-img" alt="Work">
           <img src="9.webp" class="mq-img" alt="Work">
           <img src="22.png" class="mq-img" alt="Work">
@@ -666,15 +928,18 @@
           <img src="adha.webp" class="mq-img" alt="Work">
           <img src="becan.png" class="mq-img" alt="Work">
 <img src="m.webp" class="mq-img" alt="Work">
+<img src="spicy.webp" class="mq-img" alt="Work">
+<img src="fifa.webp" class="mq-img" alt="Work">
+<img src="hegry.webp" class="mq-img" alt="Work">
         </div>
-         <div class="marquee-track track-right">
+         <div class="marquee-track track-left">
           <img src="b.webp" class="mq-img" alt="Work">
           <img src="h.webp" class="mq-img" alt="Work">
           <img src="o.png" class="mq-img" alt="Work">
           <img src="osol.webp" class="mq-img" alt="Work">
 <img src="f.png" class="mq-img" alt="Work">
         </div>
-         <div class="marquee-track track-left">
+         <div class="marquee-track track-right">
           <img src="one.png" class="mq-img" alt="Work">
           <img src="s.png" class="mq-img" alt="Work">
           <img src="lex.png" class="mq-img" alt="Work">
@@ -836,7 +1101,7 @@ document.addEventListener('mouseover', e => {
   let startX = 0;
   let prevX = 0;
   
-  const autoRotateSpeed = -0.2; 
+  const autoRotateSpeed = -0.7; 
   let velocity = autoRotateSpeed; 
   let isHovered = false;
 
@@ -971,8 +1236,9 @@ function toggleLang() {
   let serviceCards = document.querySelectorAll('.service-card');
 
   if (isArabic) {
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'ar');
     btn.textContent = 'English';
-    document.querySelector('.nav-links').style.flexDirection = 'row-reverse';  
     
     // NAV
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'الرئيسية';
@@ -1002,7 +1268,8 @@ function toggleLang() {
     // OUR WORK 
     document.querySelector('#our-work .section-label').textContent = 'أحدث أعمالنا';
     document.querySelector('#our-work .section-title').textContent = 'أعمالنا';
-
+const clientsTitle = document.getElementById('clients-title');
+    if(clientsTitle) clientsTitle.textContent = 'شركاء نجاحنا';
     // SERVICES PAGE
     document.querySelector('#services-page .section-title').textContent = 'خدماتنا';
 
@@ -1041,8 +1308,11 @@ function toggleLang() {
     backBtns.forEach(btn => btn.textContent = '← العودة للرئيسية');
 
   } else {
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+  const clientsTitleEn = document.getElementById('clients-title');
+    if(clientsTitleEn) clientsTitleEn.textContent = 'OUR CLIENTS';
     btn.textContent = 'العربية';
-    document.querySelector('.nav-links').style.flexDirection = 'row';
     
     // NAV
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'Home';
