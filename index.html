@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Joe Advertise — Graphic Designer & Developer</title>
-<meta name="google-site-verification" content="QN8OlqoffLArld9a3hdAFiBUv_OXoLSHeJ_Z0sx7Kmg" />
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
@@ -290,6 +289,10 @@
 .wa-float svg { width: 32px; height: 32px; fill: #fff; }
 @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 0 rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 12px rgba(37,211,102,0)} }
  @media (max-width: 1000px) {
+  .premium-spacing {
+  margin-top: 150px !important;
+  margin-bottom: 150px !important;
+}
   nav { 
     padding: 1rem 1.5rem !important; 
     flex-direction: row !important; 
@@ -619,8 +622,76 @@
   border-color: rgba(124, 58, 237, 1) !important;
   box-shadow: 0 0 20px rgba(124, 58, 237, 0.6) !important;
 }
+/* إعداد شبكة العرض الأساسية */
+.branding-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* تقسيم المساحة لـ 4 أعمدة متساوية */
+  gap: 20px;
+  max-width: 1100px; /* عرض مناسب جداً لشاشات الكمبيوتر */
+  margin: 0 auto;
+}
 
+/* الخصائص المشتركة لكل الصور */
+.brand-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: none; /* للحفاظ على تأثير الماوس المخصص الخاص بك */
+}
+
+/* تأثير الـ Hover لإضافة لمسة تفاعلية */
+.brand-img:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+}
+
+/* ─── توزيع الصور على الشبكة ─── */
+
+/* الصور الصغيرة (تأخذ عمود واحد ونسبة 1:1) */
+.img-small {
+  grid-column: span 1;
+  aspect-ratio: 1 / 1;
+}
+
+/* الصورة العريضة للسيارة (تأخذ عمودين ونسبة 4:3 أو 16:9) */
+.img-wide {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1; /* هذه النسبة تجعلها بعرض الصورتين الصغيرتين تماماً */
+}
+
+/* الصور الكبيرة للموك أب (تأخذ عمودين ونسبة 1:1) */
+.img-large {
+  grid-column: span 2;
+  aspect-ratio: 1 / 1; /* أو يمكن استخدام 4/3 لو أردتها مستطيلة قليلاً */
+}
+
+/* ─── تجاوب شاشات الموبايل والتابلت ─── */
 @media (max-width: 1000px) {
+  .branding-gallery {
+    grid-template-columns: repeat(2, 1fr); /* تحويل لعمودين في التابلت والموبايل */
+    gap: 15px;
+  }
+  
+  .img-small {
+    grid-column: span 1; /* صورتين بجوار بعض في الموبايل */
+  }
+  
+  .img-wide, .img-large {
+    grid-column: span 2; /* الصورة العريضة والكبيرة تأخذ عرض الشاشة بالكامل */
+    aspect-ratio: auto;
+    height: 250px; /* تحديد ارتفاع مناسب للموبايل لمنع سحب مساحة طويلة */
+  }
+}
+@media (max-width: 1000px) {
+  .brand-img {
+    width: 100% !important; /* بيخلي الصورة تاخد عرض شاشة الموبايل بالكامل */
+    height: auto !important; /* بيظبط الطول تلقائياً عشان الصورة متمطش */
+    margin-bottom: 10px;
+  }
   .clients-logos-section .logos-slide img {
     width: 50px !important;
     height: 50px !important;
@@ -840,33 +911,49 @@
     </section>
 
     <section id="more-work">
+      <div style="text-align: center; margin-bottom: 3rem;">
+<h3 class="section-title" id="social-media-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Social Media </h3>  </div>
       <div class="marquee-wrapper">
         <div class="marquee-track track-left">
           <img src="sauce.png" class="mq-img" alt="Work">
-          <img src="car.png" class="mq-img" alt="Work">
           <img src="1.png" class="mq-img" alt="Work">
-          <img src="OUD.png" class="mq-img" alt="Work">
-          <img src="3.png" class="mq-img" alt="Work">
           <img src="perfume.png" class="mq-img" alt="Work">
-          <img src="car.png" class="mq-img" alt="Work">
           <img src="saudi.png" class="mq-img" alt="Work">
           <img src="perfume.png" class="mq-img" alt="Work">
           <img src="6.png" class="mq-img" alt="Work">
+                    <img src="t.png" class="mq-img" alt="Work">
+          <img src="sec.png" class="mq-img" alt="Work">
+          <img src="p.png" class="mq-img" alt="Work">
+          <img src="crunchy.png" class="mq-img" alt="Work">
+<img src="cheder.png" class="mq-img" alt="Work">
+<img src="d.png" class="mq-img" alt="Work">
+<img src="fish.png" class="mq-img" alt="Work">
+<img src="face.png" class="mq-img" alt="Work">
+<img src="u.webp" class="mq-img" alt="Work">
+ <img src="sauce.png" class="mq-img" alt="Work">
+          <img src="1.png" class="mq-img" alt="Work">
         </div>
 
         <div class="marquee-track track-right">
+            <img src="sand.png" class="mq-img" alt="Work">
           <img src="delivery.png" class="mq-img" alt="Work">
           <img src="fried.png" class="mq-img" alt="Work">
-          <img src="coffe.webp" class="mq-img" alt="Work">
-          <img src="sand.png" class="mq-img" alt="Work">
+            <img src="k.webp" class="mq-img" alt="Work">
+          <img src="5.webp" class="mq-img" alt="Work">
+          <img src="cheesy.webp" class="mq-img" alt="Work">
+           <img src="u.webp" class="mq-img" alt="Work">
+            <img src="uio.webp" class="mq-img" alt="Work">
+            <img src="warn.png" class="mq-img" alt="Work">
+              <img src="king.webp" class="mq-img" alt="Work">
+            <img src="halpino.webp" class="mq-img" alt="Work">
           <img src="mer.jpeg" class="mq-img" alt="Work">
-          <img src="dents.jpeg" class="mq-img" alt="Work">
           <img src="beauty.png" class="mq-img" alt="Work">
            <img src="time.png" class="mq-img" alt="Work">
-    <img src="split.png" class="mq-img" alt="Work">
+        <img src="split.png" class="mq-img" alt="Work">
           <img src="splash.png" class="mq-img" alt="Work">
           <img src="mirror.jpeg" class="mq-img" alt="Work">
-          <img src="warn.png" class="mq-img" alt="Work">
+                
+
         </div>
   <div class="marquee-track track-left">
           <img src="pizza-iphone.jpeg" class="mq-img" alt="Work">
@@ -879,40 +966,27 @@
           <img src="fly.jpeg" class="mq-img" alt="Work">
           <img src="king.jpeg" class="mq-img" alt="Work">
           <img src="elegance.jpeg" class="mq-img" alt="Work">
+        <img src="pizza-iphone.jpeg" class="mq-img" alt="Work">
+          <img src="red.jpeg" class="mq-img" alt="Work">
+          <img src="rocket.jpeg" class="mq-img" alt="Work">
+          <img src="location.jpeg" class="mq-img" alt="Work">
+          <img src="peprone.jpeg" class="mq-img" alt="Work">
+          <img src="night.jpeg" class="mq-img" alt="Work">
+          <img src="GOOGLE.jpeg" class="mq-img" alt="Work">
         </div>
  <div class="marquee-track track-right">
-          <img src="fortex.png" class="mq-img" alt="Work">
-          <img src="blur.gif" class="mq-img" alt="Work">
-           <img src="trumble.gif" class="mq-img" alt="Work">
-          <img src="cap.jpeg" class="mq-img" alt="Work">
-          <img src="grey.jpeg" class="mq-img" alt="Work">
-          <img src="black.jpeg" class="mq-img" alt="Work">
-          <img src="flag.jpeg" class="mq-img" alt="Work">
-          <img src="lab.webp" class="mq-img" alt="Work">
-        </div>
- <div class="marquee-track track-left">
-          <img src="aura.png" class="mq-img" alt="Work">
-          <img src="jar.png" class="mq-img" alt="Work">
-          <img src="box.webp" class="mq-img" alt="Work">
-          <img src="gift.webp" class="mq-img" alt="Work">
-  <img src="white.webp" class="mq-img" alt="Work">
- <img src="sticker.jpeg" class="mq-img" alt="Work">
- <img src="s.jpg" class="mq-img" alt="Work">
-
-
-        </div>
- <div class="marquee-track track-right">
-          <img src="t.png" class="mq-img" alt="Work">
-          <img src="sec.png" class="mq-img" alt="Work">
-          <img src="p.png" class="mq-img" alt="Work">
-          <img src="crunchy.png" class="mq-img" alt="Work">
-<img src="cheder.png" class="mq-img" alt="Work">
-<img src="d.png" class="mq-img" alt="Work">
-<img src="fish.png" class="mq-img" alt="Work">
-<img src="face.png" class="mq-img" alt="Work">
-        </div>
- <div class="marquee-track track-left">
+  <img src="car.png" class="mq-img" alt="Work">
           <img src="diss.png" class="mq-img" alt="Work">
+          <img src="wheels.png" class="mq-img" alt="Work">
+          <img src="keys.png" class="mq-img" alt="Work">
+          <img src="eid.png" class="mq-img" alt="Work">
+<img src="service.png" class="mq-img" alt="Work">
+<img src="blue.png" class="mq-img" alt="Work">
+     <img src="one.png" class="mq-img" alt="Work">
+          <img src="s.png" class="mq-img" alt="Work">
+          <img src="lex.png" class="mq-img" alt="Work">
+          <img src="daw.png" class="mq-img" alt="Work">
+           <img src="diss.png" class="mq-img" alt="Work">
           <img src="wheels.png" class="mq-img" alt="Work">
           <img src="keys.png" class="mq-img" alt="Work">
           <img src="eid.png" class="mq-img" alt="Work">
@@ -921,7 +995,7 @@
         </div>
 
 
-     <div class="marquee-track track-right">
+     <div class="marquee-track track-left">
           <img src="l.png" class="mq-img" alt="Work">
           <img src="9.webp" class="mq-img" alt="Work">
           <img src="22.png" class="mq-img" alt="Work">
@@ -936,26 +1010,79 @@
 <img src="spicy.webp" class="mq-img" alt="Work">
 <img src="fifa.webp" class="mq-img" alt="Work">
 <img src="hegry.webp" class="mq-img" alt="Work">
+ <img src="l.png" class="mq-img" alt="Work">
+          <img src="9.webp" class="mq-img" alt="Work">
+          <img src="22.png" class="mq-img" alt="Work">
         </div>
-         <div class="marquee-track track-left">
+         <div class="marquee-track track-right">
           <img src="b.webp" class="mq-img" alt="Work">
           <img src="h.webp" class="mq-img" alt="Work">
           <img src="o.png" class="mq-img" alt="Work">
           <img src="osol.webp" class="mq-img" alt="Work">
 <img src="f.png" class="mq-img" alt="Work">
+ <img src="b.webp" class="mq-img" alt="Work">
+          <img src="h.webp" class="mq-img" alt="Work">
+          <img src="o.png" class="mq-img" alt="Work">
+          <img src="osol.webp" class="mq-img" alt="Work">
+<img src="f.png" class="mq-img" alt="Work">
+ <img src="b.webp" class="mq-img" alt="Work">
+          <img src="h.webp" class="mq-img" alt="Work">
+          <img src="o.png" class="mq-img" alt="Work">
+          <img src="osol.webp" class="mq-img" alt="Work">
+<img src="f.png" class="mq-img" alt="Work">
+ <img src="b.webp" class="mq-img" alt="Work">
+          <img src="h.webp" class="mq-img" alt="Work">
         </div>
-         <div class="marquee-track track-right">
-          <img src="one.png" class="mq-img" alt="Work">
-          <img src="s.png" class="mq-img" alt="Work">
-          <img src="lex.png" class="mq-img" alt="Work">
-          <img src="daw.png" class="mq-img" alt="Work">
-        </div>
+         
       </div>
-    </section>
+<section id="branding-section" style="padding-top: 2rem;">
+  
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <h2 class="section-title" id="branding-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Brand Identity</h2>
+  </div>
+<div class="hero-logo-container" style="text-align: center; margin-bottom: 40px;">
+  <img src="fortex.png" alt="Fortex Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+<div class="branding-gallery">
+  <img src="Arabic_Land_Cruiser_license_plate.jpeg" alt="Fortex Plate" class="brand-img">
+  <img src="Car_front_label_landcruiser.jpeg" alt="Fortex Car Grill" class="brand-img">
+  <img src="Mockup__✨_custom__white_tshirt_.jpeg" alt="Fortex T-shirt" class="brand-img">
+  <img src="Mockup__🏙️_billboard.jpeg" alt="Fortex Billboard" class="brand-img">
+    <img src="Image_in_black_frame_gallery.jpeg" alt="Fortex T-shirt" class="brand-img">
+  <img src="White_cap_on_surface.jpeg" alt="Fortex Billboard" class="brand-img">
+    <img src="Image_on_smartphone_screen.jpeg" alt="Fortex T-shirt" class="brand-img">
+  <img src="Mockup__🛍️_bag.jpeg" alt="Fortex Billboard" class="brand-img">
+</div>
+<div class="hero-logo-container" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+  <img src="aura.png" alt="Aura Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+</div> <div class="branding-gallery">
+   <img src="cosmetics._Ensure_the_input_image_202606212258.jpeg" class="brand-img">
+   <img src="Mockup__✨_custom__open_skin_202606212258.jpeg" class="brand-img">
+    <img src="iPhone_16_screen_realistic_persp…_202606212258.jpeg" class="brand-img">
+       <img src="Image_on_smartphone_screen_202606212258.jpeg" class="brand-img">
+   <img src="Image_printed_on_t-shirt_202606212258.jpeg" class="brand-img">
+    <img src="Mockup__🛍️_bag_202606212258.jpeg" class="brand-img">
+     <img src="Cosmetics_shop_window_display_202606212302.jpeg" class="brand-img">
+   <img src="Mockup__🧢_hat_202606212302.jpeg" class="brand-img">
+      <img src="Mockup__📍_pin_202606212302.jpeg" class="brand-img">
+   <img src="Image_in_black_frame_gallery_202606212303.jpeg" class="brand-img">
+         <img src="Image_on_laptop_screen_202606212351.jpeg" class="brand-img">
+   <img src="Image_on_wall-mounted_TV_202606212351.jpeg" class="brand-img">
+
+</div>
+<div class="hero-logo-container" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+  <img src="OUD.png" alt="OUD Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+</div> <div class="branding-gallery">
+   <img src="oud (1).jpeg" class="brand-img">
+   <img src="oud (2).jpeg" class="brand-img">
+    <img src="oud (3).jpeg" class="brand-img">
+       <img src="oud (4).jpeg" class="brand-img">
+
+</div>
+</section>
   </div>
 </div>
-<footer style="text-align:center; padding: 2rem 1rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
-  Joe_Advertise.eg — All Rights Reserved 2026 ©
+<footer style="text-align:center; padding: 0rem 1rem 0rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
+  © Joe_Advertise.eg — All Rights Reserved 2026 
 </footer>
 <script>
 // ═══════════════════════ INTRO BRUSH ═══════════════════════
@@ -1271,10 +1398,14 @@ function toggleLang() {
     }
     
     // OUR WORK 
+    const brandingTitle = document.getElementById('branding-title');
+    if (brandingTitle) brandingTitle.textContent = 'الهوية البصرية';
     document.querySelector('#our-work .section-label').textContent = 'أحدث أعمالنا';
     document.querySelector('#our-work .section-title').textContent = 'أعمالنا';
 const clientsTitle = document.getElementById('clients-title');
     if(clientsTitle) clientsTitle.textContent = 'شركاء نجاحنا';
+    const socialMediaTitle = document.getElementById('social-media-title');
+    if (socialMediaTitle) socialMediaTitle.textContent = 'تصميمات السوشيل ميديا';
     // SERVICES PAGE
     document.querySelector('#services-page .section-title').textContent = 'خدماتنا';
 
@@ -1313,6 +1444,8 @@ const clientsTitle = document.getElementById('clients-title');
     backBtns.forEach(btn => btn.textContent = '← العودة للرئيسية');
 
   } else {
+  const socialMediaTitleEn = document.getElementById('social-media-title');
+    if (socialMediaTitleEn) socialMediaTitleEn.textContent = 'Social Media Designs';
     document.documentElement.setAttribute('dir', 'ltr');
     document.documentElement.setAttribute('lang', 'en');
   const clientsTitleEn = document.getElementById('clients-title');
@@ -1344,6 +1477,8 @@ const clientsTitle = document.getElementById('clients-title');
     }
     
     // OUR WORK 
+    const brandingTitleEn = document.getElementById('branding-title');
+    if (brandingTitleEn) brandingTitleEn.textContent = 'Brand Identity';
     document.querySelector('#our-work .section-label').textContent = 'Latest projects';
     document.querySelector('#our-work .section-title').textContent = 'OUR WORK';
 
