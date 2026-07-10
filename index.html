@@ -106,7 +106,8 @@
   .nav-cta:hover { background: var(--accent1) !important; box-shadow: 0 0 25px rgba(124,58,237,0.5) !important; border-color: transparent; }
 
   /* ═══════════════════════ PAGE ISOLATION ═══════════════════════ */
-  #main-site, #services-page, #contact-page { display: none; }
+  #main-site, #services-page, #contact-page, #reviews-page { display: none; }
+#reviews-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
   .active-page { display: block !important; animation: fadeIn 0.5s ease forwards; }
   @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
@@ -700,6 +701,56 @@
     margin: 0px 20px !important;
   }
 }
+/* ═══════════════════════ CLIENT REVIEWS SECTION ═══════════════════════ */
+  #reviews-section { padding: 6rem 4rem 4rem; position: relative; }
+  .reviews-inner { max-width: 1200px; margin: 0 auto; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0 3.5rem; }
+  .review-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 16px; padding: 1.8rem; position: relative; transition: all 0.3s; }
+  .review-card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(124,58,237,0.15); }
+  .review-stars { color: var(--neon2); font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 0.8rem; text-shadow: 0 0 10px var(--neon); }
+  .review-text { color: var(--text); font-size: 0.98rem; line-height: 1.8; margin-bottom: 1.2rem; }
+  .review-name { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--accent2); font-size: 0.95rem; }
+  .review-date { color: var(--muted); font-size: 0.8rem; margin-top: 0.2rem; }
+  .reviews-empty, .reviews-loading { text-align: center; color: var(--muted); padding: 2rem 0; grid-column: 1/-1; }
+
+  .review-form-wrap { max-width: 600px; margin: 0 auto; background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2.5rem; }
+  .review-form-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; }
+  .review-form label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif; letter-spacing: 0.5px; }
+  .review-form input[type="text"], .review-form textarea {
+    width: 100%; background: rgba(9, 4, 18, 0.8); border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 10px; padding: 0.8rem 1rem; color: var(--text); font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem; margin-bottom: 1.2rem; outline: none; transition: border-color 0.3s; cursor: text;
+  }
+  .review-form input[type="text"]:focus, .review-form textarea:focus { border-color: var(--neon); }
+  .review-form textarea { resize: vertical; min-height: 100px; }
+  .star-picker { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; font-size: 1.6rem; direction: ltr; justify-content: center; }
+  .star-picker span { cursor: none; color: rgba(255,255,255,0.2); transition: color 0.2s, transform 0.2s; }
+  .star-picker span.active { color: var(--neon2); text-shadow: 0 0 10px var(--neon); transform: scale(1.1); }
+  .review-submit-btn {
+    width: 100%; padding: 0.9rem; border: none; border-radius: 50px; cursor: none;
+    background: linear-gradient(45deg, var(--accent1), var(--neon)); color: #fff;
+    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+  .review-submit-btn:hover { box-shadow: 0 0 25px rgba(217,70,239,0.5); transform: translateY(-2px); }
+  .review-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .review-msg { text-align: center; margin-top: 1rem; font-size: 0.9rem; min-height: 1.2em; }
+  .review-msg.success { color: #4ade80; }
+  .review-msg.error { color: #f87171; }
+
+  @media (max-width: 900px) {
+    #reviews-section { padding: 4rem 1.2rem 3rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .review-form-wrap { padding: 1.5rem; }
+  }
+  .review-row.pending { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
+  .name { display: flex; align-items: center; gap: 10px; }
+  .badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-family: 'Cairo', sans-serif; }
+  .badge.pending-badge { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+  .badge.approved-badge { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+  .actions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .approve-btn { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); cursor: pointer; border-radius: 50px; padding: 0.7rem 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; transition: 0.3s; }
+  .approve-btn:hover { background: #4ade80; color: #120824; }
 </style>
 </head>
 <body>
@@ -736,6 +787,7 @@
   <li><a href="#" onclick="showMain(); return false;">Home</a></li>
   <li><a href="https://www.behance.net/gallery/245003305/Portfolio-2026-Sr-Graphic-Designer-Youssef-Ebrahim" target="_blank">Portfolio</a></li>
   <li><a href="#" onclick="showServices(); return false;">Services</a></li>
+    <li><a href="#" onclick="showReviews(); return false;">Reviews</a></li> <!-- الزرار الجديد -->
   <li><a href="#" onclick="showContact(); return false;" class="nav-cta">Contact Us</a></li>
   <li>
     <button onclick="toggleLang()" id="langBtn" style="padding:0.6rem 1.8rem; border:1px solid var(--accent1); border-radius:50px; background:linear-gradient(45deg,rgba(124,58,237,0.1),rgba(217,70,239,0.1)); color:var(--text); font-family:'Outfit',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:1px; cursor:none; transition:all 0.3s;">
@@ -813,7 +865,40 @@
       </div>
     </div>
   </div>
+<!-- ═══════════════════════ REVIEWS PAGE ═══════════════════════ -->
+<div id="reviews-page">
+  <div class="page-inner">
+    <button class="back-btn" onclick="showMain()">← Back to Home</button>
+    
+    <div class="contact-header">
+      <h1 id="reviews-page-title" style="text-transform: uppercase;">Client Reviews</h1>
+      <p id="reviews-page-desc">What our partners say about our work</p>
+    </div>
 
+    <section id="reviews-section" style="padding: 0; margin-top: 2rem;">
+      <div class="reviews-inner">
+        <div class="reviews-grid" id="reviewsGrid">
+          <div class="reviews-loading" id="reviewsLoading">Loading reviews...</div>
+        </div>
+        <div class="review-form-wrap" style="margin-top: 5rem;">
+          <div class="review-form-title" id="reviewFormTitle">Share your experience</div>
+          <form class="review-form" id="reviewForm">
+            <label id="reviewNameLabel" for="reviewName">Your name</label>
+            <input type="text" id="reviewName" maxlength="60" required>
+            <label id="reviewStarsLabel">Your rating</label>
+            <div class="star-picker" id="starPicker">
+              <span data-val="1">★</span><span data-val="2">★</span><span data-val="3">★</span><span data-val="4">★</span><span data-val="5">★</span>
+            </div>
+            <label id="reviewCommentLabel" for="reviewComment">Your comment</label>
+            <textarea id="reviewComment" maxlength="500" required></textarea>
+            <button type="submit" class="review-submit-btn" id="reviewSubmitBtn">Submit review</button>
+            <div class="review-msg" id="reviewMsg"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
   <div id="main-site" class="active-page">
     
     <section class="hero" id="home">
@@ -889,7 +974,7 @@
           </div>
           <div class="skill-card">
             <div class="skill-name counter-num" data-target="3" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon2); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
-            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">YEARS EXPERIENCE</p>
+            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">YEARS OF EXPERIENCE</p>
           </div>
         </div>
       </div>
@@ -1119,7 +1204,9 @@
        <img src="oud (4).jpeg" class="brand-img">
 
 </div>
-</section>
+
+  </div>
+
   </div>
 </div>
 <footer style="text-align:center; padding: 0rem 1rem 0rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
@@ -1178,25 +1265,48 @@
 })();
 
 // ═══════════════════════ PAGE NAVIGATION ═══════════════════════
+
+// دالة صغيرة عشان تقفل قايمة الموبايل تلقائياً لما العميل يختار صفحة
+function closeMobileMenu() {
+  const navToggle = document.getElementById('nav-toggle');
+  if (navToggle) navToggle.checked = false;
+}
+
 function showMain() {
   document.getElementById('main-site').classList.add('active-page');
   document.getElementById('services-page').classList.remove('active-page');
   document.getElementById('contact-page').classList.remove('active-page');
-  window.scrollTo(0, 0);
+  document.getElementById('reviews-page').classList.remove('active-page');
+  closeMobileMenu(); // قفل القايمة
+  window.scrollTo({ top: 0, behavior: 'smooth' }); // سكرول ناعم لأول الصفحة
 }
+
 function showServices() {
   document.getElementById('main-site').classList.remove('active-page');
   document.getElementById('contact-page').classList.remove('active-page');
+  document.getElementById('reviews-page').classList.remove('active-page');
   document.getElementById('services-page').classList.add('active-page');
-  window.scrollTo(0, 0);
+  closeMobileMenu();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 function showContact() {
   document.getElementById('main-site').classList.remove('active-page');
   document.getElementById('services-page').classList.remove('active-page');
+  document.getElementById('reviews-page').classList.remove('active-page');
   document.getElementById('contact-page').classList.add('active-page');
-  window.scrollTo(0, 0);
+  closeMobileMenu();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function showReviews() {
+  document.getElementById('main-site').classList.remove('active-page');
+  document.getElementById('services-page').classList.remove('active-page');
+  document.getElementById('contact-page').classList.remove('active-page');
+  document.getElementById('reviews-page').classList.add('active-page');
+  closeMobileMenu();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 // ═══════════════════════ CURSOR ═══════════════════════
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -1411,13 +1521,16 @@ function toggleLang() {
   if (isArabic) {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
+  
     btn.textContent = 'English';
     
     // NAV
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'الرئيسية';
     document.querySelector('.nav-links li:nth-child(2) a').textContent = 'الأعمال';
     document.querySelector('.nav-links li:nth-child(3) a').textContent = 'الخدمات';
-    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'تواصل معنا';
+    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'آراء العملاء';
+    document.querySelector('.nav-links li:nth-child(5) a').textContent = 'تواصل معنا';
+    
     
     // HERO
     document.querySelector('.hero-title').textContent = 'مصمم جرافيك · منشئ إعلانات AI · مطور واجهات';
@@ -1483,8 +1596,41 @@ const clientsTitle = document.getElementById('clients-title');
     // BACK BUTTONS
     const backBtns = document.querySelectorAll('.back-btn');
     backBtns.forEach(btn => btn.textContent = '← العودة للرئيسية');
-
+// REVIEWS SECTION
+    const reviewsPageTitle = document.getElementById('reviews-page-title');
+    if (reviewsPageTitle) reviewsPageTitle.textContent = 'آراء عملاؤنا';
+    const reviewsPageDesc = document.getElementById('reviews-page-desc');
+    if (reviewsPageDesc) reviewsPageDesc.textContent = 'ماذا يقول شركاء نـجـاحـنـا عن العمل معنا';
+    const reviewFormTitle = document.getElementById('reviewFormTitle');
+    if (reviewFormTitle) reviewFormTitle.textContent = 'شاركنا رأيك';
+    const reviewNameLabel = document.getElementById('reviewNameLabel');
+    if (reviewNameLabel) reviewNameLabel.textContent = 'اسمك';
+    const reviewStarsLabel = document.getElementById('reviewStarsLabel');
+    if (reviewStarsLabel) reviewStarsLabel.textContent = 'تقييمك';
+    const reviewCommentLabel = document.getElementById('reviewCommentLabel');
+    if (reviewCommentLabel) reviewCommentLabel.textContent = 'تعليقك';
+    const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
+    if (reviewSubmitBtn) reviewSubmitBtn.textContent = 'إرسال الرأي';
+    const reviewsLoading = document.getElementById('reviewsLoading');
+    if (reviewsLoading) reviewsLoading.textContent = 'جاري تحميل الآراء...';
   } else {
+    // REVIEWS SECTION
+    const reviewsPageTitleEn = document.getElementById('reviews-page-title');
+    if (reviewsPageTitleEn) reviewsPageTitleEn.textContent = 'Client Reviews';
+    const reviewsPageDescEn = document.getElementById('reviews-page-desc');
+    if (reviewsPageDescEn) reviewsPageDescEn.textContent = 'What our partners say about our work';
+    const reviewFormTitleEn = document.getElementById('reviewFormTitle');
+    if (reviewFormTitleEn) reviewFormTitleEn.textContent = 'Share your experience';
+    const reviewNameLabelEn = document.getElementById('reviewNameLabel');
+    if (reviewNameLabelEn) reviewNameLabelEn.textContent = 'Your name';
+    const reviewStarsLabelEn = document.getElementById('reviewStarsLabel');
+    if (reviewStarsLabelEn) reviewStarsLabelEn.textContent = 'Your rating';
+    const reviewCommentLabelEn = document.getElementById('reviewCommentLabel');
+    if (reviewCommentLabelEn) reviewCommentLabelEn.textContent = 'Your comment';
+    const reviewSubmitBtnEn = document.getElementById('reviewSubmitBtn');
+    if (reviewSubmitBtnEn) reviewSubmitBtnEn.textContent = 'Submit review';
+    const reviewsLoadingEn = document.getElementById('reviewsLoading');
+    if (reviewsLoadingEn) reviewsLoadingEn.textContent = 'Loading reviews...';
   const socialMediaTitleEn = document.getElementById('social-media-title');
     if (socialMediaTitleEn) socialMediaTitleEn.textContent = 'Social Media Designs';
     document.documentElement.setAttribute('dir', 'ltr');
@@ -1497,7 +1643,8 @@ const clientsTitle = document.getElementById('clients-title');
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'Home';
     document.querySelector('.nav-links li:nth-child(2) a').textContent = 'Portfolio';
     document.querySelector('.nav-links li:nth-child(3) a').textContent = 'Services';
-    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'Contact Us';
+        document.querySelector('.nav-links li:nth-child(4) a').textContent = 'Reviews';
+    document.querySelector('.nav-links li:nth-child(5) a').textContent = 'Contact Us';
     
     // HERO
     document.querySelector('.hero-title').textContent = 'Graphic Designer · AI Ads Creator · Front-End Dev';
@@ -1513,7 +1660,7 @@ const clientsTitle = document.getElementById('clients-title');
         if(metricCardsEn.length >= 3) {
             metricCardsEn[0].querySelector('.skill-desc').textContent = 'HAPPY CLIENTS';
             metricCardsEn[1].querySelector('.skill-desc').textContent = 'PROJECTS DELIVERED';
-            metricCardsEn[2].querySelector('.skill-desc').textContent = 'YEARS EXPERIENCE';
+            metricCardsEn[2].querySelector('.skill-desc').textContent = 'YEARS OF EXPERIENCE';
         }
     }
     
@@ -1623,6 +1770,112 @@ setTimeout(() => {
       img.setAttribute('decoding', 'async');
     });
   });
+</script>
+<!-- ═══════════════════════ CLIENT REVIEWS: SUPABASE ═══════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+  const SUPABASE_URL = "https://wzixccdyvajhyxjwijpa.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_mOJggeRNz_zCfDz65o814A_go2cgnrs";
+
+  // لو لسه معملتش حساب Supabase، سيب دول زي ما هما مؤقتاً لحد ما تعمل الخطوة دي
+  if (SUPABASE_URL === "PUT_YOUR_SUPABASE_URL_HERE") {
+      document.getElementById('reviewsGrid').innerHTML = `<div class="reviews-empty" id="reviewsEmptyMsg">No reviews yet — be the first to share yours</div>`;
+      return;
+  }
+
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const grid = document.getElementById('reviewsGrid');
+  const form = document.getElementById('reviewForm');
+  const msg = document.getElementById('reviewMsg');
+  const submitBtn = document.getElementById('reviewSubmitBtn');
+  const starPicker = document.getElementById('starPicker');
+  const stars = starPicker.querySelectorAll('span');
+  let selectedRating = 5;
+
+  function paintStars(val) {
+    stars.forEach(s => s.classList.toggle('active', +s.dataset.val <= val));
+  }
+  paintStars(selectedRating);
+  stars.forEach(s => {
+    s.addEventListener('mouseenter', () => paintStars(+s.dataset.val));
+    s.addEventListener('mouseleave', () => paintStars(selectedRating));
+    s.addEventListener('click', () => { selectedRating = +s.dataset.val; paintStars(selectedRating); });
+  });
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function timeAgo(dateStr) {
+    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    if (diff < 60) return isArabic ? 'الآن' : 'just now';
+    if (diff < 3600) return Math.floor(diff/60) + (isArabic ? ' دقيقة' : 'm ago');
+    if (diff < 86400) return Math.floor(diff/3600) + (isArabic ? ' ساعة' : 'h ago');
+    return Math.floor(diff/86400) + (isArabic ? ' يوم' : 'd ago');
+  }
+
+  async function loadReviews() {
+   const { data, error } = await sb
+      .from('reviews')
+      .select('*')
+      .eq('is_approved', true)
+      .order('created_at', { ascending: false });
+    if (error) {
+      grid.innerHTML = `<div class="reviews-empty">${isArabic ? 'تعذر تحميل الآراء حاليًا' : 'Could not load reviews right now'}</div>`;
+      return;
+    }
+    if (!data || data.length === 0) {
+      grid.innerHTML = `<div class="reviews-empty" id="reviewsEmptyMsg">${isArabic ? 'لسه مفيش آراء، كن أول من يشارك رأيه' : 'No reviews yet — be the first to share yours'}</div>`;
+      return;
+    }
+    grid.innerHTML = data.map(r => `
+      <div class="review-card">
+        <div class="review-stars">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</div>
+        <div class="review-text">${escapeHtml(r.comment)}</div>
+        <div class="review-name">${escapeHtml(r.name)}</div>
+        <div class="review-date">${timeAgo(r.created_at)}</div>
+      </div>
+    `).join('');
+  }
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name = document.getElementById('reviewName').value.trim();
+    const comment = document.getElementById('reviewComment').value.trim();
+    if (!name || !comment) return;
+
+    submitBtn.disabled = true;
+    msg.textContent = '';
+    msg.className = 'review-msg';
+
+    const { error } = await sb.from('reviews').insert({
+      name: name,
+      comment: comment,
+      rating: selectedRating
+    });
+
+    submitBtn.disabled = false;
+
+    if (error) {
+      msg.textContent = isArabic ? 'حصل خطأ، حاول تاني' : 'Something went wrong, please try again';
+      msg.className = 'review-msg error';
+      return;
+    }
+
+    msg.textContent = isArabic ? 'شكرًا لك! سيتم مراجعة رأيك ونشره قريبًا' : 'Thank you! Your review is pending approval';
+    msg.className = 'review-msg success';
+    form.reset();
+    selectedRating = 5;
+    paintStars(5);
+    loadReviews();
+  });
+
+  loadReviews();
+})();
 </script>
 </body>
 </html>

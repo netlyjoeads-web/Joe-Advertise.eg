@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم الآراء — Joe Advertise</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #090412; --surface: #120824; --accent1: #7c3aed; --neon: #d946ef; --text: #ffffff; --muted: #9ca3af; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1 { font-family: 'Outfit', sans-serif; font-size: 1.8rem; margin-bottom: 2rem; text-align: center; }
+
+  #loginBox { max-width: 380px; margin: 6rem auto; background: var(--surface); border: 1px solid rgba(124,58,237,0.3); border-radius: 16px; padding: 2.5rem; text-align: center; }
+  #loginBox input { width: 100%; padding: 0.8rem 1rem; background: rgba(9,4,18,0.8); border: 1px solid rgba(124,58,237,0.3); border-radius: 10px; color: #fff; margin: 1rem 0; font-family: 'Cairo', sans-serif; font-size: 1rem; }
+  #loginBox button, .delete-btn, .approve-btn, .refresh-btn { cursor: pointer; border: none; border-radius: 50px; padding: 0.7rem 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; transition: 0.3s; }
+  #loginBox button { width: 100%; background: linear-gradient(45deg, var(--accent1), var(--neon)); color: #fff; }
+  #loginError { color: #f87171; font-size: 0.9rem; margin-top: 0.8rem; min-height: 1.2em; }
+
+  #panel { display: none; }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .refresh-btn { background: rgba(124,58,237,0.15); color: #fff; border: 1px solid rgba(124,58,237,0.4); }
+
+  .review-row { background: var(--surface); border: 1px solid rgba(124,58,237,0.2); border-radius: 14px; padding: 1.2rem 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .review-row.pending { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
+  .review-row .info { flex: 1; }
+  .review-row .stars { color: var(--neon); letter-spacing: 2px; margin-bottom: 0.4rem; }
+  .review-row .name { font-weight: 700; color: #c084fc; display: flex; align-items: center; gap: 10px; }
+  .badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-family: 'Cairo', sans-serif; }
+  .badge.pending-badge { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+  .badge.approved-badge { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+  .review-row .date { color: var(--muted); font-size: 0.8rem; }
+  .review-row .comment { margin-top: 0.5rem; line-height: 1.7; }
+  
+  .actions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .delete-btn { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.4); }
+  .delete-btn:hover { background: #f87171; color: #fff; }
+  .approve-btn { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); }
+  .approve-btn:hover { background: #4ade80; color: #120824; }
+  .empty, .status { text-align: center; color: var(--muted); padding: 2rem 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>لوحة تحكم آراء العملاء</h1>
+
+  <div id="loginBox">
+    <p style="color: var(--muted); margin-bottom: 0.5rem;">أدخل كلمة السر للدخول</p>
+    <input type="password" id="passwordInput" placeholder="كلمة السر">
+    <button id="loginBtn">دخول</button>
+    <div id="loginError"></div>
+  </div>
+
+  <div id="panel">
+    <div class="toolbar">
+      <button class="refresh-btn" id="refreshBtn">🔄 تحديث</button>
+      <span id="countLabel" style="color: var(--muted);"></span>
+    </div>
+    <div id="list"><div class="status">جاري التحميل...</div></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // بياناتك جاهزة ومتركبة
+  const SUPABASE_URL = "https://wzixccdyvajhyxjwijpa.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_mOJggeRNz_zCfDz65o814A_go2cgnrs";
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let adminPassword = "";
+  const loginBox = document.getElementById('loginBox');
+  const panel = document.getElementById('panel');
+  const list = document.getElementById('list');
+  const countLabel = document.getElementById('countLabel');
+
+  document.getElementById('loginBtn').addEventListener('click', login);
+  document.getElementById('passwordInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+  function login() {
+    const val = document.getElementById('passwordInput').value.trim();
+    if (!val) return;
+    adminPassword = val;
+    loginBox.style.display = 'none';
+    panel.style.display = 'block';
+    loadReviews();
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  async function loadReviews() {
+    list.innerHTML = '<div class="status">جاري التحميل...</div>';
+    
+    // بنجيب كل التعليقات عشان تقدر توافق عليها
+    const { data, error } = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+
+    if (error) {
+      list.innerHTML = '<div class="status">تعذر تحميل الآراء</div>';
+      return;
+    }
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div class="empty">لا توجد آراء حاليًا</div>';
+      countLabel.textContent = '';
+      return;
+    }
+    countLabel.textContent = data.length + ' رأي';
+    list.innerHTML = data.map(r => `
+      <div class="review-row ${r.is_approved ? '' : 'pending'}" data-id="${r.id}">
+        <div class="info">
+          <div class="stars">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</div>
+          <div class="name">
+            ${escapeHtml(r.name)} 
+            ${r.is_approved ? '<span class="badge approved-badge">منشور ✓</span>' : '<span class="badge pending-badge">معلق ⏳</span>'}
+          </div>
+          <div class="date">${new Date(r.created_at).toLocaleString('ar-EG')}</div>
+          <div class="comment">${escapeHtml(r.comment)}</div>
+        </div>
+        <div class="actions">
+          ${!r.is_approved ? `<button class="approve-btn" onclick="approveReview('${r.id}', this)">✔️ موافقة</button>` : ''}
+          <button class="delete-btn" onclick="deleteReview('${r.id}', this)">🗑 حذف</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function approveReview(id, btn) {
+    btn.disabled = true;
+    btn.textContent = 'جاري...';
+    const { error } = await sb.rpc('approve_review', { review_id: id, admin_password: adminPassword });
+    if (error) {
+      alert('فشل الموافقة — كلمة السر غلط أو حصلت مشكلة');
+      btn.disabled = false;
+      btn.textContent = '✔️ موافقة';
+      return;
+    }
+    loadReviews();
+  }
+
+  async function deleteReview(id, btn) {
+    if (!confirm('متأكد إنك عايز تمسح الرأي ده؟')) return;
+    btn.disabled = true;
+    btn.textContent = 'جاري...';
+    const { error } = await sb.rpc('delete_review', { review_id: id, admin_password: adminPassword });
+    if (error) {
+      alert('فشل الحذف — كلمة السر غلط أو حصلت مشكلة');
+      btn.disabled = false;
+      btn.textContent = '🗑 حذف';
+      return;
+    }
+    loadReviews();
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', loadReviews);
+</script>
+</body>
+</html>
