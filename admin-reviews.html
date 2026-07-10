@@ -78,13 +78,32 @@
   document.getElementById('loginBtn').addEventListener('click', login);
   document.getElementById('passwordInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
 
-  function login() {
+async function login() {
     const val = document.getElementById('passwordInput').value.trim();
     if (!val) return;
-    adminPassword = val;
-    loginBox.style.display = 'none';
-    panel.style.display = 'block';
-    loadReviews();
+    
+    // محاولة تجربة كلمة السر عن طريق استدعاء دالة موجودة في الداتا بيز
+    // إذا كانت كلمة السر غلط، الدالة هترجع خطأ ولن يفتح اللوحة
+    const { error } = await sb.rpc('approve_review', { review_id: '00000000-0000-0000-0000-000000000000', admin_password: val });
+    
+    // ملاحظة: الكود ده هيرجع خطأ (Wrong password) لأن الـ ID ده مش موجود، 
+    // وده اللي إحنا عايزينه عشان نتأكد من الباسوورد قبل ما نفتح اللوحة
+    if (error && error.message !== 'Wrong password') {
+        // إذا كان الخطأ هو خطأ في الاتصال بالداتا بيز
+        adminPassword = val;
+        loginBox.style.display = 'none';
+        panel.style.display = 'block';
+        loadReviews();
+    } else if (error && error.message === 'Wrong password') {
+        // إذا كان الخطأ هو "كلمة سر غلط"
+        document.getElementById('loginError').textContent = 'كلمة السر غير صحيحة!';
+    } else {
+        // إذا دخلت هنا بدون خطأ
+        adminPassword = val;
+        loginBox.style.display = 'none';
+        panel.style.display = 'block';
+        loadReviews();
+    }
   }
 
   function escapeHtml(str) {
