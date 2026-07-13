@@ -77,17 +77,28 @@
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   
-  html { 
+html { 
     scroll-behavior: smooth; 
+    overflow-x: hidden !important;
+    width: 100%;
   }
   
-  html, body { 
+  body { 
     background: var(--bg); 
     color: var(--text); 
-font-family: 'Outfit', sans-serif; /* خط مريح للقراءة */    max-width: 100vw;
+    font-family: 'Outfit', sans-serif; 
+    width: 100%;
     overflow-x: hidden !important; 
     cursor: none; 
     position: relative;
+  }
+
+  /* إضافة إخفاء الزوائد للحاوي الأساسي لمنع ظهور شريط التمرير الرمادي */
+  .content { 
+    position: relative; 
+    z-index: 10; 
+    width: 100%;
+    overflow-x: hidden; 
   }
 
   h1, h2, h3, .nav-logo, .hero-name, .section-title, .service-name, .exp-title, .contact-pill {
@@ -95,25 +106,55 @@ font-family: 'Outfit', sans-serif; /* خط مريح للقراءة */    max-wid
   }
   
 
-  /* ═══════════════════════ INTRO BRUSH ═══════════════════════ */
-  #intro {
-    position: fixed; inset: 0; z-index: 9000;
-    background: #1a0b2e;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden; pointer-events: all;
-  }
-  #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  #intro-name {
-    position: relative; z-index: 2;
-    font-family: 'Outfit', sans-serif; font-size: clamp(2.5rem, 7vw, 7rem);
-    font-weight: 900; letter-spacing: 4px; color: #ffffff;
-    opacity: 0; text-shadow: 0 0 40px rgba(255,255,255,0.4), 0 0 80px rgba(124,58,237,0.8);
-    transition: opacity 0.5s ease; text-align: center; line-height: 1.1;
-  }
-  #intro-name span { display: block; font-family: 'Space Mono', monospace; font-size: 0.25em; letter-spacing: 8px; color: rgba(255,255,255,0.7); margin-top: 1rem; font-weight: 400;}
-  #intro.done { animation: introDone 0.8s ease forwards; }
-  @keyframes introDone { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.05); pointer-events: none; } }
+  /* ═══════════════════════ GRADUAL LOGO FILL LOADER ═══════════════════════ */
+#intro {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; pointer-events: all;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.loader-content {
+  display: flex; flex-direction: column; align-items: center; gap: 1.8rem; z-index: 2;
+}
+.logo-loader-box {
+  position: relative; width: 130px; height: 130px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-gray, .logo-color {
+  position: absolute; width: 100%; height: 100%;
+  object-fit: contain; mix-blend-mode: screen;
+}
+.logo-gray {
+  filter: grayscale(100%) opacity(0.25);
+}
+.logo-color {
+  /* قمنا بإلغاء الـ drop-shadow لمنع ظهور المربع المضيء */
+  filter: grayscale(0%) opacity(1); 
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.05s linear;
+}
+.logo-loader-box.pulse-done .logo-color {
+  animation: logoDonePulse 0.5s ease-in-out alternate infinite;
+}
+@keyframes logoDonePulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
 
+
+
+/* تظبيط حجم اللوجو والشريط على الموبايل عشان يكون متناسق ومريح للعين */
+@media (max-width: 1000px) {
+  .logo-loader-box {
+    width: 110px;
+    height: 110px;
+  }
+ 
+}
+#intro.done {
+  opacity: 0; transform: scale(1.08); pointer-events: none;
+}
   /* ═══════════════════════ CURSOR ═══════════════════════ */
   .cursor { width: 10px; height: 10px; background: var(--neon); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: screen; box-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon); transition: transform 0.08s, background 0.2s; }
   .cursor-ring { width: 40px; height: 40px; border: 1.5px solid rgba(217,70,239,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
@@ -402,9 +443,7 @@ font-family: 'Outfit', sans-serif; /* خط مريح للقراءة */    max-wid
   #nav-toggle:checked ~ .nav-toggle-label::after { 
     transform: translateY(-9px) rotate(-45deg); 
   }
- #intro{
-    display:none !important;
-  }
+
   #our-work {
     padding: 0.3rem 0 !important; 
   }
@@ -848,11 +887,11 @@ font-family: 'Outfit', sans-serif; /* خط مريح للقراءة */    max-wid
 <body>
 
 <div id="intro">
-  <canvas id="brushCanvas"></canvas>
-  
-  <div class="glitch-wrapper" id="intro-name">
-    <div class="glitch-text" data-text="JOE ADVERTISE">JOE ADVERTISE</div>
-    <span style="display: block; font-family: 'CASKO', monospace; font-size: 0.25em; letter-spacing: 8px; color: rgba(255,255,255,0.7); margin-top: 1rem; font-weight: 400;">Graphic DESIGNER & DEVELOPER</span>
+  <div class="loader-content">
+    <div class="logo-loader-box">
+      <img src="logo.png" alt="Joe Advertise Logo" class="logo-gray">
+      <img src="logo.png" alt="Joe Advertise Logo" class="logo-color" id="logoColor">
+    </div>
   </div>
 </div>
 <div class="cursor" id="cursor"></div>
@@ -1310,56 +1349,40 @@ font-family: 'Outfit', sans-serif; /* خط مريح للقراءة */    max-wid
   © Joe_Advertise.eg — All Rights Reserved 2026 
 </footer>
 <script>
-// ═══════════════════════ INTRO BRUSH ═══════════════════════
+// ═══════════════════════ GRADUAL LOGO FILL LOADER ═══════════════════════
 (function() {
   const intro = document.getElementById('intro');
-  const canvas = document.getElementById('brushCanvas');
-  const ctx = canvas.getContext('2d');
-  const nameEl = document.getElementById('intro-name');
+  const logoColor = document.getElementById('logoColor');
+  const logoBox = document.querySelector('.logo-loader-box');
+  
+  // الكود هنا بيعتمد فقط على وجود اللوجو وبداية الصفحة
+  if (!intro || !logoColor) return;
 
-  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-  resize(); window.addEventListener('resize', resize);
-  ctx.fillStyle = '#1a0b2e'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  let progress = 0;
+  const duration = 1500; // وقت تلوين اللوجو بالكامل (ثانية ونص) - تقدر تغيره براحتك
+  const intervalTime = 20;
+  const step = (100 / (duration / intervalTime));
 
-  const W = () => canvas.width;
-  const brushSpeed = canvas.width / 80; 
-  let currentX = -300; let paintDone = false; let nameShown = false;
-
-  const strokes = [];
-  const STROKE_COUNT = 15;
-  for (let i = 0; i < STROKE_COUNT; i++) {
-    strokes.push({
-      y: (i / STROKE_COUNT) * canvas.height + canvas.height / STROKE_COUNT / 2,
-      offset: (i % 2 === 0) ? 0 : -100,
-      width: 100 + Math.random() * 80,
-      color: i % 2 === 0 ? '#4c1d95' : '#6d28d9'
-    });
-  }
-
-  function drawFrame() {
-    if (paintDone) return;
-    currentX += brushSpeed;
-    for (const s of strokes) {
-      const sx = currentX + s.offset;
-      ctx.save(); ctx.globalAlpha = 0.9;
-      const grad = ctx.createLinearGradient(sx - 80, 0, sx + s.width, 0);
-      grad.addColorStop(0, 'rgba(0,0,0,0)'); grad.addColorStop(0.2, s.color); grad.addColorStop(0.8, s.color); grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grad; ctx.fillRect(sx - 80, s.y - s.width * 0.7, s.width + 160, s.width * 1.4);
-      ctx.restore();
-    }
-    if (!nameShown && currentX > W() * 0.3) { nameShown = true; nameEl.style.opacity = '1'; }
-    if (currentX > W() + 400) {
-      paintDone = true;
+  const loaderInterval = setInterval(() => {
+    progress += step + (Math.random() * 1.5); 
+    
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(loaderInterval);
+      if(logoBox) logoBox.classList.add('pulse-done');
+      
       setTimeout(() => {
         intro.classList.add('done');
-        setTimeout(() => { intro.style.display = 'none'; }, 800);
-      }, 500);
-      return;
+        setTimeout(() => { intro.style.display = 'none'; }, 600);
+      }, 350); // تأخير بسيط جداً بعد اكتمال التلوين عشان يظهر شكل اللوجو بالكامل
     }
-    requestAnimationFrame(drawFrame);
-  }
-  setTimeout(drawFrame, 100);
+    
+    // تلوين اللوجو من تحت لفوق تدريجياً بناءً على الوقت
+    const clipValue = 100 - progress;
+    logoColor.style.clipPath = `inset(${clipValue}% 0 0 0)`;
+  }, intervalTime);
 })();
+
 
 // ═══════════════════════ PAGE NAVIGATION ═══════════════════════
 
