@@ -48,9 +48,7 @@
     text-shadow: 0 0 20px rgba(124, 58, 237, 0.5); /* تأثير التوهج للوضوح */
     line-height: 1.2;
 }
- body {
-  font-family: "Thmanyah Sans", "Segoe UI", Tahoma, sans-serif;
-}
+
   /* ═══════════════════════ CUSTOM FONTS ═══════════════════════ */
 @font-face {
   font-family: 'CASKO';
@@ -77,29 +75,24 @@
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   
-html { 
-    scroll-behavior: smooth; 
-    overflow-x: hidden !important;
-    width: 100%;
+  html { 
+    overflow-y: scroll;
   }
   
-  body { 
-    background: var(--bg); 
-    color: var(--text); 
-    font-family: 'Outfit', sans-serif; 
-    width: 100%;
-    overflow-x: hidden !important; 
-    cursor: none; 
-    position: relative;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden !important;
+}
 
-  /* إضافة إخفاء الزوائد للحاوي الأساسي لمنع ظهور شريط التمرير الرمادي */
-  .content { 
-    position: relative; 
-    z-index: 10; 
-    width: 100%;
-    overflow-x: hidden; 
-  }
+body { 
+  background: var(--bg); 
+  color: var(--text); 
+  font-family: 'Outfit', sans-serif;
+  width: 100%;
+  overflow-x: hidden !important; 
+  cursor: none; 
+  position: relative;
+}
 
   h1, h2, h3, .nav-logo, .hero-name, .section-title, .service-name, .exp-title, .contact-pill {
     font-family: 'CASKO', sans-serif;
@@ -359,7 +352,7 @@ html {
   flex-direction: column;
   gap: 2rem;
   padding: 4rem 0;
-  width: 100vw; /* نخليه بعرض الشاشة بالظبط */
+width: 100%;
   margin-left: -5%; /* نعمل إزاحة بسيطة عشان نعوض الدوران */
 }
  .marquee-track {
@@ -1115,11 +1108,285 @@ html {
         </div>
       </div>
     </section>
+<!-- ═══════════════════════ WEBSITE DESIGN & DEVELOPMENT SECTION ═══════════════════════ -->
+<style>
+  /* تنسيقات قسم متصفح الويب - معزولة تماماً لمنع أي تداخل مع كود الموقع */
+  #web-dev-section {
+    padding: 6rem 1rem 4rem !important;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .web-demo-container {
+    max-width: 1050px;
+    margin: 0 auto;
+    position: relative;
+  }
 
+  .web-demo-card {
+    display: block !important;
+    background: rgba(18, 8, 36, 0.9) !important;
+    border: 1px solid rgba(124, 58, 237, 0.4) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(124, 58, 237, 0.15) !important;
+    transition: all 0.4s ease !important;
+    cursor: none !important;
+  }
+
+  .web-demo-card:hover {
+    transform: translateY(-8px) !important;
+    border-color: var(--neon, #d946ef) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(217, 70, 239, 0.4) !important;
+  }
+
+  /* شريط المتصفح العلوي */
+  .browser-header-fix {
+    background: #160a2c !important;
+    padding: 14px 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.25) !important;
+    direction: ltr !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .browser-dots-fix {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  .browser-dots-fix span {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+  }
+
+  .browser-url-fix {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: rgba(9, 4, 18, 0.9) !important;
+    padding: 6px 20px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+    color: #9ca3af !important;
+    font-family: 'Space Mono', monospace !important;
+    font-size: 0.85rem !important;
+    max-width: 450px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .live-badge-fix {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: rgba(74, 222, 128, 0.15) !important;
+    color: #4ade80 !important;
+    border: 1px solid rgba(74, 222, 128, 0.4) !important;
+    padding: 5px 14px !important;
+    border-radius: 50px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 1px !important;
+  }
+
+  .pulse-dot-fix {
+    width: 8px !important;
+    height: 8px !important;
+    background: #4ade80 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 8px #4ade80 !important;
+    animation: livePulseFix 1.5s infinite alternate !important;
+  }
+
+  @keyframes livePulseFix {
+    from { opacity: 0.4; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* حاوية الصورة والتأثير عند المرور بالماوس */
+  .web-img-wrapper-fix {
+    position: relative !important;
+    width: 100% !important;
+    aspect-ratio: 16 / 9 !important;
+    overflow: hidden !important;
+    background: #090412 !important;
+    display: block !important;
+  }
+
+  .web-preview-img-fix {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: top !important;
+    display: block !important;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+
+  .web-demo-card:hover .web-preview-img-fix {
+    transform: scale(1.04) !important;
+  }
+
+  .web-overlay-fix {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(0deg, rgba(9, 4, 18, 0.85) 0%, rgba(124, 58, 237, 0.3) 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+    backdrop-filter: blur(4px) !important;
+    z-index: 5 !important;
+  }
+
+  .web-demo-card:hover .web-overlay-fix {
+    opacity: 1 !important;
+  }
+
+  .visit-btn-fix {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    background: linear-gradient(45deg, #7c3aed, #d946ef) !important;
+    color: #ffffff !important;
+    padding: 14px 30px !important;
+    border-radius: 50px !important;
+    font-family: 'Cairo', 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 0 25px rgba(217, 70, 239, 0.6) !important;
+    transform: translateY(15px) !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    text-decoration: none !important;
+  }
+
+  .web-demo-card:hover .visit-btn-fix {
+    transform: translateY(0) !important;
+  }
+
+  /* النصوص تحت الصورة - حل مشكلة التداخل والمحاذاة */
+  .web-demo-info-fix {
+    margin-top: 2.5rem !important;
+    text-align: center !important;
+    padding: 0 1.5rem !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #web-info-title {
+    font-family: 'Cairo', 'Outfit', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.6 !important;
+    display: block !important;
+    text-align: center !important;
+  }
+
+  #web-info-desc {
+    color: #9ca3af !important;
+    font-family: 'Cairo', 'Outfit', sans-serif !important;
+    font-size: 1.05rem !important;
+    line-height: 1.9 !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    display: block !important;
+    text-align: center !important;
+  }
+
+  /* تجاوب شاشات الموبايل والتابلت */
+  @media (max-width: 1000px) {
+    .browser-url-fix {
+      display: none !important; /* إخفاء الرابط في الموبايل لتوفير مساحة لزر الـ LIVE DEMO */
+    }
+    .web-img-wrapper-fix {
+      aspect-ratio: 4 / 3 !important;
+    }
+    #web-info-title {
+      font-size: 1.2rem !important;
+      line-height: 1.5 !important;
+    }
+    #web-info-desc {
+      font-size: 0.95rem !important;
+      line-height: 1.7 !important;
+      text-align: justify !important;
+    }
+  }
+</style>
+
+<section id="web-dev-section">
+  <div class="section-inner">
+    <p class="section-label" id="web-dev-label">LIVE DEMO PREVIEW</p>
+    <h2 class="section-title" id="web-dev-title">Website Design & Development</h2>
+     <!-- الشرح أسفل الصورة -->
+      <div class="web-demo-info-fix">
+        <h3 id="web-info-title">Interactive Website Preview (Fast Food Restaurant)</h3>
+        <p id="web-info-desc">Developing an engaging and interactive user interface for a fast-food restaurant, built with modern web technologies to ensure seamless navigation and full responsiveness across all devices.</p>
+      </div>
+    <div class="web-demo-container">
+      <a href="https://fastfoodhtml.vercel.app/" target="_blank" class="web-demo-card" title="Click to view live demo">
+        
+        <!-- شريط يحاكي متصفح الإنترنت -->
+        <div class="browser-header-fix">
+          <div class="browser-dots-fix">
+            <span style="background: #ff5f56;"></span>
+            <span style="background: #ffbd2e;"></span>
+            <span style="background: #27c93f;"></span>
+          </div>
+          <div class="browser-url-fix">
+            <svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--neon, #d946ef); flex-shrink: 0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>https://fastfoodhtml.vercel.app/</span>
+          </div>
+          <div class="live-badge-fix">
+            <span class="pulse-dot-fix"></span> LIVE DEMO
+          </div>
+        </div>
+
+        <!-- حاوية الصورة مع تأثير الـ Hover -->
+        <div class="web-img-wrapper-fix">
+          <img src="WW.png" alt="Fast Food Website Preview" class="web-preview-img-fix">
+          <div class="web-overlay-fix">
+            <span class="visit-btn-fix" id="web-visit-btn">
+              <span>Explore Live Demo</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" style="fill: #fff; flex-shrink: 0;"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- الشرح أسفل الصورة -->
+   
+    </div>
+  </div>
+</section>
+</section>
     <section id="our-work">
       <div class="section-inner">
-        <p class="section-label">Latest projects</p>
-        <h2 class="section-title">OUR WORK</h2>
+        <p class="section-label">IMPRESSIVE DESIGNS</p>
+        <h2 class="section-title">Graphic Design</h2>
         
         <div class="gallery-wrapper">
           <div class="gallery-orbit">
@@ -1398,8 +1665,7 @@ function showMain() {
   document.getElementById('contact-page').classList.remove('active-page');
   document.getElementById('reviews-page').classList.remove('active-page');
   closeMobileMenu(); // قفل القايمة
-  window.scrollTo({ top: 0, behavior: 'smooth' }); // سكرول ناعم لأول الصفحة
-}
+window.scrollTo(0, 0);}
 
 function showServices() {
   document.getElementById('main-site').classList.remove('active-page');
@@ -1407,8 +1673,7 @@ function showServices() {
   document.getElementById('reviews-page').classList.remove('active-page');
   document.getElementById('services-page').classList.add('active-page');
   closeMobileMenu();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+window.scrollTo(0, 0);}
 
 function showContact() {
   document.getElementById('main-site').classList.remove('active-page');
@@ -1416,8 +1681,7 @@ function showContact() {
   document.getElementById('reviews-page').classList.remove('active-page');
   document.getElementById('contact-page').classList.add('active-page');
   closeMobileMenu();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+window.scrollTo(0, 0);}
 
 function showReviews() {
   document.getElementById('main-site').classList.remove('active-page');
@@ -1425,8 +1689,7 @@ function showReviews() {
   document.getElementById('contact-page').classList.remove('active-page');
   document.getElementById('reviews-page').classList.add('active-page');
   closeMobileMenu();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+window.scrollTo(0, 0);}
 // ═══════════════════════ CURSOR ═══════════════════════
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -1489,6 +1752,7 @@ document.addEventListener('mouseover', e => {
     }
     ctx.beginPath(); ctx.moveTo(-25, 30); ctx.quadraticCurveTo(0, 30 + Math.sin(t*2)*5, 25, 30); ctx.strokeStyle = PURPLE_L; ctx.lineWidth = 3; ctx.stroke();
     ctx.restore(); requestAnimationFrame(draw);
+    
   }
   draw();
 })();
@@ -1639,12 +1903,25 @@ function toggleLang() {
   let serviceCards = document.querySelectorAll('.service-card');
 
   if (isArabic) {
-    document.body.style.fontFamily = "'Thmanyah Sans', 'Cairo', sans-serif";
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
   
     btn.textContent = 'English';
+    // ترجمة قسم تصميم وتطوير المواقع (للعربية)
+    const webDevTitle = document.getElementById('web-dev-title');
+    if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
     
+    const webDevLabel = document.getElementById('web-dev-label');
+    if(webDevLabel) webDevLabel.textContent = 'معاينة حية لمشروع';
+    
+    const webInfoTitle = document.getElementById('web-info-title');
+    if(webInfoTitle) webInfoTitle.textContent = 'نموذج تجريبي لشكل موقع إلكتروني (Fast Food Restaurant)';
+    
+    const webInfoDesc = document.getElementById('web-info-desc');
+    if(webInfoDesc) webInfoDesc.textContent = 'تطوير واجهة مستخدم تفاعلية وجذابة ، مصممة بأحدث تقنيات الويب مع تجربة تصفح سلسة وسرعة استجابة عالية على جميع الشاشات والهواتف.';
+    
+    const webVisitBtn = document.querySelector('#web-visit-btn span');
+    if(webVisitBtn) webVisitBtn.textContent = 'تصفح الموقع الحي';
     // NAV
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'الرئيسية';
     document.querySelector('.nav-links li:nth-child(2) a').textContent = 'الأعمال';
@@ -1676,7 +1953,7 @@ function toggleLang() {
     const brandingTitle = document.getElementById('branding-title');
     if (brandingTitle) brandingTitle.textContent = 'الهوية البصرية';
     document.querySelector('#our-work .section-label').textContent = 'أحدث أعمالنا';
-    document.querySelector('#our-work .section-title').textContent = 'أعمـالـنــا';
+    document.querySelector('#our-work .section-title').textContent = 'التصميم الجرافيك';
 const clientsTitle = document.getElementById('clients-title');
     if(clientsTitle) clientsTitle.textContent = 'شركاء نجاحنا';
     const socialMediaTitle = document.getElementById('social-media-title');
@@ -1738,6 +2015,21 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
     const reviewsLoading = document.getElementById('reviewsLoading');
     if (reviewsLoading) reviewsLoading.textContent = 'جاري تحميل الآراء...';
   } else {
+    // ترجمة قسم تصميم وتطوير المواقع (للإنجليزي)
+    const webDevTitleEn = document.getElementById('web-dev-title');
+    if(webDevTitleEn) webDevTitleEn.textContent = 'Website Design & Development';
+    
+    const webDevLabelEn = document.getElementById('web-dev-label');
+    if(webDevLabelEn) webDevLabelEn.textContent = 'LIVE DEMO PREVIEW';
+    
+    const webInfoTitleEn = document.getElementById('web-info-title');
+    if(webInfoTitleEn) webInfoTitleEn.textContent = 'Interactive Website Preview (Fast Food Restaurant)';
+    
+    const webInfoDescEn = document.getElementById('web-info-desc');
+    if(webInfoDescEn) webInfoDescEn.textContent = 'Developing an engaging and interactive user interface for a fast-food restaurant, built with modern web technologies to ensure seamless navigation and full responsiveness across all devices.';
+    
+    const webVisitBtnEn = document.querySelector('#web-visit-btn span');
+    if(webVisitBtnEn) webVisitBtnEn.textContent = 'Explore Live Demo';
     // REVIEWS SECTION
     const reviewsPageTitleEn = document.getElementById('reviews-page-title');
     if (reviewsPageTitleEn) reviewsPageTitleEn.textContent = 'Client Reviews';
@@ -1791,8 +2083,8 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
     // OUR WORK 
     const brandingTitleEn = document.getElementById('branding-title');
     if (brandingTitleEn) brandingTitleEn.textContent = 'Brand Identity';
-    document.querySelector('#our-work .section-label').textContent = 'Latest projects';
-    document.querySelector('#our-work .section-title').textContent = 'OUR WORK';
+    document.querySelector('#our-work .section-label').textContent = 'IMPRESIVE DESIGNS';
+    document.querySelector('#our-work .section-title').textContent = 'Graphic Design';
 
     // SERVICES PAGE
     const servicesTitleEn = document.getElementById('services-page-title');
