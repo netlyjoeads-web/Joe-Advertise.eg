@@ -9,7 +9,246 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
 <style>
+/* ═══════════════════════ AI ADS CUSTOM VIDEO PLAYER STYLES ═══════════════════════ */
+.ai-videos-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 30px !important;
+}
+
+.video-item {
+  grid-column: span 1 !important;
+  aspect-ratio: 16 / 9 !important;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: #090412;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-wrapper:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon);
+  box-shadow: 0 10px 30px rgba(217, 70, 239, 0.3);
+}
+
+.brand-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+/* شريط التحكم السفلي */
+.player-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(9, 4, 18, 0.95) 0%, rgba(9, 4, 18, 0.6) 70%, transparent 100%);
+  padding: 15px 15px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+}
+
+.video-wrapper:hover .player-controls,
+.video-wrapper.paused .player-controls {
+  opacity: 1;
+}
+
+/* شريط تقدم الفيديو */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: height 0.2s ease;
+}
+
+.progress-bar:hover {
+  height: 6px;
+}
+
+.progress-filled {
+  height: 100%;
+  background: var(--neon);
+  width: 0%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--neon);
+  transition: width 0.1s linear;
+  position: relative; /* ضرورية جداً */
+}
+
+/* الأزرار وترتيبها */
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls-left, .controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, color 0.2s ease;
+  width: 26px;
+  height: 26px;
+}
+
+.ctrl-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.ctrl-btn:hover {
+  color: var(--neon);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.6));
+}
+
+/* ─── شريط التحكم في الصوت (الجديد) ─── */
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.volume-slider {
+  width: 55px;
+  height: 4px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  transition: width 0.3s ease;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--neon);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--neon);
+}
+
+/* ─── قائمة اختيار السرعة (الجديد) ─── */
+.speed-select {
+  background: rgba(18, 8, 36, 0.85);
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.speed-select:hover {
+  border-color: var(--neon);
+  color: var(--neon);
+  box-shadow: 0 0 10px rgba(217, 70, 239, 0.4);
+}
+
+.speed-select option {
+  background: #120824;
+  color: #fff;
+}
+
+@media (max-width: 1000px) {
+  .ai-videos-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .video-item {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+  .player-controls {
+    opacity: 1;
+    padding: 10px 10px 8px;
+  }
+  .volume-slider {
+    width: 45px;
+  }
+}
+@media (max-width: 1000px) {
+  .ai-videos-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .video-item {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+  .player-controls {
+    opacity: 1; /* ظاهر دايماً على الموبايل */
+    padding: 10px 10px 8px;
+  }
+}
+
+/* في شاشات الموبايل: نعرض فيديو واحد في الصف عشان يكون كبير وواضح للعين */
+@media (max-width: 1000px) {
+  .ai-videos-grid {
+    grid-template-columns: 1fr !important;
+  }
   
+  .video-item {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+}
+
+.video-wrapper:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon);
+  box-shadow: 0 10px 30px rgba(217, 70, 239, 0.3);
+}
+
+.brand-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* بيخلي الفيديو يفرش في المساحة بدون حواف سوداء */
+  display: block;
+  border-radius: 12px;
+}
+
+/* تظبيط الموبايل عشان الفيديوهات متبقاش طويلة أوي وتأثر على التصفح */
+@media (max-width: 1000px) {
+  .ai-videos-grid .video-wrapper {
+    height: 220px !important;
+  }
+}
   .back-btn {
     display: inline-flex !important;
     align-items: center;
@@ -67,7 +306,7 @@
     --accent3: #a855f7;
     --neon: #d946ef;
     --neon2: #e879f9;
-    --text: #ffffff;
+    --text: #f7f9ec;
     --muted: #9ca3af;
     --grid: rgba(124, 58, 237, 0.05);
 
@@ -1376,8 +1615,6 @@ width: 100%;
           </div>
         </div>
       </a>
-
-      <!-- الشرح أسفل الصورة -->
    
     </div>
   </div>
@@ -1607,10 +1844,296 @@ width: 100%;
        <img src="oud (4).jpeg" class="brand-img">
 
 </div>
+<!-- ═══════════════════════ AI ADS VIDEOS SECTION ═══════════════════════ -->
+<div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
+  <h2 class="section-title" id="ai-ads-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">AI ADS</h2>
+</div>
 
+<div class="branding-gallery ai-videos-grid" id="custom-ai-grid">
+  
+  <!-- فيديو 1: Mercedes -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="Mercedes_car_offer_video_202607170211.jpeg" preload="none"><source src="ad.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          
+          <!-- أيقونات التقديم والتأخير النظيفة الجديدة -->
+          <button class="ctrl-btn skip-backward" title="Rewind 5s"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward" title="Forward 5s"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" title="Volume">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select" title="Playback Speed"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <!-- فيديو 2: الخل -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="a_vinegar_ad_very_professional_202607170213.jpeg" preload="none"><source src="5al.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- فيديو 3: Hot -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="attractive_ad_without_text_202607170216.jpeg" preload="none"><source src="hot.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- فيديو 4: Parachute -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="attractuve_ad_202607170218.jpeg" preload="none"><source src="parachute.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- فيديو 5: Perfume -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="elegant_perfume_ad_202607170220.jpeg" preload="none"><source src="per.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 6: Dynamite -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="image.png_202607170224.jpeg" preload="none"><source src="dynamite.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 7: Travel -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="travel_ad_agencvy_202607170226.jpeg" preload="none"><source src="travel.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 8: Horror -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="image.png_202607170230.jpeg" preload="none"><source src="horror.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 9: Mirror -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="image.png_202607170232.jpeg" preload="none"><source src="mirror.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 10: Filmora -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="image.png_202607170234.jpeg" preload="none"><source src="fimora.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 11: Ferrari -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="image.png_202607170233.jpeg" preload="none"><source src="ferari.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فيديو 12: America -->
+  <div class="video-wrapper video-item custom-player">
+    <video class="brand-video" poster="image.png_202607170236.jpeg" preload="none"><source src="america.mp4" type="video/mp4"></video>
+    <div class="player-controls">
+      <div class="progress-bar"><div class="progress-filled"></div></div>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="ctrl-btn play-pause"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+          <button class="ctrl-btn skip-backward"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="ctrl-btn skip-forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+          <div class="volume-container">
+            <button class="ctrl-btn mute-btn"><svg class="icon-vol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg><svg class="icon-muted" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg></button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+        </div>
+        <div class="controls-right">
+          <select class="speed-select"><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+          <button class="ctrl-btn fullscreen-btn"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
 </div>
 <footer style="text-align:center; padding: 0rem 1rem 0rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
   © Joe_Advertise.eg — All Rights Reserved 2026 
@@ -1910,7 +2433,8 @@ function toggleLang() {
     // ترجمة قسم تصميم وتطوير المواقع (للعربية)
     const webDevTitle = document.getElementById('web-dev-title');
     if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
-    
+    const aiAdsTitle = document.getElementById('ai-ads-title');
+if (aiAdsTitle) aiAdsTitle.textContent = 'إعلانات الذكاء الاصطناعي ';
     const webDevLabel = document.getElementById('web-dev-label');
     if(webDevLabel) webDevLabel.textContent = 'معاينة حية لمشروع';
     
@@ -2015,6 +2539,8 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
     const reviewsLoading = document.getElementById('reviewsLoading');
     if (reviewsLoading) reviewsLoading.textContent = 'جاري تحميل الآراء...';
   } else {
+  const aiAdsTitleEn = document.getElementById('ai-ads-title');
+if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
     // ترجمة قسم تصميم وتطوير المواقع (للإنجليزي)
     const webDevTitleEn = document.getElementById('web-dev-title');
     if(webDevTitleEn) webDevTitleEn.textContent = 'Website Design & Development';
@@ -2295,6 +2821,107 @@ setTimeout(() => {
 
   loadReviews();
 })();
+// ═══════════════════════ CUSTOM AI VIDEO PLAYER SCRIPT ═══════════════════════
+document.querySelectorAll('.custom-player').forEach(player => {
+  const video = player.querySelector('video');
+  const playBtn = player.querySelector('.play-pause');
+  const iconPlay = player.querySelector('.icon-play');
+  const iconPause = player.querySelector('.icon-pause');
+  const skipBack = player.querySelector('.skip-backward');
+  const skipFwd = player.querySelector('.skip-forward');
+  const muteBtn = player.querySelector('.mute-btn');
+  const iconVol = player.querySelector('.icon-vol');
+  const iconMuted = player.querySelector('.icon-muted');
+  const volumeSlider = player.querySelector('.volume-slider');
+  const speedSelect = player.querySelector('.speed-select');
+  const fullscreenBtn = player.querySelector('.fullscreen-btn');
+  const progress = player.querySelector('.progress-bar');
+  const progressFilled = player.querySelector('.progress-filled');
+
+  // تشغيل / إيقاف
+  function togglePlay() {
+    if (video.paused) {
+      document.querySelectorAll('.custom-player video').forEach(v => { if (v !== video) v.pause(); });
+      video.play();
+    } else {
+      video.pause();
+    }
+  }
+
+  playBtn.addEventListener('click', togglePlay);
+  video.addEventListener('click', togglePlay);
+
+  video.addEventListener('play', () => {
+    iconPlay.style.display = 'none';
+    iconPause.style.display = 'block';
+    player.classList.remove('paused');
+  });
+
+  video.addEventListener('pause', () => {
+    iconPlay.style.display = 'block';
+    iconPause.style.display = 'none';
+    player.classList.add('paused');
+  });
+
+  // تقديم وتأخير 5 ثواني
+  skipBack.addEventListener('click', () => video.currentTime -= 5);
+  skipFwd.addEventListener('click', () => video.currentTime += 5);
+
+  // التحكم في كتم الصوت وشريط السحب
+  muteBtn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    if (video.muted) {
+      iconVol.style.display = 'none';
+      iconMuted.style.display = 'block';
+      volumeSlider.value = 0;
+    } else {
+      iconVol.style.display = 'block';
+      iconMuted.style.display = 'none';
+      volumeSlider.value = video.volume || 1;
+    }
+  });
+
+  volumeSlider.addEventListener('input', (e) => {
+    const val = parseFloat(e.target.value);
+    video.volume = val;
+    video.muted = (val === 0);
+    if (video.muted) {
+      iconVol.style.display = 'none';
+      iconMuted.style.display = 'block';
+    } else {
+      iconVol.style.display = 'block';
+      iconMuted.style.display = 'none';
+    }
+  });
+
+  // التحكم في سرعة الفيديو
+  if (speedSelect) {
+    speedSelect.addEventListener('change', (e) => {
+      video.playbackRate = parseFloat(e.target.value);
+    });
+  }
+
+  // شريط التقديم والتأخير (Progress)
+  video.addEventListener('timeupdate', () => {
+    const percent = (video.currentTime / video.duration) * 100;
+    if (progressFilled) progressFilled.style.width = `${percent}%`;
+  });
+
+  progress.addEventListener('click', (e) => {
+    const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+    video.currentTime = scrubTime;
+  });
+
+  // شاشة كاملة (Fullscreen)
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      if (player.requestFullscreen) player.requestFullscreen();
+      else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  });
+});
 </script>
 </body>
 </html>
