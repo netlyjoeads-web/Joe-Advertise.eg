@@ -69,6 +69,194 @@
 </script>
 
 <style>
+  /* ─── ستايل زراير الفلتر ─── */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  background: rgba(18, 8, 36, 0.6);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: var(--text);
+  padding: 8px 25px;
+  border-radius: 50px;
+  font-family: 'Cairo', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: none; /* عشان الماوس المخصص بتاعك */
+  transition: all 0.3s ease;
+}
+
+/* شكل الزرار لما تقف عليه أو لما يكون متفعل */
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--accent1);
+  border-color: var(--neon);
+  box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+  transform: translateY(-2px);
+}
+
+/* الكلاس اللي هيخفي الصور اللي برة الفلتر */
+.social-img.hide {
+  display: none;
+}
+  /* ═══════════════════════ LIGHTBOX STYLES ═══════════════════════ */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 4, 18, 0.95);
+  backdrop-filter: blur(15px);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* لما الكلاس ده يتضاف، الـ Lightbox هيظهر */
+.lightbox-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 0 50px rgba(124, 58, 237, 0.4);
+  border: 1px solid var(--neon);
+  
+  /* أنيميشن التكبير من جوة لبرة */
+  transform: scale(0.8);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lightbox-overlay.active .lightbox-image {
+  transform: scale(1);
+}
+/* ─── 1. حل مشكلة اختفاء الماوس ─── */
+/* بنرفع طبقة الماوس عشان يكون دايماً أعلى حاجة في الموقع */
+.cursor { z-index: 9999999 !important; }
+.cursor-ring { z-index: 9999998 !important; }
+
+/* بنخفي الماوس العادي جوة الـ Lightbox عشان الماوس بتاعك هو اللي يظهر */
+.lightbox-overlay, .lightbox-image {
+  cursor: none !important;
+}
+
+
+
+
+/* ─── 3. تظبيط مقاس ومكان الـ X على الموبايل ─── */
+@media (max-width: 1000px) {
+  .lightbox-close {
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 2rem;
+  }
+}
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 3.5rem;
+  color: var(--text); 
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); 
+  cursor: none; 
+  transition: color 0.3s, transform 0.3s;
+  line-height: 1;
+  /* السر هنا: رفعنا الطبقة لرقم يضمن إنها دايماً فوق الصورة */
+  z-index: 9999999 !important; 
+}
+
+/* تأثير الهوفر */
+.lightbox-close:hover {
+  color: var(--neon);
+  transform: scale(1.2) rotate(90deg);
+}
+/* عشان نوضح للعميل إن الصورة قابلة للضغط */
+.social-img {
+  cursor: none; /* هيخلي الماوس بتاعك يفضل شغال، بس الجافاسكريبت هيكبره */
+}
+/* ─── حاوية الصور (نظام Masonry الحقيقي زي بيهانس) ─── */
+.social-grid {
+  column-count: 4; /* 4 أعمدة في الديسكتوب */
+  column-gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 4rem;
+}
+
+/* ─── تنسيق الصور (تتريس بدون فراغات) ─── */
+.social-img {
+  width: 100%;
+  height: auto;
+  /* السطرين دول هما السر عشان الصور تلزق في بعض رأسياً وماتتقطعش */
+  display: inline-block; 
+  vertical-align: top;
+  margin-bottom: 20px; 
+  
+  border-radius: 12px;
+  background: rgba(18, 8, 36, 0.9);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  
+  opacity: 0;
+  transform: translateY(40px);
+  /* حددنا الأنيميشن عشان ميتعارضش مع الفلترة */
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s;
+  cursor: none;
+}
+
+/* ─── كلاس الفلتر (إخفاء الصور الغير مطابقة) ─── */
+.social-img.hide {
+  display: none !important; 
+}
+
+/* ─── تأثير ظهور الصور مع السكرول ─── */
+.social-img.fade-up-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── تأثير الماوس ─── */
+.social-img.fade-up-active:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: var(--neon);
+  box-shadow: 0 10px 30px rgba(217, 70, 239, 0.4);
+  z-index: 10;
+  position: relative;
+}
+/* ─── تجاوب الموبايل والتابلت ─── */
+@media (max-width: 1000px) {
+  .social-grid {
+    column-count: 2; /* عمودين في الموبايل */
+    column-gap: 15px;
+    padding: 1rem;
+  }
+  .social-img {
+    margin-bottom: 15px;
+  }
+}
+
+/* ─── تجاوب الموبايل والتابلت ─── */
+@media (max-width: 1000px) {
+  .social-grid {
+    grid-template-columns: repeat(2, 1fr); /* عمودين في الموبايل */
+    gap: 15px;
+    padding: 1rem;
+  }
+}
   /* إصلاح مشكلة الـ Fullscreen للموبايل */
 :fullscreen {
   background-color: #000;
@@ -653,38 +841,14 @@ body {
     position: relative;
   }
 
-  /* ═══════════════════════ INFINITE SLANTED MARQUEE ═══════════════════════ */
-   #more-work {
-    padding: 8rem 0 8rem; 
-    position: relative;
-    direction: ltr;
-    overflow: hidden !important; 
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-  }
-  /* 2. نعدل الـ marquee-wrapper عشان ميعملش "زحمة" على الجوانب */
-.marquee-wrapper {
-  transform: rotate(-4deg) scale(1.05); /* نرجع الـ scale عشان نغطي الحواف */
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 4rem 0;
-width: 100%;
-  margin-left: -5%; /* نعمل إزاحة بسيطة عشان نعوض الدوران */
-}
- .marquee-track {
-    display: flex;
-    gap: 30px; /* جرب 30px أو عدلها حسب الذوق الذي تفضله */
-    will-change: transform;
-    backface-visibility: hidden;
-}
-  .marquee-track:active {
-    cursor: grabbing;
-  }
-/* إخفاء أيقونة الموبايل في الديسكتوب */
-.nav-toggle-label {
-  display: none;
-}
+<section id="more-work">
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <h3 class="section-title" id="social-media-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Social Media</h3>  
+  </div>
+
+
+ 
+</section>
   /* ═══════════════════════ MEDIA QUERIES (MOBILE) ═══════════════════════ */
 
 .wa-float { position: fixed; bottom: 2rem; left: 2rem; z-index: 500; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); text-decoration: none; cursor: none; animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
@@ -1412,11 +1576,11 @@ width: 100%;
         <div class="skills-grid">
           <div class="skill-card">
             <div class="skill-name counter-num" data-target="50" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
-            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">HAPPY CLIENTS</p>
+            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">Businesses Trusted Joe Advertise</p>
           </div>
           <div class="skill-card">
             <div class="skill-name counter-num" data-target="95" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--accent2); text-shadow: 0 0 25px var(--accent1); margin-bottom: 0.5rem; direction: ltr;">+0</div>
-            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">PROJECTS DELIVERED</p>
+            <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">Successful Projects</p>
           </div>
           <div class="skill-card">
             <div class="skill-name counter-num" data-target="3" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon2); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
@@ -1721,128 +1885,168 @@ width: 100%;
     <section id="more-work">
       <div style="text-align: center; margin-bottom: 3rem;">
 <h3 class="section-title" id="social-media-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Social Media </h3>  </div>
-      <div class="marquee-wrapper">
-        <div class="marquee-track track-left">
-          <img src="sauce.png" class="mq-img" alt="Work">
-          <img src="1.png" class="mq-img" alt="Work">
-          <img src="perfume.png" class="mq-img" alt="Work">
-          <img src="saudi.png" class="mq-img" alt="Work">
-          <img src="perfume.png" class="mq-img" alt="Work">
-          <img src="6.png" class="mq-img" alt="Work">
-                    <img src="t.png" class="mq-img" alt="Work">
-          <img src="sec.png" class="mq-img" alt="Work">
-          <img src="p.png" class="mq-img" alt="Work">
-          <img src="crunchy.png" class="mq-img" alt="Work">
-<img src="cheder.png" class="mq-img" alt="Work">
-<img src="d.png" class="mq-img" alt="Work">
-<img src="fish.png" class="mq-img" alt="Work">
-<img src="face.png" class="mq-img" alt="Work">
-<img src="u.webp" class="mq-img" alt="Work">
- <img src="sauce.png" class="mq-img" alt="Work">
-          <img src="1.png" class="mq-img" alt="Work">
-        </div>
+<!-- ─── زراير الفلتر ─── -->
+<div class="filter-container">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="food">Restaurants</button>
+  <button class="filter-btn" data-filter="snacks">Roasteries</button>
+  <button class="filter-btn" data-filter="medical">Medical Clinics</button>
+  <button class="filter-btn" data-filter="cars">Cars</button>
+</div>
 
-        <div class="marquee-track track-right">
-            <img src="sand.png" class="mq-img" alt="Work">
-          <img src="delivery.png" class="mq-img" alt="Work">
-          <img src="fried.png" class="mq-img" alt="Work">
-            <img src="k.webp" class="mq-img" alt="Work">
-          <img src="5.webp" class="mq-img" alt="Work">
-          <img src="cheesy.webp" class="mq-img" alt="Work">
-           <img src="u.webp" class="mq-img" alt="Work">
-            <img src="uio.webp" class="mq-img" alt="Work">
-            <img src="warn.png" class="mq-img" alt="Work">
-              <img src="king.webp" class="mq-img" alt="Work">
-            <img src="halpino.webp" class="mq-img" alt="Work">
-          <img src="mer.jpeg" class="mq-img" alt="Work">
-          <img src="beauty.png" class="mq-img" alt="Work">
-           <img src="time.png" class="mq-img" alt="Work">
-        <img src="split.png" class="mq-img" alt="Work">
-          <img src="splash.png" class="mq-img" alt="Work">
-          <img src="mirror.jpeg" class="mq-img" alt="Work">
-                
+<div class="social-grid">
+  <!-- 🍔 قسم المطاعم (data-category="food") -->
+  <img src="sauce.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="crunchy.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="cheder.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="pizza-iphone.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="delivery.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="fried.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+ <img src="1.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="5.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="elegance.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="face.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="fried.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="GOOGLE.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+ <img src="halpino.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="k.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="king.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="luxury.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="delivery.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="location.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+ <img src="mirror.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="mockup.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="night.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="p.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="peprone.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+ <img src="red.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="saudi.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="sec.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="super.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="u.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+ <img src="warn.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="luz.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="kinder.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="betifor.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+ <img src="helw.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="cheder.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
 
-        </div>
-  <div class="marquee-track track-left">
-          <img src="pizza-iphone.jpeg" class="mq-img" alt="Work">
-          <img src="red.jpeg" class="mq-img" alt="Work">
-          <img src="rocket.jpeg" class="mq-img" alt="Work">
-          <img src="location.jpeg" class="mq-img" alt="Work">
-          <img src="peprone.jpeg" class="mq-img" alt="Work">
-          <img src="night.jpeg" class="mq-img" alt="Work">
-          <img src="GOOGLE.jpeg" class="mq-img" alt="Work">
-          <img src="fly.jpeg" class="mq-img" alt="Work">
-          <img src="king.jpeg" class="mq-img" alt="Work">
-          <img src="elegance.jpeg" class="mq-img" alt="Work">
-        <img src="pizza-iphone.jpeg" class="mq-img" alt="Work">
-          <img src="red.jpeg" class="mq-img" alt="Work">
-          <img src="rocket.jpeg" class="mq-img" alt="Work">
-          <img src="location.jpeg" class="mq-img" alt="Work">
-          <img src="peprone.jpeg" class="mq-img" alt="Work">
-          <img src="night.jpeg" class="mq-img" alt="Work">
-          <img src="GOOGLE.jpeg" class="mq-img" alt="Work">
-        </div>
- <div class="marquee-track track-right">
-  <img src="car.png" class="mq-img" alt="Work">
-          <img src="diss.png" class="mq-img" alt="Work">
-          <img src="wheels.png" class="mq-img" alt="Work">
-          <img src="keys.png" class="mq-img" alt="Work">
-          <img src="eid.png" class="mq-img" alt="Work">
-<img src="service.png" class="mq-img" alt="Work">
-<img src="blue.png" class="mq-img" alt="Work">
-     <img src="one.png" class="mq-img" alt="Work">
-          <img src="s.png" class="mq-img" alt="Work">
-          <img src="lex.png" class="mq-img" alt="Work">
-          <img src="daw.png" class="mq-img" alt="Work">
-           <img src="diss.png" class="mq-img" alt="Work">
-          <img src="wheels.png" class="mq-img" alt="Work">
-          <img src="keys.png" class="mq-img" alt="Work">
-          <img src="eid.png" class="mq-img" alt="Work">
-<img src="service.png" class="mq-img" alt="Work">
-<img src="blue.png" class="mq-img" alt="Work">
-        </div>
+ <img src="uio.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+  <!-- 🚘 قسم السيارات (data-category="cars") -->
+  <img src="car.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="wheels.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+    <img src="carsa.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="blue.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="daw.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="eid.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="one.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="service.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="s.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="lex.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+  <!-- قسم المحمصات (data-category="snacks") -->
+<img src="22.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="adha.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+<img src="becan.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="7.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+<img src="l.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="social mediafifaegxirlo2l2a._JOE_Advertise.eg.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+<img src="socialfifalo2l2a_JOE_Advertise.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="spicy.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+<img src="Manipulate_bowl_with_ground_2K_202607012035.jpeg" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="m.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+<img src="fifa.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="drive.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
 
+  <!-- 🩺 قسم العيادات الطبية والتجميل (data-category="medical") -->
+  <img src="time.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="beauty.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="split.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="splash.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="care.jpeg" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="child.jpeg" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="dental.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
 
-     <div class="marquee-track track-left">
-          <img src="l.png" class="mq-img" alt="Work">
-          <img src="9.webp" class="mq-img" alt="Work">
-          <img src="22.png" class="mq-img" alt="Work">
-          <img src="23.png" class="mq-img" alt="Work">
-          <img src="24.png" class="mq-img" alt="Work">
-          <img src="10.png" class="mq-img" alt="Work">
-          <img src="7.png" class="mq-img" alt="Work">
-       <img src="3t.webp" class="mq-img" alt="Work">
-          <img src="adha.webp" class="mq-img" alt="Work">
-          <img src="becan.png" class="mq-img" alt="Work">
-<img src="m.webp" class="mq-img" alt="Work">
-<img src="spicy.webp" class="mq-img" alt="Work">
-<img src="fifa.webp" class="mq-img" alt="Work">
-<img src="hegry.webp" class="mq-img" alt="Work">
- <img src="l.png" class="mq-img" alt="Work">
-          <img src="9.webp" class="mq-img" alt="Work">
-          <img src="22.png" class="mq-img" alt="Work">
-        </div>
-         <div class="marquee-track track-right">
-          <img src="b.webp" class="mq-img" alt="Work">
-          <img src="h.webp" class="mq-img" alt="Work">
-          <img src="o.png" class="mq-img" alt="Work">
-          <img src="osol.webp" class="mq-img" alt="Work">
-<img src="f.png" class="mq-img" alt="Work">
- <img src="b.webp" class="mq-img" alt="Work">
-          <img src="h.webp" class="mq-img" alt="Work">
-          <img src="o.png" class="mq-img" alt="Work">
-          <img src="osol.webp" class="mq-img" alt="Work">
-<img src="f.png" class="mq-img" alt="Work">
- <img src="b.webp" class="mq-img" alt="Work">
-          <img src="h.webp" class="mq-img" alt="Work">
-          <img src="o.png" class="mq-img" alt="Work">
-          <img src="osol.webp" class="mq-img" alt="Work">
-<img src="f.png" class="mq-img" alt="Work">
- <img src="b.webp" class="mq-img" alt="Work">
-          <img src="h.webp" class="mq-img" alt="Work">
-        </div>
-         
-      </div>
+  <!-- 🧴 قسم العطور والمنتجات (data-category="products") -->
+  <img src="perfume.png" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="women.jpeg" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="pink.jpeg" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+
+  
+  <!-- تقدر تضيف باقي صورك هنا.. وكل صورة تديها الـ data-category بتاعها -->
+
+  <!-- المجموعة الأولى -->
+  <img src="sauce.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="1.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="saudi.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="6.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="sec.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="p.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="crunchy.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="d.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="fish.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="face.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="u.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+
+  <!-- المجموعة الثانية -->
+  <img src="sand.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="delivery.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="fried.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="k.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="5.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="cheesy.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="uio.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="warn.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="king.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="halpino.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="mer.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="beauty.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="time.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="split.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="splash.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="mirror.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+
+  <!-- المجموعة الثالثة -->
+  <img src="pizza-iphone.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="rocket.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="location.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="peprone.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="night.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="GOOGLE.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="fly.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="king.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="elegance.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+
+  <!-- المجموعة الرابعة -->
+  <img src="diss.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="keys.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="eid.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="blue.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="s.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="daw.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+
+  <!-- المجموعة الخامسة -->
+  <img src="l.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="9.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="22.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="23.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="10.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="7.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="3t.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="adha.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="becan.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="m.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="spicy.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="fifa.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="hegry.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+
+  <!-- المجموعة السادسة -->
+  <img src="b.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="o.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="osol.webp" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="social mediafifaegxirlo2l2a._JOE_Advertise.eg.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="socialfifalo2l2a_JOE_Advertise.png" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+  <img src="Manipulate_bowl_with_ground_2K_202607012035.jpeg" class="social-img" alt="Social Media Design" loading="lazy" decoding="async">
+</div>
 <section id="branding-section" style="padding-top: 2rem;">
   
   <div style="text-align: center; margin-bottom: 3rem;">
@@ -2304,7 +2508,17 @@ if (aiAdsTitle) aiAdsTitle.textContent = 'إعلانات الذكاء الاصط
 if (uniformTitle) uniformTitle.textContent = 'تصميم الأزياء';
     const webInfoTitle = document.getElementById('web-info-title');
     if(webInfoTitle) webInfoTitle.textContent = 'نموذج تجريبي لشكل موقع إلكتروني (Fast Food Restaurant)';
-    
+    // ترجمة أزرار الفلتر (للعربية)
+    const filterAll = document.querySelector('.filter-btn[data-filter="all"]');
+    if (filterAll) filterAll.textContent = 'الكل';
+    const filterFood = document.querySelector('.filter-btn[data-filter="food"]');
+    if (filterFood) filterFood.textContent = 'مطاعم';
+    const filterSnacks = document.querySelector('.filter-btn[data-filter="snacks"]');
+    if (filterSnacks) filterSnacks.textContent = 'محمصات';
+    const filterMedical = document.querySelector('.filter-btn[data-filter="medical"]');
+    if (filterMedical) filterMedical.textContent = 'عيادات طبية';
+    const filterCars = document.querySelector('.filter-btn[data-filter="cars"]');
+    if (filterCars) filterCars.textContent = 'سيارات';
     const webInfoDesc = document.getElementById('web-info-desc');
     if(webInfoDesc) webInfoDesc.textContent = 'تطوير واجهة مستخدم تفاعلية وجذابة ، مصممة بأحدث تقنيات الويب مع تجربة تصفح سلسة وسرعة استجابة عالية على جميع الشاشات والهواتف.';
     
@@ -2403,6 +2617,17 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
     const reviewsLoading = document.getElementById('reviewsLoading');
     if (reviewsLoading) reviewsLoading.textContent = 'جاري تحميل الآراء...';
   } else {
+  // ترجمة أزرار الفلتر (للإنجليزية)
+    const filterAllEn = document.querySelector('.filter-btn[data-filter="all"]');
+    if (filterAllEn) filterAllEn.textContent = 'All';
+    const filterFoodEn = document.querySelector('.filter-btn[data-filter="food"]');
+    if (filterFoodEn) filterFoodEn.textContent = 'Restaurants';
+    const filterSnacksEn = document.querySelector('.filter-btn[data-filter="snacks"]');
+    if (filterSnacksEn) filterSnacksEn.textContent = 'Roasteries';
+    const filterMedicalEn = document.querySelector('.filter-btn[data-filter="medical"]');
+    if (filterMedicalEn) filterMedicalEn.textContent = 'Medical Clinics';
+    const filterCarsEn = document.querySelector('.filter-btn[data-filter="cars"]');
+    if (filterCarsEn) filterCarsEn.textContent = 'Cars';
     const bannerTitleEn = document.getElementById('banner-title');
 if (bannerTitleEn) bannerTitleEn.textContent = 'Banner Design';
     const uniformTitleEn = document.getElementById('uniform-title');
@@ -2468,8 +2693,8 @@ if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
         document.querySelector('#skills .section-title').textContent = 'OUR IMPACT';
         const metricCardsEn = document.querySelectorAll('#skills .skill-card');
         if(metricCardsEn.length >= 3) {
-            metricCardsEn[0].querySelector('.skill-desc').textContent = 'HAPPY CLIENTS';
-            metricCardsEn[1].querySelector('.skill-desc').textContent = 'PROJECTS DELIVERED';
+            metricCardsEn[0].querySelector('.skill-desc').textContent = 'Businesses Trusted Joe Advertise';
+            metricCardsEn[1].querySelector('.skill-desc').textContent = 'Successful Projects';
             metricCardsEn[2].querySelector('.skill-desc').textContent = 'YEARS OF EXPERIENCE';
         }
     }
@@ -2830,6 +3055,91 @@ document.querySelectorAll('video').forEach(video => {
         screen.orientation.unlock();
       }
     }
+  });
+});
+document.addEventListener("DOMContentLoaded", function() {
+  const socialImages = document.querySelectorAll('.social-img');
+
+  // إعدادات الـ Observer
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15 // الأنيميشن هيشتغل لما 15% من الصورة تظهر في الشاشة
+  };
+
+  const imageFadeObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // إضافة كلاس الظهور
+        entry.target.classList.add('fade-up-active');
+        
+        // إيقاف المراقبة على الصورة دي عشان الأنيميشن ما يشتغلش تاني لو العميل طلع ونزل
+        observer.unobserve(entry.target); 
+      }
+    });
+  }, observerOptions);
+  
+
+  // تشغيل المراقبة على كل صورة
+  socialImages.forEach(img => {
+    imageFadeObserver.observe(img);
+  });
+});
+document.addEventListener("DOMContentLoaded", function() {
+  // 1. إنشاء الـ HTML الخاص بالـ Lightbox أوتوماتيكياً
+  const lightbox = document.createElement('div');
+  lightbox.id = 'lightbox';
+  lightbox.className = 'lightbox-overlay';
+  lightbox.innerHTML = `
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-image" src="" alt="Design Preview">
+  `;
+  document.body.appendChild(lightbox);
+
+  const lightboxImg = document.getElementById('lightbox-img');
+  const socialImages = document.querySelectorAll('.social-img');
+
+  // 2. تشغيل الـ Lightbox لما نضغط على أي صورة
+  socialImages.forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src; // بياخد نفس مسار الصورة اللي ضغطت عليها
+      lightbox.classList.add('active');
+    });
+  });
+
+  // 3. قفل الـ Lightbox لما نضغط على علامة الـ X أو في أي مكان في الخلفية
+  lightbox.addEventListener('click', (e) => {
+    // لو العميل ضغط على الصورة نفسها مش هيقفل، لو ضغط براها هيقفل
+    if (e.target !== lightboxImg) {
+      lightbox.classList.remove('active');
+      
+      // تفريغ الصورة بعد ما الأنيميشن يخلص عشان متبانش وقت الفتح الجاي
+      setTimeout(() => { lightboxImg.src = ''; }, 400); 
+    }
+  });
+});
+document.addEventListener("DOMContentLoaded", function() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const socialImages = document.querySelectorAll('.social-img');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // 1. نشيل كلاس active من كل الزراير ونحطه على الزرار اللي انداس عليه
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // 2. نجيب نوع الفلتر من الزرار (all, food, real-estate, ...)
+      const filterValue = btn.getAttribute('data-filter');
+
+      // 3. نلف على الصور ونقارن التصنيف
+      socialImages.forEach(img => {
+        if (filterValue === 'all' || img.getAttribute('data-category') === filterValue) {
+          img.classList.remove('hide');
+        } else {
+          img.classList.add('hide');
+        }
+      });
+    });
   });
 });
 </script>
