@@ -2138,7 +2138,7 @@ body {
   © Joe_Advertise.eg — All Rights Reserved 2026 
 </footer>
 <script>
-// ═══════════════════════ GRADUAL LOGO FILL LOADER (OPTIMIZED) ═══════════════════════
+// ═══════════════════════ GRADUAL LOGO FILL LOADER (SHOW ONCE) ═══════════════════════
 (function() {
   const intro = document.getElementById('intro');
   const logoColor = document.getElementById('logoColor');
@@ -2146,22 +2146,27 @@ body {
   
   if (!intro || !logoColor) return;
 
-  // 1. إعطاء أمر الـ CSS لملء اللوجو بسلاسة
-  logoColor.style.transition = "clip-path 1.5s cubic-bezier(0.25, 1, 0.5, 1)";
-  
-  // 2. تشغيل الأنيميشن فوراً
-  setTimeout(() => {
-    logoColor.style.clipPath = "inset(0% 0 0 0)";
-  }, 50);
+  // التحقق إذا كان العميل زار الموقع مسبقاً في هذه الجلسة
+  if (!sessionStorage.getItem('introPlayed')) {
+      // العميل يزور الموقع لأول مرة -> تشغيل الـ Loader
+      sessionStorage.setItem('introPlayed', 'true');
+      
+      logoColor.style.transition = "clip-path 1.5s cubic-bezier(0.25, 1, 0.5, 1)";
+      setTimeout(() => {
+        logoColor.style.clipPath = "inset(0% 0 0 0)";
+      }, 50);
 
-  // 3. إخفاء الـ Loader بعد ثانية ونصف بالضبط (بدون حسابات معقدة)
-  setTimeout(() => {
-    if(logoBox) logoBox.classList.add('pulse-done');
-    setTimeout(() => {
-      intro.classList.add('done');
-      setTimeout(() => { intro.style.display = 'none'; }, 600);
-    }, 350);
-  }, 1500); // هذا هو وقت الـ Loader الأصلي الذي حددته
+      setTimeout(() => {
+        if(logoBox) logoBox.classList.add('pulse-done');
+        setTimeout(() => {
+          intro.classList.add('done');
+          setTimeout(() => { intro.style.display = 'none'; }, 600);
+        }, 350);
+      }, 1500); 
+  } else {
+      // العميل زار الموقع بالفعل -> إخفاء الـ Loader فوراً
+      intro.style.display = 'none';
+  }
 })();
 
 // ═══════════════════════ PAGE NAVIGATION ═══════════════════════
