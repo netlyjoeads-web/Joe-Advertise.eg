@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Joe Advertise</title>
+<!-- أمر مسبق لتحميل اللوجو فوراً (لتحسين LCP) -->
+<link rel="preload" href="logo.png" as="image">
+
+<!-- الاتصال المسبق بسيرفرات جوجل لتسريع الخطوط -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="joe ads logo .egy.png" type="image/x-icon"rel="icon">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -671,6 +677,7 @@ body {
   .content { position: relative; z-index: 10; }
 
   /* ═══════════════════════ NAV ═══════════════════════ */
+  
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 4, 18, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); 
   flex-direction: row-reverse;}
   .nav-logo { font-size: 2rem; font-weight: 900; letter-spacing: 2px; color: var(--text); text-decoration: none; text-shadow: 0 0 15px var(--accent1); cursor: none;}
@@ -2032,28 +2039,26 @@ body {
 <div class="hero-logo-container" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
   <img src="aura.png" alt="Aura Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
 </div> <div class="branding-gallery">
-   <img src="cosmetics._Ensure_the_input_image_202606212258.jpeg" class="brand-img">
-   <img src="Mockup__✨_custom__open_skin_202606212258.jpeg" class="brand-img">
-    <img src="iPhone_16_screen_realistic_persp…_202606212258.jpeg" class="brand-img">
-       <img src="Image_on_smartphone_screen_202606212258.jpeg" class="brand-img">
-   <img src="Image_printed_on_t-shirt_202606212258.jpeg" class="brand-img">
-    <img src="Mockup__🛍️_bag_202606212258.jpeg" class="brand-img">
-     <img src="Cosmetics_shop_window_display_202606212302.jpeg" class="brand-img">
-   <img src="Mockup__🧢_hat_202606212302.jpeg" class="brand-img">
-      <img src="Mockup__📍_pin_202606212302.jpeg" class="brand-img">
-   <img src="Image_in_black_frame_gallery_202606212303.jpeg" class="brand-img">
-         <img src="Image_on_laptop_screen_202606212351.jpeg" class="brand-img">
-   <img src="Image_on_wall-mounted_TV_202606212351.jpeg" class="brand-img">
-
+   <img src="cosmetics._Ensure_the_input_image_202606212258.jpeg" class="brand-img" alt="Aura Cosmetics Brand Identity">
+   <img src="Mockup__✨_custom__open_skin_202606212258.jpeg" class="brand-img" alt="Aura Skincare Packaging">
+   <img src="iPhone_16_screen_realistic_persp…_202606212258.jpeg" class="brand-img" alt="Aura App Interface">
+   <img src="Image_on_smartphone_screen_202606212258.jpeg" class="brand-img" alt="Aura Social Media Design">
+   <img src="Image_printed_on_t-shirt_202606212258.jpeg" class="brand-img" alt="Aura T-shirt Mockup">
+   <img src="Mockup__🛍️_bag_202606212258.jpeg" class="brand-img" alt="Aura Shopping Bag">
+   <img src="Cosmetics_shop_window_display_202606212302.jpeg" class="brand-img" alt="Aura Shop Display">
+   <img src="Mockup__🧢_hat_202606212302.jpeg" class="brand-img" alt="Aura Cap Mockup">
+   <img src="Mockup__📍_pin_202606212302.jpeg" class="brand-img" alt="Aura Pin Mockup">
+   <img src="Image_in_black_frame_gallery_202606212303.jpeg" class="brand-img" alt="Aura Poster Mockup">
+   <img src="Image_on_laptop_screen_202606212351.jpeg" class="brand-img" alt="Aura Laptop Mockup">
+   <img src="Image_on_wall-mounted_TV_202606212351.jpeg" class="brand-img" alt="Aura TV Display">
 </div>
 <div class="hero-logo-container" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
   <img src="OUD.png" alt="OUD Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
 </div> <div class="branding-gallery">
-   <img src="oud (1).jpeg" class="brand-img">
-   <img src="oud (2).jpeg" class="brand-img">
-    <img src="oud (3).jpeg" class="brand-img">
-       <img src="oud (4).jpeg" class="brand-img">
-
+   <img src="oud (1).jpeg" class="brand-img" alt="OUD Brand Identity 1">
+   <img src="oud (2).jpeg" class="brand-img" alt="OUD Brand Identity 2">
+   <img src="oud (3).jpeg" class="brand-img" alt="OUD Brand Identity 3">
+   <img src="oud (4).jpeg" class="brand-img" alt="OUD Brand Identity 4">
 </div>
 <!-- ═══════════════════════ Uniform Design ═══════════════════════ -->
 <div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
