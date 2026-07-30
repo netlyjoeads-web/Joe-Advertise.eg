@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta name="description" content="وكالة Joe Advertise متخصصة في تصميمات السوشيال ميديا، بناء الهويات البصرية الفاخرة، تطوير واجهات المواقع التفاعلية، وإنتاج إعلانات الذكاء الاصطناعي.">
+  <meta name="description" content="Joe Advertise متخصصة في تصميمات السوشيال ميديا، بناء الهويات البصرية الفاخرة، تطوير واجهات المواقع التفاعلية، وإنتاج إعلانات الذكاء الاصطناعي.">
   <meta name="google-site-verification" content="QN8OlqoffLArld9a3hdAFiBUv_OXoLSHeJ_Z0sx7Kmg" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -611,56 +611,6 @@ body {
     font-family: 'CASKO', sans-serif;
   }
   
-
-  /* ═══════════════════════ GRADUAL LOGO FILL LOADER ═══════════════════════ */
-#intro {
-  position: fixed; inset: 0; z-index: 99999;
-  background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; pointer-events: all;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.loader-content {
-  display: flex; flex-direction: column; align-items: center; gap: 1.8rem; z-index: 2;
-}
-.logo-loader-box {
-  position: relative; width: 130px; height: 130px;
-  display: flex; align-items: center; justify-content: center;
-}
-.logo-gray, .logo-color {
-  position: absolute; width: 100%; height: 100%;
-  object-fit: contain; mix-blend-mode: screen;
-}
-.logo-gray {
-  filter: grayscale(100%) opacity(0.25);
-}
-.logo-color {
-  /* قمنا بإلغاء الـ drop-shadow لمنع ظهور المربع المضيء */
-  filter: grayscale(0%) opacity(1); 
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 0.05s linear;
-}
-.logo-loader-box.pulse-done .logo-color {
-  animation: logoDonePulse 0.5s ease-in-out alternate infinite;
-}
-@keyframes logoDonePulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.06); }
-}
-
-
-
-/* تظبيط حجم اللوجو والشريط على الموبايل عشان يكون متناسق ومريح للعين */
-@media (max-width: 1000px) {
-  .logo-loader-box {
-    width: 110px;
-    height: 110px;
-  }
- 
-}
-#intro.done {
-  opacity: 0; transform: scale(1.08); pointer-events: none;
-}
   /* ═══════════════════════ CURSOR ═══════════════════════ */
   .cursor { width: 10px; height: 10px; background: var(--neon); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: screen; box-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon); transition: transform 0.08s, background 0.2s; }
   .cursor-ring { width: 40px; height: 40px; border: 1.5px solid rgba(217,70,239,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
