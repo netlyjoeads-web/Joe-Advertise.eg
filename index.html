@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+  
   <meta name="description" content="وكالة Joe Advertise متخصصة في تصميمات السوشيال ميديا، بناء الهويات البصرية الفاخرة، تطوير واجهات المواقع التفاعلية، وإنتاج إعلانات الذكاء الاصطناعي.">
   <meta name="google-site-verification" content="QN8OlqoffLArld9a3hdAFiBUv_OXoLSHeJ_Z0sx7Kmg" />
 <meta charset="UTF-8">
@@ -851,14 +852,7 @@ body {
     position: relative;
   }
 
-<section id="more-work">
-  <div style="text-align: center; margin-bottom: 3rem;">
-    <h3 class="section-title" id="social-media-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Social Media</h3>  
-  </div>
 
-
- 
-</section>
   /* ═══════════════════════ MEDIA QUERIES (MOBILE) ═══════════════════════ */
 
 .wa-float { position: fixed; bottom: 2rem; left: 2rem; z-index: 500; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); text-decoration: none; cursor: none; animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
@@ -1039,13 +1033,10 @@ body {
     font-size: 2rem !important; /* تصغير حجم الرقم */
   }
   
-  .skill-desc {
+.skill-desc {
     font-size: 0.8rem !important; /* تصغير حجم النص */
   }
-}
   section, #services-page, #contact-page { padding: 3rem 0.8rem; }
- 
-
 }
 /* ═══════════════════════ GLITCH EFFECT ═══════════════════════ */
 .glitch-wrapper {
@@ -1178,7 +1169,7 @@ body {
   width: 90px !important;
   height: 90px !important;
   border-radius: 50% !important;
- object-fit: cover !important;!important;
+object-fit: cover !important;
   background-color: #ffffff !important;
   padding: 0px !important;
   margin: 0 30px !important;
@@ -1370,14 +1361,7 @@ body {
 </head>
 <body>
 
-<div id="intro">
-  <div class="loader-content">
-    <div class="logo-loader-box">
-      <img src="logo.png" alt="Joe Advertise Logo" class="logo-gray">
-      <img src="logo.png" alt="Joe Advertise Logo" class="logo-color" id="logoColor">
-    </div>
-  </div>
-</div>
+
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -2138,36 +2122,7 @@ body {
   © Joe_Advertise.eg — All Rights Reserved 2026 
 </footer>
 <script>
-// ═══════════════════════ GRADUAL LOGO FILL LOADER (SHOW ONCE) ═══════════════════════
-(function() {
-  const intro = document.getElementById('intro');
-  const logoColor = document.getElementById('logoColor');
-  const logoBox = document.querySelector('.logo-loader-box');
-  
-  if (!intro || !logoColor) return;
 
-  // التحقق إذا كان العميل زار الموقع مسبقاً في هذه الجلسة
-  if (!sessionStorage.getItem('introPlayed')) {
-      // العميل يزور الموقع لأول مرة -> تشغيل الـ Loader
-      sessionStorage.setItem('introPlayed', 'true');
-      
-      logoColor.style.transition = "clip-path 1.5s cubic-bezier(0.25, 1, 0.5, 1)";
-      setTimeout(() => {
-        logoColor.style.clipPath = "inset(0% 0 0 0)";
-      }, 50);
-
-      setTimeout(() => {
-        if(logoBox) logoBox.classList.add('pulse-done');
-        setTimeout(() => {
-          intro.classList.add('done');
-          setTimeout(() => { intro.style.display = 'none'; }, 600);
-        }, 350);
-      }, 1500); 
-  } else {
-      // العميل زار الموقع بالفعل -> إخفاء الـ Loader فوراً
-      intro.style.display = 'none';
-  }
-})();
 
 // ═══════════════════════ PAGE NAVIGATION ═══════════════════════
 
