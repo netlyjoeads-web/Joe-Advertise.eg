@@ -2138,40 +2138,31 @@ body {
   © Joe_Advertise.eg — All Rights Reserved 2026 
 </footer>
 <script>
-// ═══════════════════════ GRADUAL LOGO FILL LOADER ═══════════════════════
+// ═══════════════════════ GRADUAL LOGO FILL LOADER (OPTIMIZED) ═══════════════════════
 (function() {
   const intro = document.getElementById('intro');
   const logoColor = document.getElementById('logoColor');
   const logoBox = document.querySelector('.logo-loader-box');
   
-  // الكود هنا بيعتمد فقط على وجود اللوجو وبداية الصفحة
   if (!intro || !logoColor) return;
 
-  let progress = 0;
-  const duration = 1500; // وقت تلوين اللوجو بالكامل (ثانية ونص) - تقدر تغيره براحتك
-  const intervalTime = 20;
-  const step = (100 / (duration / intervalTime));
+  // 1. إعطاء أمر الـ CSS لملء اللوجو بسلاسة
+  logoColor.style.transition = "clip-path 1.5s cubic-bezier(0.25, 1, 0.5, 1)";
+  
+  // 2. تشغيل الأنيميشن فوراً
+  setTimeout(() => {
+    logoColor.style.clipPath = "inset(0% 0 0 0)";
+  }, 50);
 
-  const loaderInterval = setInterval(() => {
-    progress += step + (Math.random() * 1.5); 
-    
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(loaderInterval);
-      if(logoBox) logoBox.classList.add('pulse-done');
-      
-      setTimeout(() => {
-        intro.classList.add('done');
-        setTimeout(() => { intro.style.display = 'none'; }, 600);
-      }, 350); // تأخير بسيط جداً بعد اكتمال التلوين عشان يظهر شكل اللوجو بالكامل
-    }
-    
-    // تلوين اللوجو من تحت لفوق تدريجياً بناءً على الوقت
-    const clipValue = 100 - progress;
-    logoColor.style.clipPath = `inset(${clipValue}% 0 0 0)`;
-  }, intervalTime);
+  // 3. إخفاء الـ Loader بعد ثانية ونصف بالضبط (بدون حسابات معقدة)
+  setTimeout(() => {
+    if(logoBox) logoBox.classList.add('pulse-done');
+    setTimeout(() => {
+      intro.classList.add('done');
+      setTimeout(() => { intro.style.display = 'none'; }, 600);
+    }, 350);
+  }, 1500); // هذا هو وقت الـ Loader الأصلي الذي حددته
 })();
-
 
 // ═══════════════════════ PAGE NAVIGATION ═══════════════════════
 
