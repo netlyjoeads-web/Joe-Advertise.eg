@@ -2679,20 +2679,7 @@ setTimeout(() => {
   checkCounterVisibility();
 }, 2500);
 
-  // هذه الدالة ستقوم بإضافة الـ lazy loading لكل الصور في الصفحة تلقائياً
-document.addEventListener("DOMContentLoaded", function() {
-    const images = document.querySelectorAll('img');
-    images.forEach((img, index) => {
-      // هنتجاهل أول 6 صور عشان يحملوا فوراً ويمنعوا الرعشة في بداية الموقع
-      if (index > 5) { 
-        // لو الصورة مش واخدة الكود أصلاً من الـ HTML
-        if (!img.getAttribute('loading')) {
-            img.setAttribute('loading', 'lazy');
-        }
-      }
-      img.setAttribute('decoding', 'async');
-    });
-  });
+
 </script>
 <!-- ═══════════════════════ CLIENT REVIEWS: SUPABASE ═══════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
