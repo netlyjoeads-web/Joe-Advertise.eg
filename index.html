@@ -2220,14 +2220,16 @@ document.addEventListener('mouseover', e => {
 let isArabic = false;
 
 function toggleLang() {
-  isArabic = !isArabic;
+  // Toggle the state based on the checkbox
+  const checkbox = document.getElementById('lang-toggle-checkbox');
+  isArabic = checkbox.checked; // Use the checkbox state directly
+
   let serviceCards = document.querySelectorAll('.service-card');
 
   if (isArabic) {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
    
-
     const webDevTitle = document.getElementById('web-dev-title');
     if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
     
@@ -2269,15 +2271,21 @@ function toggleLang() {
     const webVisitBtn = document.querySelector('#web-visit-btn span');
     if(webVisitBtn) webVisitBtn.textContent = 'تصفح الموقع الحي';
 
-    document.querySelector('.nav-links li:nth-child(1) a').textContent = 'الرئيسية';
-    document.querySelector('.nav-links li:nth-child(2) a').textContent = 'الأعمال';
-    document.querySelector('.nav-links li:nth-child(3) a').textContent = 'الخدمات';
-    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'آراء العملاء';
-    document.querySelector('.nav-links li:nth-child(5) a').textContent = 'تواصل معنا';
+    const navLinks = document.querySelectorAll('.nav-links li a');
+    if (navLinks.length >= 5) {
+      navLinks[0].textContent = 'الرئيسية';
+      navLinks[1].textContent = 'الأعمال';
+      navLinks[2].textContent = 'الخدمات';
+      navLinks[3].textContent = 'آراء العملاء';
+      navLinks[4].textContent = 'تواصل معنا';
+    }
     
-    document.querySelector('.hero-title').textContent = 'مصمم جرافيك · منشئ إعلانات AI · مطور واجهات';
-    document.querySelector('.hero-desc').textContent = 'تصميم جرافيك، تطوير واجهات المواقع الأمامية، و تصميم مشاهد تسويقية باستخدام أحدث تقنيات الذكاء الاصطناعي . نصمم هويات بصرية فاخرة للعلامات التجارية لرُقي علامتك التجارية و منحها حضورًا أكثر تميزًا..';
-    document.querySelector('.hero .btn-primary').textContent = 'تواصل معنا';
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) heroTitle.textContent = 'مصمم جرافيك · منشئ إعلانات AI · مطور واجهات';
+    const heroDesc = document.querySelector('.hero-desc');
+    if (heroDesc) heroDesc.textContent = 'تصميم جرافيك، تطوير واجهات المواقع الأمامية، و تصميم مشاهد تسويقية باستخدام أحدث تقنيات الذكاء الاصطناعي . نصمم هويات بصرية فاخرة للعلامات التجارية لرُقي علامتك التجارية و منحها حضورًا أكثر تميزًا..';
+    const heroBtn = document.querySelector('.hero .btn-primary');
+    if (heroBtn) heroBtn.textContent = 'تواصل معنا';
 
     const skillsLabel = document.querySelector('#skills .section-label');
     if(skillsLabel) {
@@ -2293,10 +2301,15 @@ function toggleLang() {
     
     const brandingTitle = document.getElementById('branding-title');
     if (brandingTitle) brandingTitle.textContent = 'الهوية البصرية';
-    document.querySelector('#our-work .section-label').textContent = 'أحدث أعمالنا';
-    document.querySelector('#our-work .section-title').textContent = 'التصميم الجرافيك';
+    
+    const ourWorkLabel = document.querySelector('#our-work .section-label');
+    if (ourWorkLabel) ourWorkLabel.textContent = 'أحدث أعمالنا';
+    const ourWorkTitle = document.querySelector('#our-work .section-title');
+    if (ourWorkTitle) ourWorkTitle.textContent = 'التصميم الجرافيك';
+    
     const clientsTitle = document.getElementById('clients-title');
     if(clientsTitle) clientsTitle.textContent = 'شركاء نجاحنا';
+    
     const socialMediaTitle = document.getElementById('social-media-title');
     if (socialMediaTitle) socialMediaTitle.textContent = 'تصميمات السوشيال ميديا';
 
@@ -2351,11 +2364,16 @@ function toggleLang() {
     if (reviewCommentLabel) reviewCommentLabel.textContent = 'تعليقك';
     const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
     if (reviewSubmitBtn) reviewSubmitBtn.textContent = 'إرسال الرأي';
+    
+    // Force empty message re-render if it exists
+    const emptyMsg = document.getElementById('reviewsEmptyMsg');
+    if (emptyMsg) emptyMsg.textContent = 'لسه مفيش آراء، كن أول من يشارك رأيه';
+    const sliderStatus = document.getElementById('reviewsSliderStatus');
+    if (sliderStatus) sliderStatus.textContent = 'لسه مفيش آراء معتمدة';
+
   } else {
     document.documentElement.setAttribute('dir', 'ltr');
     document.documentElement.setAttribute('lang', 'en');
-    btn.textContent = 'العربية';
-    btn.textContent = 'العربية';
 
     const newWebTitleEn = document.getElementById('new-web-title');
     if(newWebTitleEn) newWebTitleEn.textContent = 'Savor Cafe & Restaurant';
@@ -2396,41 +2414,27 @@ function toggleLang() {
     const webVisitBtnEn = document.querySelector('#web-visit-btn span');
     if(webVisitBtnEn) webVisitBtnEn.textContent = 'Explore Live Demo';
 
-    const reviewsPageTitleEn = document.getElementById('reviews-page-title');
-    if (reviewsPageTitleEn) reviewsPageTitleEn.textContent = 'Client Reviews';
-    const reviewsPageDescEn = document.getElementById('reviews-page-desc');
-    if (reviewsPageDescEn) reviewsPageDescEn.textContent = 'What our partners say about our work';
-    const reviewFormTitleEn = document.getElementById('reviewFormTitle');
-    if (reviewFormTitleEn) reviewFormTitleEn.textContent = 'Share your experience';
-    const reviewNameLabelEn = document.getElementById('reviewNameLabel');
-    if (reviewNameLabelEn) reviewNameLabelEn.textContent = 'Your name';
-    const reviewStarsLabelEn = document.getElementById('reviewStarsLabel');
-    if (reviewStarsLabelEn) reviewStarsLabelEn.textContent = 'Your rating';
-    const reviewCommentLabelEn = document.getElementById('reviewCommentLabel');
-    if (reviewCommentLabelEn) reviewCommentLabelEn.textContent = 'Your comment';
-    const reviewSubmitBtnEn = document.getElementById('reviewSubmitBtn');
-    if (reviewSubmitBtnEn) reviewSubmitBtnEn.textContent = 'Submit review';
-
-    const socialMediaTitleEn = document.getElementById('social-media-title');
-    if (socialMediaTitleEn) socialMediaTitleEn.textContent = 'Social Media Designs';
-
-    const clientsTitleEn = document.getElementById('clients-title');
-    if(clientsTitleEn) clientsTitleEn.textContent = 'OUR Clients';
-
-    document.querySelector('.nav-links li:nth-child(1) a').textContent = 'Home';
-    document.querySelector('.nav-links li:nth-child(2) a').textContent = 'Portfolio';
-    document.querySelector('.nav-links li:nth-child(3) a').textContent = 'Services';
-    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'Reviews';
-    document.querySelector('.nav-links li:nth-child(5) a').textContent = 'Contact Us';
+    const navLinks = document.querySelectorAll('.nav-links li a');
+    if (navLinks.length >= 5) {
+      navLinks[0].textContent = 'Home';
+      navLinks[1].textContent = 'Portfolio';
+      navLinks[2].textContent = 'Services';
+      navLinks[3].textContent = 'Reviews';
+      navLinks[4].textContent = 'Contact Us';
+    }
     
-    document.querySelector('.hero-title').textContent = 'Graphic Designer · AI Ads Creator · Front-End Dev';
-    document.querySelector('.hero-desc').textContent = 'Graphic Designer, Front-End Developer & AI creator. We engineer premium brand identities and cinematic AI commercials that elevate your business.';
-    document.querySelector('.hero .btn-primary').textContent = 'Contact us';
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) heroTitle.textContent = 'Graphic Designer · AI Ads Creator · Front-End Dev';
+    const heroDesc = document.querySelector('.hero-desc');
+    if (heroDesc) heroDesc.textContent = 'Graphic Designer, Front-End Developer & AI creator. We engineer premium brand identities and cinematic AI commercials that elevate your business.';
+    const heroBtn = document.querySelector('.hero .btn-primary');
+    if (heroBtn) heroBtn.textContent = 'Contact us';
 
     const skillsLabelEn = document.querySelector('#skills .section-label');
     if(skillsLabelEn) {
         skillsLabelEn.textContent = 'AGENCY METRICS';
-        document.querySelector('#skills .section-title').textContent = 'OUR IMPACT';
+        const skillsTitle = document.querySelector('#skills .section-title');
+        if (skillsTitle) skillsTitle.textContent = 'OUR IMPACT';
         const metricCardsEn = document.querySelectorAll('#skills .skill-card');
         if(metricCardsEn.length >= 3) {
             metricCardsEn[0].querySelector('.skill-desc').textContent = 'Businesses Trusted Joe Advertise';
@@ -2441,8 +2445,11 @@ function toggleLang() {
     
     const brandingTitleEn = document.getElementById('branding-title');
     if (brandingTitleEn) brandingTitleEn.textContent = 'Brand Identity';
-    document.querySelector('#our-work .section-label').textContent = 'IMPRESIVE DESIGNS';
-    document.querySelector('#our-work .section-title').textContent = 'Graphic Design';
+    
+    const ourWorkLabelEn = document.querySelector('#our-work .section-label');
+    if (ourWorkLabelEn) ourWorkLabelEn.textContent = 'IMPRESSIVE DESIGNS';
+    const ourWorkTitleEn = document.querySelector('#our-work .section-title');
+    if (ourWorkTitleEn) ourWorkTitleEn.textContent = 'Graphic Design';
 
     const servicesTitleEn = document.getElementById('services-page-title');
     if (servicesTitleEn) servicesTitleEn.textContent = 'SERVICES';
@@ -2464,7 +2471,7 @@ function toggleLang() {
     const contactHeaderPEn = document.querySelector('#contact-page .contact-header p');
     if(contactHeaderPEn) contactHeaderPEn.textContent = 'Ready to elevate your brand right now';
     const contactTitleEn = document.querySelector('.contact-reasons-title');
-    if(contactTitleEn) contactTitleEn.textContent = ' ? WHY CHOOSE US';
+    if(contactTitleEn) contactTitleEn.textContent = 'WHY CHOOSE US ?';
 
     const reasonCardsEn = document.querySelectorAll('.reason-item');
     if(reasonCardsEn.length >= 3) {
@@ -2480,9 +2487,35 @@ function toggleLang() {
 
     const backBtnsEn = document.querySelectorAll('.back-btn');
     backBtnsEn.forEach(btn => btn.textContent = '← Back to Home');
+    
+    const reviewsPageTitleEn = document.getElementById('reviews-page-title');
+    if (reviewsPageTitleEn) reviewsPageTitleEn.textContent = 'Client Reviews';
+    const reviewsPageDescEn = document.getElementById('reviews-page-desc');
+    if (reviewsPageDescEn) reviewsPageDescEn.textContent = 'What our partners say about our work';
+    const reviewFormTitleEn = document.getElementById('reviewFormTitle');
+    if (reviewFormTitleEn) reviewFormTitleEn.textContent = 'Share your experience';
+    const reviewNameLabelEn = document.getElementById('reviewNameLabel');
+    if (reviewNameLabelEn) reviewNameLabelEn.textContent = 'Your name';
+    const reviewStarsLabelEn = document.getElementById('reviewStarsLabel');
+    if (reviewStarsLabelEn) reviewStarsLabelEn.textContent = 'Your rating';
+    const reviewCommentLabelEn = document.getElementById('reviewCommentLabel');
+    if (reviewCommentLabelEn) reviewCommentLabelEn.textContent = 'Your comment';
+    const reviewSubmitBtnEn = document.getElementById('reviewSubmitBtn');
+    if (reviewSubmitBtnEn) reviewSubmitBtnEn.textContent = 'Submit review';
+
+    const socialMediaTitleEn = document.getElementById('social-media-title');
+    if (socialMediaTitleEn) socialMediaTitleEn.textContent = 'Social Media Designs';
+
+    const clientsTitleEn = document.getElementById('clients-title');
+    if(clientsTitleEn) clientsTitleEn.textContent = 'OUR Clients';
+    
+    // Force empty message re-render if it exists
+    const emptyMsg = document.getElementById('reviewsEmptyMsg');
+    if (emptyMsg) emptyMsg.textContent = 'No reviews yet — be the first to share yours';
+    const sliderStatus = document.getElementById('reviewsSliderStatus');
+    if (sliderStatus) sliderStatus.textContent = 'No approved reviews yet';
   }
 }
-
 const counters = document.querySelectorAll('.counter-num');
 let countersStarted = false;
 
