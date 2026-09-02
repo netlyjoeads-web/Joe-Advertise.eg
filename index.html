@@ -1685,7 +1685,7 @@ section { padding: 8rem 4rem; }
     <section id="client-reviews-preview">
       <div class="section-inner">
         <p class="section-label">CLIENT REVIEWS</p>
-        <h2 class="section-title">What Our Clients Say</h2>
+        <h2 id="client-reviews-title" class="section-title">What Our Clients Say</h2>
         <div class="reviews-slider" aria-label="Client reviews carousel">
           <button type="button" class="reviews-slider-btn prev" id="reviewsPrev" aria-label="Previous review">&#8592;</button>
           <div class="reviews-slider-viewport">
@@ -2495,6 +2495,8 @@ function toggleLang() {
 
     const reviewsPageTitle = document.getElementById('reviews-page-title');
     if (reviewsPageTitle) reviewsPageTitle.textContent = 'آراء عملاؤنا';
+    const clientReviewsTitle = document.getElementById('client-reviews-title');
+    if (clientReviewsTitle) clientReviewsTitle.textContent = 'ماذا يقول عملاؤنا';
     const reviewsPageDesc = document.getElementById('reviews-page-desc');
     if (reviewsPageDesc) reviewsPageDesc.textContent = 'ماذا يقول شركاء نـجـاحـنـا عن العمل معنا';
     const reviewFormTitle = document.getElementById('reviewFormTitle');
@@ -2633,6 +2635,8 @@ function toggleLang() {
     
     const reviewsPageTitleEn = document.getElementById('reviews-page-title');
     if (reviewsPageTitleEn) reviewsPageTitleEn.textContent = 'Client Reviews';
+    const clientReviewsTitleEn = document.getElementById('client-reviews-title');
+    if (clientReviewsTitleEn) clientReviewsTitleEn.textContent = 'What Our Clients Say';
     const reviewsPageDescEn = document.getElementById('reviews-page-desc');
     if (reviewsPageDescEn) reviewsPageDescEn.textContent = 'What our partners say about our work';
     const reviewFormTitleEn = document.getElementById('reviewFormTitle');
