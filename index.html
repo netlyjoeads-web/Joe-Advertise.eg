@@ -6,8 +6,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Joe Advertise</title>
-<!-- أمر مسبق لتحميل اللوجو فوراً (لتحسين LCP) -->
-<!-- الاتصال المسبق بسيرفرات جوجل لتسريع الخطوط -->
  <link rel="preload" href="logo.webp" as="image" fetchpriority="high">
 <link rel="preload" href="casko.otf.woff" as="font" type="font/woff" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,7 +74,6 @@
 </script>
 
 <style>
-  /* ─── ستايل زراير الفلتر ─── */
 .filter-container {
   display: flex;
   justify-content: center;
@@ -94,11 +91,10 @@
   font-family: 'Cairo', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1rem;
-  cursor: none; /* عشان الماوس المخصص بتاعك */
+  cursor: none;
   transition: all 0.3s ease;
 }
 
-/* شكل الزرار لما تقف عليه أو لما يكون متفعل */
 .filter-btn:hover,
 .filter-btn.active {
   background: var(--accent1);
@@ -107,11 +103,10 @@
   transform: translateY(-2px);
 }
 
-/* الكلاس اللي هيخفي الصور اللي برة الفلتر */
 .social-img.hide {
   display: none;
 }
-  /* ═══════════════════════ LIGHTBOX STYLES ═══════════════════════ */
+
 .lightbox-overlay {
   position: fixed;
   top: 0;
@@ -129,7 +124,6 @@
   transition: opacity 0.4s ease;
 }
 
-/* لما الكلاس ده يتضاف، الـ Lightbox هيظهر */
 .lightbox-overlay.active {
   opacity: 1;
   pointer-events: all;
@@ -141,8 +135,6 @@
   border-radius: 12px;
   box-shadow: 0 0 50px rgba(124, 58, 237, 0.4);
   border: 1px solid var(--neon);
-  
-  /* أنيميشن التكبير من جوة لبرة */
   transform: scale(0.8);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -150,20 +142,14 @@
 .lightbox-overlay.active .lightbox-image {
   transform: scale(1);
 }
-/* ─── 1. حل مشكلة اختفاء الماوس ─── */
-/* بنرفع طبقة الماوس عشان يكون دايماً أعلى حاجة في الموقع */
-.cursor { z-index: 9999999 !important; }
-.cursor-ring { z-index: 9999998 !important; }
 
-/* بنخفي الماوس العادي جوة الـ Lightbox عشان الماوس بتاعك هو اللي يظهر */
+.cursor { width: 10px; height: 10px; background: var(--neon); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999999 !important; transform: translate(-50%, -50%); mix-blend-mode: screen; box-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon); transition: transform 0.08s, background 0.2s; }
+.cursor-ring { width: 40px; height: 40px; border: 1.5px solid rgba(217,70,239,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999998 !important; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+
 .lightbox-overlay, .lightbox-image {
   cursor: none !important;
 }
 
-
-
-
-/* ─── 3. تظبيط مقاس ومكان الـ X على الموبايل ─── */
 @media (max-width: 1000px) {
   .lightbox-close {
     top: 15px;
@@ -183,62 +169,52 @@
   cursor: none; 
   transition: color 0.3s, transform 0.3s;
   line-height: 1;
-  /* السر هنا: رفعنا الطبقة لرقم يضمن إنها دايماً فوق الصورة */
   z-index: 9999999 !important; 
 }
 
-/* تأثير الهوفر */
 .lightbox-close:hover {
   color: var(--neon);
   transform: scale(1.2) rotate(90deg);
 }
-/* عشان نوضح للعميل إن الصورة قابلة للضغط */
+
 .social-img {
-  cursor: none; /* هيخلي الماوس بتاعك يفضل شغال، بس الجافاسكريبت هيكبره */
+  cursor: none;
 }
-/* ─── حاوية الصور (نظام Masonry الحقيقي زي بيهانس) ─── */
+
 .social-grid {
-  column-count: 4; /* 4 أعمدة في الديسكتوب */
+  column-count: 4;
   column-gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 4rem;
 }
 
-/* ─── تنسيق الصور (تتريس بدون فراغات) ─── */
 .social-img {
-min-height: 250px; 
+  min-height: 250px; 
   content-visibility: auto;
   width: 100%;
   height: auto;
-  /* السطرين دول هما السر عشان الصور تلزق في بعض رأسياً وماتتقطعش */
   display: inline-block; 
   vertical-align: top;
   margin-bottom: 20px; 
-  
   border-radius: 12px;
   background: rgba(18, 8, 36, 0.9);
   border: 1px solid rgba(124, 58, 237, 0.3);
-  
   opacity: 0;
   transform: translateY(40px);
-  /* حددنا الأنيميشن عشان ميتعارضش مع الفلترة */
   transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s;
   cursor: none;
 }
 
-/* ─── كلاس الفلتر (إخفاء الصور الغير مطابقة) ─── */
 .social-img.hide {
   display: none !important; 
 }
 
-/* ─── تأثير ظهور الصور مع السكرول ─── */
 .social-img.fade-up-active {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ─── تأثير الماوس ─── */
 .social-img.fade-up-active:hover {
   transform: translateY(-8px) scale(1.03);
   border-color: var(--neon);
@@ -246,10 +222,10 @@ min-height: 250px;
   z-index: 10;
   position: relative;
 }
-/* ─── تجاوب الموبايل والتابلت ─── */
+
 @media (max-width: 1000px) {
   .social-grid {
-    column-count: 2; /* عمودين في الموبايل */
+    column-count: 2;
     column-gap: 15px;
     padding: 1rem;
   }
@@ -258,15 +234,6 @@ min-height: 250px;
   }
 }
 
-/* ─── تجاوب الموبايل والتابلت ─── */
-@media (max-width: 1000px) {
-  .social-grid {
-    grid-template-columns: repeat(2, 1fr); /* عمودين في الموبايل */
-    gap: 15px;
-    padding: 1rem;
-  }
-}
-  /* إصلاح مشكلة الـ Fullscreen للموبايل */
 :fullscreen {
   background-color: #000;
   width: 100% !important;
@@ -276,15 +243,14 @@ min-height: 250px;
 :fullscreen video {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain !important; /* بيحافظ على أبعاد الفيديو بدون تمطيط */
+  object-fit: contain !important;
 }
 
-/* حل مشكلة تهنيج الموبايل عند التكبير */
 video {
   will-change: transform;
   backface-visibility: hidden;
 }
-/* ═══════════════════════ AI ADS CUSTOM VIDEO PLAYER STYLES ═══════════════════════ */
+
 .ai-videos-grid {
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 30px !important;
@@ -323,7 +289,6 @@ video {
   cursor: pointer;
 }
 
-/* شريط التحكم السفلي */
 .player-controls {
   position: absolute;
   bottom: 0;
@@ -344,7 +309,6 @@ video {
   opacity: 1;
 }
 
-/* شريط تقدم الفيديو */
 .progress-bar {
   width: 100%;
   height: 4px;
@@ -366,10 +330,9 @@ video {
   border-radius: 10px;
   box-shadow: 0 0 10px var(--neon);
   transition: width 0.1s linear;
-  position: relative; /* ضرورية جداً */
+  position: relative;
 }
 
-/* الأزرار وترتيبها */
 .controls-row {
   display: flex;
   justify-content: space-between;
@@ -408,7 +371,6 @@ video {
   filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.6));
 }
 
-/* ─── شريط التحكم في الصوت (الجديد) ─── */
 .volume-container {
   display: flex;
   align-items: center;
@@ -436,7 +398,6 @@ video {
   box-shadow: 0 0 8px var(--neon);
 }
 
-/* ─── قائمة اختيار السرعة (الجديد) ─── */
 .speed-select {
   background: rgba(18, 8, 36, 0.85);
   border: 1px solid rgba(124, 58, 237, 0.5);
@@ -478,61 +439,16 @@ video {
     width: 45px;
   }
 }
-@media (max-width: 1000px) {
-  .ai-videos-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .video-item {
-    aspect-ratio: 16 / 9 !important;
-    height: auto !important;
-  }
-  .player-controls {
-    opacity: 1; /* ظاهر دايماً على الموبايل */
-    padding: 10px 10px 8px;
-  }
-}
 
-/* في شاشات الموبايل: نعرض فيديو واحد في الصف عشان يكون كبير وواضح للعين */
-@media (max-width: 1000px) {
-  .ai-videos-grid {
-    grid-template-columns: 1fr !important;
-  }
-  
-  .video-item {
-    aspect-ratio: 16 / 9 !important;
-    height: auto !important;
-  }
-}
-
-.video-wrapper:hover {
-  transform: translateY(-5px);
-  border-color: var(--neon);
-  box-shadow: 0 10px 30px rgba(217, 70, 239, 0.3);
-}
-
-.brand-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* بيخلي الفيديو يفرش في المساحة بدون حواف سوداء */
-  display: block;
-  border-radius: 12px;
-}
-
-/* تظبيط الموبايل عشان الفيديوهات متبقاش طويلة أوي وتأثر على التصفح */
-@media (max-width: 1000px) {
-  .ai-videos-grid .video-wrapper {
-    height: 220px !important;
-  }
-}
-  .back-btn {
+.back-btn {
     display: inline-flex !important;
     align-items: center;
     gap: 10px;
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     font-size: 1rem;
-    color: #ffffff !important; /* لون أبيض واضح */
-    background: rgba(124, 58, 237, 0.2) !important; /* خلفية بنفسجي شفافة تجعله بارزاً */
+    color: #ffffff !important;
+    background: rgba(124, 58, 237, 0.2) !important;
     padding: 12px 25px;
     border-radius: 50px;
     border: 1px solid var(--accent1) !important;
@@ -551,19 +467,16 @@ video {
     box-shadow: 0 0 15px var(--neon);
 }
 
-
-  /* هذا الكلاس سيجعل أي عنوان يأخذ نفس شكل وتأثير العنوان الرئيسي */
 .page-title-style {
     font-family: 'CASKO', sans-serif;
-    font-size: clamp(3rem, 7vw, 6rem); /* نفس حجم العنوان الرئيسي */
+    font-size: clamp(3rem, 7vw, 6rem);
     text-transform: uppercase;
     color: #ffffff;
     margin-bottom: 2rem;
-    text-shadow: 0 0 20px rgba(124, 58, 237, 0.5); /* تأثير التوهج للوضوح */
+    text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
     line-height: 1.2;
 }
 
-/* ═══════════════════════ CUSTOM FONTS ═══════════════════════ */
 @font-face {
   font-family: 'CASKO';
   src: url('casko.otf.woff') format('woff'); 
@@ -571,28 +484,25 @@ video {
   font-style: normal;
   font-display: swap;
 }
-  :root {
-    --bg: #090412;
-    --surface: #2f1566;
-    --accent1: #7c3aed;
-    --accent1b: #6d28d9;
-    --accent2: #c084fc;
-    --accent3: #a855f7;
-    --neon: #d946ef;
-    --neon2: #e879f9;
-    --text: #f7f9ec;
-    --muted: #9ca3af;
-    --grid: rgba(124, 58, 237, 0.05);
 
-  }
+:root {
+  --bg: #090412;
+  --surface: #2f1566;
+  --accent1: #7c3aed;
+  --accent1b: #6d28d9;
+  --accent2: #c084fc;
+  --accent3: #a855f7;
+  --neon: #d946ef;
+  --neon2: #e879f9;
+  --text: #f7f9ec;
+  --muted: #9ca3af;
+  --grid: rgba(124, 58, 237, 0.05);
+}
 
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  html { 
-    overflow-y: scroll;
-  }
-  
-html {
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { 
+  overflow-y: scroll;
   scroll-behavior: smooth;
   overflow-x: hidden !important;
 }
@@ -607,211 +517,190 @@ body {
   position: relative;
 }
 
-  h1, h2, h3, .nav-logo, .hero-name, .section-title, .service-name, .exp-title, .contact-pill {
-    font-family: 'CASKO', sans-serif;
-  }
-  
-  /* ═══════════════════════ CURSOR ═══════════════════════ */
-  .cursor { width: 10px; height: 10px; background: var(--neon); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: screen; box-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon); transition: transform 0.08s, background 0.2s; }
-  .cursor-ring { width: 40px; height: 40px; border: 1.5px solid rgba(217,70,239,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+h1, h2, h3, .nav-logo, .hero-name, .section-title, .service-name, .exp-title, .contact-pill {
+  font-family: 'CASKO', sans-serif;
+}
 
-  /* ═══════════════════════ BACKGROUND ═══════════════════════ */
-  .grid-bg { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 50px 50px; animation: gridShift 20s linear infinite; }
-  @keyframes gridShift { 0%{background-position:0 0} 100%{background-position:50px 50px} }
-  .aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  .aurora-blob { position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.15; }
-  .aurora-blob:nth-child(1) { width: 600px; height: 600px; background: var(--accent1); top: -200px; left: -100px; animation: float1 12s ease-in-out infinite; }
-  .aurora-blob:nth-child(2) { width: 500px; height: 500px; background: var(--neon); bottom: -150px; right: -150px; animation: float2 15s ease-in-out infinite; }
+.grid-bg { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 50px 50px; animation: gridShift 20s linear infinite; }
+@keyframes gridShift { 0%{background-position:0 0} 100%{background-position:50px 50px} }
+.aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.15; }
+.aurora-blob:nth-child(1) { width: 600px; height: 600px; background: var(--accent1); top: -200px; left: -100px; animation: float1 12s ease-in-out infinite; }
+.aurora-blob:nth-child(2) { width: 500px; height: 500px; background: var(--neon); bottom: -150px; right: -150px; animation: float2 15s ease-in-out infinite; }
 
-  .content { position: relative; z-index: 10; }
+.content { position: relative; z-index: 10; }
 
-  /* ═══════════════════════ NAV ═══════════════════════ */
-  
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 4, 18, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); 
-  flex-direction: row-reverse;}
-  .nav-logo { font-size: 2rem; font-weight: 900; letter-spacing: 2px; color: var(--text); text-decoration: none; text-shadow: 0 0 15px var(--accent1); cursor: none;}
-/* --- كود اللوجو المتحرك --- */
-  .animated-logo {
-    height: 80px; /* تقدر تزود أو تقلل الرقم ده عشان تظبط حجم اللوجو في الناف بار */
-    width: auto;
-    mix-blend-mode: screen; /* لدمج اللوجو مع الخلفية وإخفاء أي خلفية سوداء */
-    filter: drop-shadow(0 0 15px var(--neon)) drop-shadow(0 0 20px var(--accent1));
-    animation: impulse 2s infinite ease-in-out;
-    
-  }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 4, 18, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); flex-direction: row-reverse;}
+.nav-logo { font-size: 2rem; font-weight: 900; letter-spacing: 2px; color: var(--text); text-decoration: none; text-shadow: 0 0 15px var(--accent1); cursor: none;}
+.animated-logo {
+  height: 80px;
+  width: auto;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px var(--neon)) drop-shadow(0 0 20px var(--accent1));
+  animation: impulse 2s infinite ease-in-out;
+}
 
-  /* تأثير النبض */
-  @keyframes impulse {
-    0% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
-    50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 20px var(--neon)) drop-shadow(0 0 30px var(--accent1)); }
-    100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
-  }
-  .nav-logo span { color: var(--accent1); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center;  }
-  .nav-links a { color: var(--text); text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; transition: all 0.3s; cursor: none; }
-  .nav-links a:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
-  .nav-cta { padding: 0.6rem 1.8rem; border: 1px solid var(--accent1); border-radius: 50px; background: linear-gradient(45deg, rgba(124,58,237,0.1), rgba(217,70,239,0.1)); transition: all 0.3s !important; }
-  .nav-cta:hover { background: var(--accent1) !important; box-shadow: 0 0 25px rgba(124,58,237,0.5) !important; border-color: transparent; }
+@keyframes impulse {
+  0% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
+  50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 20px var(--neon)) drop-shadow(0 0 30px var(--accent1)); }
+  100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 10px var(--neon)); }
+}
+.nav-logo span { color: var(--accent1); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center;  }
+.nav-links a { color: var(--text); text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; transition: all 0.3s; cursor: none; }
+.nav-links a:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+.nav-cta { padding: 0.6rem 1.8rem; border: 1px solid var(--accent1); border-radius: 50px; background: linear-gradient(45deg, rgba(124,58,237,0.1), rgba(217,70,239,0.1)); transition: all 0.3s !important; }
+.nav-cta:hover { background: var(--accent1) !important; box-shadow: 0 0 25px rgba(124,58,237,0.5) !important; border-color: transparent; }
 
-  /* ═══════════════════════ PAGE ISOLATION ═══════════════════════ */
-  #main-site, #services-page, #contact-page, #reviews-page { display: none; }
+#main-site, #services-page, #contact-page, #reviews-page { display: none; }
 #reviews-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
-  .active-page { display: block !important; animation: fadeIn 0.5s ease forwards; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.active-page { display: block !important; animation: fadeIn 0.5s ease forwards; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-  .page-inner { max-width: 1200px; margin: 0 auto; }
-  .back-btn { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700;  color: var(--accent2); background: none; border: none; cursor: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 3rem; padding: 0; transition: color 0.3s; }
-  .back-btn:hover { color: var(--neon); }
-  
-  /* ═══════════════════════ SERVICES PAGE ═══════════════════════ */
-  #services-page, #contact-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
-  .services-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem; }
-  .service-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 16px; padding: 3.5rem 2.5rem; text-align: center; position: relative; transition: all 0.4s; cursor: none; }
-  .service-card:hover { border-color: var(--neon); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(124,58,237,0.2); }
-  .service-num { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 4rem; color: rgba(124,58,237,0.15); line-height: 1; margin-bottom: 1.5rem; transition: color 0.3s; }
-  .service-card:hover .service-num { color: var(--accent1); }
-  .service-name { font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 1rem; font-weight: 900; }
-  .service-desc { color: var(--muted); font-size: 1rem; line-height: 1.8;  text-align: justify;}
+.page-inner { max-width: 1200px; margin: 0 auto; }
+.back-btn { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700;  color: var(--accent2); background: none; border: none; cursor: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 3rem; padding: 0; transition: color 0.3s; }
+.back-btn:hover { color: var(--neon); }
 
-  /* ═══════════════════════ CONTACT PAGE ═══════════════════════ */
-  .contact-header { text-align: center; margin-bottom: 3rem; }
-  .contact-header h1 { font-size: clamp(3rem,6vw,5rem); letter-spacing: 3px; font-weight: 900; color: var(--text); text-shadow: 0 0 30px rgba(217,70,239,0.3); }
-  .contact-header p { color: var(--muted); font-size: 1.1rem; margin-top: 1rem; }
-  
-  .contact-pills { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 5rem; }
-  .contact-pill {
-    display: flex; align-items: center; justify-content: center; gap: 0.8rem;
-    padding: 0.8rem 2rem; background: rgba(26, 11, 46, 0.6);
-    border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 50px;
-    color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.1rem;
-    transition: all 0.3s; cursor: none; 
-  }
-  .contact-pill svg { width: 22px; height: 22px; fill: var(--muted); transition: fill 0.3s; }
-  .contact-pill:hover { background: rgba(124, 58, 237, 0.2); border-color: var(--neon); box-shadow: 0 0 20px rgba(217,70,239,0.3); transform: translateY(-3px); }
-  .contact-pill:hover svg { fill: var(--neon); }
+#services-page, #contact-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
+.services-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem; }
+.service-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 16px; padding: 3.5rem 2.5rem; text-align: center; position: relative; transition: all 0.4s; cursor: none; }
+.service-card:hover { border-color: var(--neon); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(124,58,237,0.2); }
+.service-num { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 4rem; color: rgba(124,58,237,0.15); line-height: 1; margin-bottom: 1.5rem; transition: color 0.3s; }
+.service-card:hover .service-num { color: var(--accent1); }
+.service-name { font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 1rem; font-weight: 900; }
+.service-desc { color: var(--muted); font-size: 1rem; line-height: 1.8;  text-align: justify;}
 
-  .contact-reasons-wrap { max-width: 800px; margin: 0 auto; position: relative; }
-  .contact-reasons-title { text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 2.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
-  .contact-reasons-title::before, .contact-reasons-title::after { content: '✦'; color: var(--neon); }
-  .reasons-list { display: flex; flex-direction: column; gap: 1.5rem; }
-  .reason-item { display: flex; gap: 1.5rem; align-items: center; padding: 2rem 2.5rem; border: 1px solid rgba(124, 58, 237, 0.15); background: rgba(18, 8, 36, 0.5); border-radius: 12px; backdrop-filter: blur(10px); transition: all 0.3s; cursor: none; }
-  .reason-item:hover { border-color: var(--accent2); background: rgba(124, 58, 237, 0.1); transform: translateX(-5px); }
-  .reason-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent1); color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.2rem; flex-shrink: 0; box-shadow: 0 0 15px var(--accent1); }
-  .reason-body h4 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
-  .reason-body p { color: var(--muted); font-size: 0.95rem;text-align: justify; line-height: 1.7; direction: rtl; margin: 0;}
+.contact-header { text-align: center; margin-bottom: 3rem; }
+.contact-header h1 { font-size: clamp(3rem,6vw,5rem); letter-spacing: 3px; font-weight: 900; color: var(--text); text-shadow: 0 0 30px rgba(217,70,239,0.3); }
+.contact-header p { color: var(--muted); font-size: 1.1rem; margin-top: 1rem; }
 
-  /* ═══════════════════════ MAIN SITE ═══════════════════════ */
-  section { padding: 8rem 4rem; }
-  .section-inner { max-width: 1200px; margin: 0 auto; }
-  .section-label { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 4px;  color: var(--neon); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
-  .section-label::before { content: ''; display: block; width: 40px; height: 2px; background: var(--neon); }
-  .section-title { font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 2px; margin-bottom: 3rem; font-weight: 900;  }
+.contact-pills { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 5rem; }
+.contact-pill {
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+  padding: 0.8rem 2rem; background: rgba(26, 11, 46, 0.6);
+  border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 50px;
+  color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.1rem;
+  transition: all 0.3s; cursor: none; 
+}
+.contact-pill svg { width: 22px; height: 22px; fill: var(--muted); transition: fill 0.3s; }
+.contact-pill:hover { background: rgba(124, 58, 237, 0.2); border-color: var(--neon); box-shadow: 0 0 20px rgba(217,70,239,0.3); transform: translateY(-3px); }
+.contact-pill:hover svg { fill: var(--neon); }
 
-  /* HERO */
-  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 4rem 4rem; }
-  .hero-inner { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
-  .hero-name { font-size: clamp(3.5rem, 7vw, 7rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
-  .hero-name span { display: block; }
-  .hero-name .line1 { color: var(--text); }
-  .hero-name .line2 { color: transparent; -webkit-text-stroke: 2px var(--accent1); }
-  .hero-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--neon); letter-spacing: 2px;  margin-bottom: 1.5rem; }
-  .hero-desc { color: var(--muted); font-size: 1.1rem; line-height: 1.8; max-width: 500px; direction: ltr; margin-bottom: 2.5rem; }
-  .btn { padding: 1rem 2.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-decoration: none; border-radius: 50px; transition: all 0.3s; cursor: none; display: inline-block; }
-  .btn-primary { background: var(--accent1); color: #fff; border: 1px solid var(--accent1); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
+.contact-reasons-wrap { max-width: 800px; margin: 0 auto; position: relative; }
+.contact-reasons-title { text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 2.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
+.contact-reasons-title::before, .contact-reasons-title::after { content: '✦'; color: var(--neon); }
+.reasons-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.reason-item { display: flex; gap: 1.5rem; align-items: center; padding: 2rem 2.5rem; border: 1px solid rgba(124, 58, 237, 0.15); background: rgba(18, 8, 36, 0.5); border-radius: 12px; backdrop-filter: blur(10px); transition: all 0.3s; cursor: none; }
+.reason-item:hover { border-color: var(--accent2); background: rgba(124, 58, 237, 0.1); transform: translateX(-5px); }
+.reason-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent1); color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.2rem; flex-shrink: 0; box-shadow: 0 0 15px var(--accent1); }
+.reason-body h4 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+.reason-body p { color: var(--muted); font-size: 0.95rem;text-align: justify; line-height: 1.7; direction: rtl; margin: 0;}
+
+section { padding: 8rem 4rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 4px;  color: var(--neon); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+.section-label::before { content: ''; display: block; width: 40px; height: 2px; background: var(--neon); }
+.section-title { font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 2px; margin-bottom: 3rem; font-weight: 900;  }
+
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 4rem 4rem; }
+.hero-inner { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+.hero-name { font-size: clamp(3.5rem, 7vw, 7rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
+.hero-name span { display: block; }
+.hero-name .line1 { color: var(--text); }
+.hero-name .line2 { color: transparent; -webkit-text-stroke: 2px var(--accent1); }
+.hero-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--neon); letter-spacing: 2px;  margin-bottom: 1.5rem; }
+.hero-desc { color: var(--muted); font-size: 1.1rem; line-height: 1.8; max-width: 500px; direction: ltr; margin-bottom: 2.5rem; }
+.btn { padding: 1rem 2.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-decoration: none; border-radius: 50px; transition: all 0.3s; cursor: none; display: inline-block; }
+.btn-primary { background: var(--accent1); color: #fff; border: 1px solid var(--accent1); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
 .btn-primary:hover { 
   background: var(--neon); 
   color: #fff; 
   border-color: var(--neon); 
   box-shadow: 0 0 30px var(--neon), 0 0 60px rgba(217, 70, 239, 0.4); 
   transform: translateY(-5px) scale(1.05); 
-}  .hero-robot-wrap { position: relative; display: flex; align-items: center; justify-content: center; height: 600px; }
-  
-   #robotCanvas { 
-    width: 100%; 
-    max-width: 600px; 
-    height: auto; 
-    display: block; 
-    filter: drop-shadow(0 0 30px rgba(124,58,237,0.3)); 
-  }
+}  
+.hero-robot-wrap { position: relative; display: flex; align-items: center; justify-content: center; height: 600px; }
 
-  /* SKILLS */
-  .skills-grid { 
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); /* 3 كروت بجانب بعض */
-    gap: 2rem; 
-  }
-  .skill-card { background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 12px; padding: 2.5rem; transition: all 0.3s; cursor: none; }
-.counter-num {
-    font-variant-numeric: tabular-nums !important;
-    display: inline-block;
+#robotCanvas { 
+  width: 100%; 
+  max-width: 600px; 
+  height: auto; 
+  display: block; 
+  filter: drop-shadow(0 0 30px rgba(124,58,237,0.3)); 
 }
-  .skill-card:hover { border-color: var(--accent1); transform: translateY(-5px); background: rgba(124, 58, 237, 0.1); }
-  .skill-name { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text); }
-  .skill-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; direction: ltr; }
 
-  /* ═══════════════════════ OUR WORK (3D Glowing Carousel) ═══════════════════════ */
-  .gallery-wrapper { 
-    perspective: 2000px; 
-    padding: 6rem 0; 
-    display: flex; justify-content: center; align-items: center; 
-    margin-top: 2rem; cursor: grab; 
-  }
-  .gallery-wrapper:active { cursor: grabbing; }
-  
-  .gallery-orbit { 
-    position: relative; width: 219px; height: 290px; 
-    transform-style: preserve-3d; 
-  }
-  
-  .gallery-orbit img {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    objobject-fit: cover; /* عشان الصورة تملى الكارت بدون حواف */ect-fit: contain; 
-    border-radius: 12px; 
-    background: rgba(18, 8, 36, 0.9);
-    border: 1px solid rgba(124, 58, 237, 0.4);
-    box-shadow: 0 0 25px var(--accent1), 0 0 50px rgba(124,58,237,0.2);
-    /* تم تعديل الحسبة لـ 51.42deg عشان الـ 7 صور يتوزعوا صح هندسياً */
-    transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(300px);
-    transition: box-shadow 0.4s, border-color 0.4s;
-    user-select: none; pointer-events: none;
-  }
-  .gallery-orbit img:hover { border-color: var(--neon); box-shadow: 0 0 40px var(--neon), 0 0 80px rgba(217,70,239,0.6); }
+.skills-grid { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; 
+}
+.skill-card { background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 12px; padding: 2.5rem; transition: all 0.3s; cursor: none; }
+.counter-num {
+  font-variant-numeric: tabular-nums !important;
+  display: inline-block;
+}
+.skill-card:hover { border-color: var(--accent1); transform: translateY(-5px); background: rgba(124, 58, 237, 0.1); }
+.skill-name { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text); }
+.skill-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; direction: ltr; }
 
-  /* كود صور الـ Marquee المائل للكمبيوتر */
-  .mq-img {
-    width: 200px;  
-    height: 200px; 
-    object-fit: cover; 
-    border-radius: 12px;
-    background: rgba(18, 8, 36, 0.9);
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);
-    transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
-    cursor: none;
-    user-select: none; 
-    -webkit-user-drag: none; 
-  }
+.gallery-wrapper { 
+  perspective: 2000px; 
+  padding: 6rem 0; 
+  display: flex; justify-content: center; align-items: center; 
+  margin-top: 2rem; cursor: grab; 
+}
+.gallery-wrapper:active { cursor: grabbing; }
 
-  .mq-img:hover {
-    transform: scale(1.05);
-    border-color: var(--neon);
-    box-shadow: 0 0 30px var(--neon);
-    z-index: 10;
-    position: relative;
-  }
+.gallery-orbit { 
+  position: relative; width: 219px; height: 290px; 
+  transform-style: preserve-3d; 
+}
 
+.gallery-orbit img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: contain; 
+  border-radius: 12px; 
+  background: rgba(18, 8, 36, 0.9);
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  box-shadow: 0 0 25px var(--accent1), 0 0 50px rgba(124,58,237,0.2);
+  transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(300px);
+  transition: box-shadow 0.4s, border-color 0.4s;
+  user-select: none; pointer-events: none;
+}
+.gallery-orbit img:hover { border-color: var(--neon); box-shadow: 0 0 40px var(--neon), 0 0 80px rgba(217,70,239,0.6); }
 
-  /* ═══════════════════════ MEDIA QUERIES (MOBILE) ═══════════════════════ */
+.mq-img {
+  width: 200px;  
+  height: 200px; 
+  object-fit: cover; 
+  border-radius: 12px;
+  background: rgba(18, 8, 36, 0.9);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);
+  transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  cursor: none;
+  user-select: none; 
+  -webkit-user-drag: none; 
+}
+
+.mq-img:hover {
+  transform: scale(1.05);
+  border-color: var(--neon);
+  box-shadow: 0 0 30px var(--neon);
+  z-index: 10;
+  position: relative;
+}
 
 .wa-float { position: fixed; bottom: 2rem; left: 2rem; z-index: 500; width: 60px; height: 60px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); text-decoration: none; cursor: none; animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
 .wa-float:hover { transform: scale(1.12); }
 .wa-float svg { width: 32px; height: 32px; fill: #fff; }
 @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 0 rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 12px rgba(37,211,102,0)} }
- @media (max-width: 1000px) {
+
+@media (max-width: 1000px) {
   .premium-spacing {
-  margin-top: 150px !important;
-  margin-bottom: 150px !important;
-}
+    margin-top: 150px !important;
+    margin-bottom: 150px !important;
+  }
   nav { 
     padding: 1rem 1.5rem !important; 
     flex-direction: row !important; 
@@ -825,7 +714,6 @@ body {
     cursor: pointer;
     z-index: 1000;
   }
-  /* رسم الـ 3 شرط */
   .nav-toggle-label span, 
   .nav-toggle-label::before, 
   .nav-toggle-label::after {
@@ -837,7 +725,6 @@ body {
     border-radius: 2px;
     transition: all 0.3s ease-in-out;
   }
-  /* تصميم القايمة المنسدلة (مخفية في البداية) */
   .nav-links { 
     position: absolute;
     top: 100%;
@@ -849,16 +736,12 @@ body {
     padding: 2.5rem 0;
     gap: 1.8rem !important;
     border-bottom: 1px solid rgba(124, 58, 237, 0.15);
-    /* دي التريك اللي هتعمل انيميشن النزول والطلوع */
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
     transition: clip-path 0.4s cubic-bezier(0.86, 0, 0.07, 1);
   }
-  /* إظهار القايمة لما العميل يدوس على الـ 3 شرط */
   #nav-toggle:checked ~ .nav-links {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
-
-  /* تحويل الـ 3 شرط لعلامة (X) شيك لما القايمة تفتح */
   #nav-toggle:checked ~ .nav-toggle-label span { 
     opacity: 0; 
     transform: scale(0);
@@ -869,92 +752,70 @@ body {
   #nav-toggle:checked ~ .nav-toggle-label::after { 
     transform: translateY(-9px) rotate(-45deg); 
   }
-
   #our-work {
     padding: 0.3rem 0 !important; 
   }
-.hero-name {
+  .hero-name {
     font-size: clamp(2.5rem, 10vw, 4rem) !important;
   }
-
   .hero-title {
     font-size: 0.9rem !important;
   }
- .hero-desc {
+  .hero-desc {
     font-size: 0.95rem !important;
     line-height: 1.7;
   }
- .section-title {
+  .section-title {
     font-size: 2rem !important;
   }
-
   .skill-card,
   .services-cards {
     grid-template-columns: 1fr !important;
     gap: 1.5rem !important;
     margin-top: 2rem !important;
   }
-
-/* 1. تصغير حجم بطاقات الأعمال لتناسب الموبايل بشكل أنيق */
   .mq-img {
-    width: 160px !important; /* عرض أصغر */
-    height: 160px !important; /* طول متناسق */
-    border-radius: 10px !important; /* حواف ناعمة */
+    width: 160px !important; 
+    height: 160px !important; 
+    border-radius: 10px !important; 
     object-fit: cover !important;
   }
-
-  /* 2. إضافة مسافة (تنفس) بين الصور أفقياً في نفس الصف */
   .marquee-track {
     gap: 15px !important; 
   }
-
-  /* 3. تظبيط المسافة بين الصفوف رأسياً عشان متبقاش مكدسة */
   .marquee-wrapper {
     gap: 1.5rem !important;
     padding: 2rem 0 !important;
   }
-
   .gallery-orbit {
     width: 130px !important;
     height: 190px !important;
   }
   .gallery-wrapper {
-    padding: 0rem 0 !important; /* قللها لـ 0.5rem لو عايز تلمها أكتر */
+    padding: 0rem 0 !important; 
     margin-top: 0 !important;
   }
-
-.gallery-orbit img {
+  .gallery-orbit img {
     transform: rotateY(calc(var(--i) * 51.42deg)) translateZ(160px) !important;
-    
-    /* 1. عشان الصورة تفرش وتلغي الفراغ الغامق تماماً */
     object-fit: cover !important; 
-    
-    /* 2. للتحكم في دوران الحواف (لو عايزها دائرية أكتر كبر الرقم) */
     border-radius: 10px !important; 
-    
-    /* 3. للتحكم في الإطار البنفسجي (لو عايز تلغيه خالص اكتب none بدل 1px solid...) */
     border: 1px solid rgba(124, 58, 237, 0.4) !important; 
-    
-    /* 4. للتحكم في قوة التوهج/النيون حوالين الصورة */
     box-shadow: 0 0 10px var(--accent1) !important; 
   }
-
   .animated-logo {
     height: 55px !important;
   }
-
   .contact-pill {
     font-size: 0.9rem !important;
     padding: 0.7rem 1rem !important;
   }
-    nav { padding: 1rem 1.5rem !important; flex-direction: column; gap: 1rem; }
+  nav { padding: 1rem 1.5rem !important; flex-direction: column; gap: 1rem; }
   .nav-links { flex-wrap: wrap; justify-content: center; gap: 1rem; width: 100%; }
   .nav-links a { font-size: 0.8rem; }
   .nav-cta { padding: 0.5rem 1.2rem; }
-
   .hero {
     padding: 12rem 0.8rem 3rem !important;
-}
+  }
   .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
   .hero-desc { margin: 0 auto 2.5rem; max-width: 90%; }
   .hero-robot-wrap {
@@ -963,34 +824,29 @@ body {
   .cursor, .cursor-ring {
     display: none !important;
   }
-  
   html, body {
     cursor: auto !important;
   }
   .skills-grid {
-    grid-template-columns: repeat(3, 1fr) !important; /* عمودين بجانب بعض */
-    gap: 1rem !important; /* تقليل المسافات بين الكروت */
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 1rem !important; 
   }
-
-  /* تصغير حجم الخطوط والـ padding للكروت لتناسب العرض الجديد */
   .skill-card {
     padding: 1rem !important;
   }
-  
   .skill-name {
-    font-size: 2rem !important; /* تصغير حجم الرقم */
+    font-size: 2rem !important; 
   }
-  
-.skill-desc {
-    font-size: 0.8rem !important; /* تصغير حجم النص */
+  .skill-desc {
+    font-size: 0.8rem !important; 
   }
   section, #services-page, #contact-page { padding: 3rem 0.8rem; }
 }
-/* ═══════════════════════ GLITCH EFFECT ═══════════════════════ */
+
 .glitch-wrapper {
   position: relative;
   z-index: 2;
-  opacity: 0; /* الجافاسكريبت هيظهره لما البراش يخلص */
+  opacity: 0; 
   transition: opacity 0.5s ease;
   text-align: center;
 }
@@ -1018,13 +874,13 @@ body {
 }
 
 .glitch-text::before {
-  color: #00ffff; /* لون أزرق نيون */
+  color: #00ffff; 
   z-index: -1;
   animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
 }
 
 .glitch-text::after {
-  color: #ff00ff; /* لون موف نيون */
+  color: #ff00ff; 
   z-index: -2;
   animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
 }
@@ -1042,7 +898,7 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.9; }
 }
-/* ═══════════════════════ CLIENT LOGOS MARQUEE ═══════════════════════ */
+
 .clients-logos-section {
   padding: 10px 0;
   background-color: transparent;
@@ -1057,7 +913,6 @@ body {
   direction: ltr !important;
 }
 
-/* تدرج لوني على الأطراف عشان يدي تأثير اختفاء ناعم */
 .clients-logos-section::before,
 .clients-logos-section::after {
   content: "";
@@ -1079,12 +934,12 @@ body {
 .logos-slide {
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* السر هنا: بيمنع المتصفح من ضغط الشريط */
+  flex-shrink: 0; 
   animation: 25s slide-logos linear infinite;
 }
 
 .logos-slide img {
-  height: 50px; /* تقدر تغير حجم الشعارات من هنا */
+  height: 50px; 
   margin: 0 40px;
   opacity: 0.3;
   filter: grayscale(100%);
@@ -1105,19 +960,18 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* تعديل للموبايل عشان الشعارات تظهر بحجم مناسب */
 @media (max-width: 1000px) {
   .logos-slide img {
     height: 35px;
     margin: 0 20px;
   }
 }
-/* ═══════════════════════ إجبار الشعارات على الحجم الدائري ═══════════════════════ */
+
 .clients-logos-section .logos-slide img {
   width: 90px !important;
   height: 90px !important;
   border-radius: 50% !important;
-object-fit: cover !important;
+  object-fit: cover !important;
   background-color: #ffffff !important;
   padding: 0px !important;
   margin: 0 30px !important;
@@ -1136,16 +990,15 @@ object-fit: cover !important;
   border-color: rgba(124, 58, 237, 1) !important;
   box-shadow: 0 0 20px rgba(124, 58, 237, 0.6) !important;
 }
-/* إعداد شبكة العرض الأساسية */
+
 .branding-gallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* تقسيم المساحة لـ 4 أعمدة متساوية */
+  grid-template-columns: repeat(4, 1fr); 
   gap: 20px;
-  max-width: 1100px; /* عرض مناسب جداً لشاشات الكمبيوتر */
+  max-width: 1100px; 
   margin: 0 auto;
 }
 
-/* الخصائص المشتركة لكل الصور */
 .brand-img {
   width: 100%;
   height: 100%;
@@ -1153,57 +1006,48 @@ object-fit: cover !important;
   border-radius: 12px;
   border: 1px solid rgba(124, 58, 237, 0.3);
   transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-  cursor: none; /* للحفاظ على تأثير الماوس المخصص الخاص بك */
+  cursor: none; 
 }
 
-/* تأثير الـ Hover لإضافة لمسة تفاعلية */
 .brand-img:hover {
   transform: translateY(-5px);
   border-color: var(--neon);
   box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
 }
 
-/* ─── توزيع الصور على الشبكة ─── */
-
-/* الصور الصغيرة (تأخذ عمود واحد ونسبة 1:1) */
 .img-small {
   grid-column: span 1;
   aspect-ratio: 1 / 1;
 }
 
-/* الصورة العريضة للسيارة (تأخذ عمودين ونسبة 4:3 أو 16:9) */
 .img-wide {
   grid-column: span 2;
-  aspect-ratio: 2 / 1; /* هذه النسبة تجعلها بعرض الصورتين الصغيرتين تماماً */
+  aspect-ratio: 2 / 1; 
 }
 
-/* الصور الكبيرة للموك أب (تأخذ عمودين ونسبة 1:1) */
 .img-large {
   grid-column: span 2;
-  aspect-ratio: 1 / 1; /* أو يمكن استخدام 4/3 لو أردتها مستطيلة قليلاً */
+  aspect-ratio: 1 / 1; 
 }
 
-/* ─── تجاوب شاشات الموبايل والتابلت ─── */
 @media (max-width: 1000px) {
   .branding-gallery {
-    grid-template-columns: repeat(2, 1fr); /* تحويل لعمودين في التابلت والموبايل */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 15px;
   }
-  
   .img-small {
-    grid-column: span 1; /* صورتين بجوار بعض في الموبايل */
+    grid-column: span 1; 
   }
-  
   .img-wide, .img-large {
-    grid-column: span 2; /* الصورة العريضة والكبيرة تأخذ عرض الشاشة بالكامل */
+    grid-column: span 2; 
     aspect-ratio: auto;
-    height: 250px; /* تحديد ارتفاع مناسب للموبايل لمنع سحب مساحة طويلة */
+    height: 250px; 
   }
 }
 @media (max-width: 1000px) {
   .brand-img {
-    width: 100% !important; /* بيخلي الصورة تاخد عرض شاشة الموبايل بالكامل */
-    height: auto !important; /* بيظبط الطول تلقائياً عشان الصورة متمطش */
+    width: 100% !important; 
+    height: auto !important; 
     margin-bottom: 10px;
   }
   .clients-logos-section .logos-slide img {
@@ -1213,102 +1057,95 @@ object-fit: cover !important;
     margin: 0px 20px !important;
   }
 }
-/* ═══════════════════════ CLIENT REVIEWS SECTION ═══════════════════════ */
-  #reviews-section { padding: 6rem 4rem 4rem; position: relative; }
-  .reviews-inner { max-width: 1200px; margin: 0 auto; }
-  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0 3.5rem; }
-  .review-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 16px; padding: 1.8rem; position: relative; transition: all 0.3s; }
-  .review-card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(124,58,237,0.15); }
-  .review-stars { color: var(--neon2); font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 0.8rem; text-shadow: 0 0 10px var(--neon); }
-  .review-text { color: var(--text); font-size: 0.98rem; line-height: 1.8; margin-bottom: 1.2rem; }
-  .review-name { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--accent2); font-size: 0.95rem; }
-  .review-date { color: var(--muted); font-size: 0.8rem; margin-top: 0.2rem; }
-  .reviews-empty, .reviews-loading { text-align: center; color: var(--muted); padding: 2rem 0; grid-column: 1/-1; }
 
-  .review-form-wrap { max-width: 600px; margin: 0 auto; background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2.5rem; }
-  .review-form-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; }
-  .review-form label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif; letter-spacing: 0.5px; }
-  .review-form input[type="text"], .review-form textarea {
-    width: 100%; background: rgba(9, 4, 18, 0.8); border: 1px solid rgba(124, 58, 237, 0.3);
-    border-radius: 10px; padding: 0.8rem 1rem; color: var(--text); font-family: 'Cairo', sans-serif;
-    font-size: 0.95rem; margin-bottom: 1.2rem; outline: none; transition: border-color 0.3s; cursor: text;
-  }
-  .review-form input[type="text"]:focus, .review-form textarea:focus { border-color: var(--neon); }
-  .review-form textarea { resize: vertical; min-height: 100px; }
-  .star-picker { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; font-size: 1.6rem; direction: ltr; justify-content: center; }
-  .star-picker span { cursor: none; color: rgba(255,255,255,0.2); transition: color 0.2s, transform 0.2s; }
-  .star-picker span.active { color: var(--neon2); text-shadow: 0 0 10px var(--neon); transform: scale(1.1); }
-  .review-submit-btn {
-    width: 100%; padding: 0.9rem; border: none; border-radius: 50px; cursor: none;
-    background: linear-gradient(45deg, var(--accent1), var(--neon)); color: #fff;
-    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 1px;
-    transition: all 0.3s;
-  }
-  .review-submit-btn:hover { box-shadow: 0 0 25px rgba(217,70,239,0.5); transform: translateY(-2px); }
-  .review-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-  .review-msg { text-align: center; margin-top: 1rem; font-size: 0.9rem; min-height: 1.2em; }
-  .review-msg.success { color: #4ade80; }
-  .review-msg.error { color: #f87171; }
+#reviews-section { padding: 6rem 4rem 4rem; position: relative; }
+.reviews-inner { max-width: 1200px; margin: 0 auto; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0 3.5rem; }
+.review-card { background: rgba(18, 8, 36, 0.7); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 16px; padding: 1.8rem; position: relative; transition: all 0.3s; }
+.review-card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(124,58,237,0.15); }
+.review-stars { color: var(--neon2); font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 0.8rem; text-shadow: 0 0 10px var(--neon); }
+.review-text { color: var(--text); font-size: 0.98rem; line-height: 1.8; margin-bottom: 1.2rem; }
+.review-name { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--accent2); font-size: 0.95rem; }
+.review-date { color: var(--muted); font-size: 0.8rem; margin-top: 0.2rem; }
+.reviews-empty, .reviews-loading { text-align: center; color: var(--muted); padding: 2rem 0; grid-column: 1/-1; }
 
-  @media (max-width: 900px) {
-    #reviews-section { padding: 4rem 1.2rem 3rem; }
-    .reviews-grid { grid-template-columns: 1fr; }
-    .review-form-wrap { padding: 1.5rem; }
-  }
-  .review-row.pending { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
-  .name { display: flex; align-items: center; gap: 10px; }
-  .badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-family: 'Cairo', sans-serif; }
-  .badge.pending-badge { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
-  .badge.approved-badge { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-  .actions { display: flex; flex-direction: column; gap: 0.6rem; }
-  .approve-btn { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); cursor: pointer; border-radius: 50px; padding: 0.7rem 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; transition: 0.3s; }
-  .approve-btn:hover { background: #4ade80; color: #120824; }
-  /* مسافة أمان إجبارية عشان الناف بار ميركبش على العنوان ولا يخفيه */
+.review-form-wrap { max-width: 600px; margin: 0 auto; background: rgba(18, 8, 36, 0.5); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2.5rem; }
+.review-form-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; }
+.review-form label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif; letter-spacing: 0.5px; }
+.review-form input[type="text"], .review-form textarea {
+  width: 100%; background: rgba(9, 4, 18, 0.8); border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 10px; padding: 0.8rem 1rem; color: var(--text); font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem; margin-bottom: 1.2rem; outline: none; transition: border-color 0.3s; cursor: text;
+}
+.review-form input[type="text"]:focus, .review-form textarea:focus { border-color: var(--neon); }
+.review-form textarea { resize: vertical; min-height: 100px; }
+.star-picker { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; font-size: 1.6rem; direction: ltr; justify-content: center; }
+.star-picker span { cursor: none; color: rgba(255,255,255,0.2); transition: color 0.2s, transform 0.2s; }
+.star-picker span.active { color: var(--neon2); text-shadow: 0 0 10px var(--neon); transform: scale(1.1); }
+.review-submit-btn {
+  width: 100%; padding: 0.9rem; border: none; border-radius: 50px; cursor: none;
+  background: linear-gradient(45deg, var(--accent1), var(--neon)); color: #fff;
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 1px;
+  transition: all 0.3s;
+}
+.review-submit-btn:hover { box-shadow: 0 0 25px rgba(217,70,239,0.5); transform: translateY(-2px); }
+.review-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.review-msg { text-align: center; margin-top: 1rem; font-size: 0.9rem; min-height: 1.2em; }
+.review-msg.success { color: #4ade80; }
+.review-msg.error { color: #f87171; }
+
+@media (max-width: 900px) {
+  #reviews-section { padding: 4rem 1.2rem 3rem; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .review-form-wrap { padding: 1.5rem; }
+}
+.review-row.pending { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
+.name { display: flex; align-items: center; gap: 10px; }
+.badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-family: 'Cairo', sans-serif; }
+.badge.pending-badge { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+.badge.approved-badge { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+.actions { display: flex; flex-direction: column; gap: 0.6rem; }
+.approve-btn { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); cursor: pointer; border-radius: 50px; padding: 0.7rem 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; transition: 0.3s; }
+.approve-btn:hover { background: #4ade80; color: #120824; }
+
 #contact-page, #services-page, #reviews-page {
-    padding-top: 11rem !important;
+  padding-top: 11rem !important;
 }
 
 .contact-header {
-    margin-top: 1rem !important;
-    position: relative !important;
-    z-index: 10 !important;
+  margin-top: 1rem !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 
-/* التنسيق النهائي لزرار الرجوع عشان يشتغل في كل الصفحات */
 .back-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 1rem !important;
-    color: #ffffff !important;
-    background: rgba(124, 58, 237, 0.4) !important;
-    padding: 12px 25px !important;
-    border-radius: 50px !important;
-    border: 1px solid var(--accent1) !important;
-    cursor: pointer !important;
-    margin-bottom: 2rem !important;
-    z-index: 99999 !important;
-    position: relative !important;
-    text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  color: #ffffff !important;
+  background: rgba(124, 58, 237, 0.4) !important;
+  padding: 12px 25px !important;
+  border-radius: 50px !important;
+  border: 1px solid var(--accent1) !important;
+  cursor: pointer !important;
+  margin-bottom: 2rem !important;
+  z-index: 99999 !important;
+  position: relative !important;
+  text-decoration: none !important;
 }
 
 .back-btn:hover {
-    background: var(--accent1) !important;
-    color: #ffffff !important;
-    transform: translateX(-5px) !important;
-    box-shadow: 0 0 15px var(--neon) !important;
-}
-.back-btn:hover {
-    background: var(--accent1) !important;
-    color: #ffffff !important;
-    transform: translateX(-5px) !important;
+  background: var(--accent1) !important;
+  color: #ffffff !important;
+  transform: translateX(-5px) !important;
+  box-shadow: 0 0 15px var(--neon) !important;
 }
 </style>
 </head>
 <body>
-
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -1321,18 +1158,16 @@ object-fit: cover !important;
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
   <nav>
-
 <a href="#" class="nav-logo" style="display: flex; align-items: center;" onclick="showMain(); return false;">
   <img src="logo.webp" alt="joe_advertise" class="animated-logo" width="150" height="80">
 </a>
 <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display:none;">
-<label for="nav-toggle" class="nav-toggle-label" aria-label="افتح القائمة الرئيسية">  <span></span>
-</label>
+<label for="nav-toggle" class="nav-toggle-label" aria-label="افتح القائمة الرئيسية"><span></span></label>
    <ul class="nav-links">
   <li><a href="#" onclick="showMain(); return false;">Home</a></li>
   <li><a href="https://www.behance.net/gallery/245003305/Portfolio-2026-Sr-Graphic-Designer-Youssef-Ebrahim" target="_blank">Portfolio</a></li>
   <li><a href="#" onclick="showServices(); return false;">Services</a></li>
-    <li><a href="#" onclick="showReviews(); return false;">Reviews</a></li> <!-- الزرار الجديد -->
+    <li><a href="#" onclick="showReviews(); return false;">Reviews</a></li>
   <li><a href="#" onclick="showContact(); return false;" class="nav-cta">Contact Us</a></li>
   <li>
     <button onclick="toggleLang()" id="langBtn" style="padding:0.6rem 1.8rem; border:1px solid var(--accent1); border-radius:50px; background:linear-gradient(45deg,rgba(124,58,237,0.1),rgba(217,70,239,0.1)); color:var(--text); font-family:'Outfit',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:1px; cursor:none; transition:all 0.3s;">
@@ -1345,11 +1180,9 @@ object-fit: cover !important;
 <div id="services-page">
     <div class="page-inner">
         <div class="contact-header">
-
           <h1 id="services-page-title">Services</h1>
           <button class="back-btn" onclick="showMain()">← Back to Home</button>        
         </div>
-
         <div class="services-cards">
             <div class="service-card"><div class="service-num">01</div><div class="service-name">Graphic Design</div><p class="service-desc">Professional visual content design for social media platforms, including distinctive brand identity development, professional logo design, and high-converting creative assets that help brands grow, stand out, and thrive across diverse industries.</p></div>
             <div class="service-card"><div class="service-num">02</div><div class="service-name">FRONT-END DEVELOPER</div><p class="service-desc">Development of interactive and creative web interfaces — portfolio websites, landing pages, and engaging user experiences powered by the latest web technologies.</p></div>
@@ -1373,7 +1206,6 @@ object-fit: cover !important;
             <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
             joeadvertise.eg@gmail.com
         </a>
-        
      <a href="https://wa.me/201035419531?text=شفت%20الموقع%20وحابب%20أعرف%20تفاصيل%20أكتر" target="_blank" class="contact-pill">
     <svg viewBox="0 0 24 24" width="22" height="22" style="fill:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
     +20 103 541 9531
@@ -1407,22 +1239,21 @@ object-fit: cover !important;
             <div class="reason-num">3</div>
             <div class="reason-body">
               <h4>Designs That Sell (Direct Response)</h4>
-              <p>We don’t believe design is merely about aesthetics. Every visual we create is engineered to solve a marketing challenge, communicate a powerful message, and tell a memorable brand story. Through continuous strategic ideation and customer psychology–driven creative concepts, we craft content that resonates with your audience, strengthens your positioning, and delivers the highest possible impact and performance.
-</p>
+              <p>We don’t believe design is merely about aesthetics. Every visual we create is engineered to solve a marketing challenge, communicate a powerful message, and tell a memorable brand story. Through continuous strategic ideation and customer psychology–driven creative concepts, we craft content that resonates with your audience, strengthens your positioning, and delivers the highest possible impact and performance.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-<!-- ═══════════════════════ REVIEWS PAGE ═══════════════════════ -->
+
 <div id="reviews-page">
   <div class="page-inner">
     <button class="back-btn" onclick="showMain()">← Back to Home</button>
     
     <div class="contact-header">
-<h1 id="reviews-page-title">Clients Reviews</h1>   
-   <p id="reviews-page-desc">What our partners say about our work</p>
+      <h1 id="reviews-page-title">Clients Reviews</h1>   
+      <p id="reviews-page-desc">What our partners say about our work</p>
     </div>
 
     <section id="reviews-section" style="padding: 0; margin-top: 2rem;">
@@ -1449,49 +1280,30 @@ object-fit: cover !important;
     </section>
   </div>
 </div>
+
   <div id="main-site" class="active-page">
-    
     <section class="hero" id="home">
-<div class="hero-inner">
-  <div class="hero-robot-wrap">
-    <canvas id="robotCanvas" width="600" height="600"></canvas>
-  </div>
-  <div class="hero-left">
-    <h1 class="hero-name"><span class="line1">Joe</span><span class="line2">Advertise</span></h1>
-    <p class="hero-title">Graphic Designer · AI Ads Creator · Front-End Dev</p>
-    <p class="hero-desc">Graphic Designer , Front-End Developer . We engineer premium brand identities and cinematic AI commercials that elevate your business.</p>
-    <a href="https://wa.me/201035419531" target="_blank" class="btn btn-primary">Contact us</a>
-  </div>
-</div>
+      <div class="hero-inner">
+        <div class="hero-robot-wrap">
+          <canvas id="robotCanvas" width="600" height="600"></canvas>
+        </div>
+        <div class="hero-left">
+          <h1 class="hero-name"><span class="line1">Joe</span><span class="line2">Advertise</span></h1>
+          <p class="hero-title">Graphic Designer · AI Ads Creator · Front-End Dev</p>
+          <p class="hero-desc">Graphic Designer , Front-End Developer . We engineer premium brand identities and cinematic AI commercials that elevate your business.</p>
+          <a href="https://wa.me/201035419531" target="_blank" class="btn btn-primary">Contact us</a>
+        </div>
+      </div>
     </section>
-<div style="text-align: center; margin-top: 4rem;">
+
+    <div style="text-align: center; margin-top: 4rem;">
       <h2 class="section-title" id="clients-title" style="margin-bottom: 0; font-size: 2.5rem;">OUR Clients</h2>
     </div>
 
- <section class="clients-logos-section">
+    <section class="clients-logos-section">
       <div class="logos-slide">
-                <img src="lets bite logo joeadvertise.eg.png" alt="Client Logo">
-                <img src="lets bite logo without circle joeadvertise.eg.png" alt="Client Logo">
-        <img src="lo2l2a.jpeg" alt="Client Logo">
-        <img src="yahya.jpeg" alt="Client Logo">
-        <img src="bettles.jpeg" alt="Client Logo">
-        <img src="adoomy.jpeg" alt="Client Logo">
-        <img src="fortex.png" alt="Client Logo">
-        <img src="OUD.png" alt="Client Logo">
-        <img src="aura.png" alt="Client Logo">
-        <img src="3alam.jpeg" alt="Client Logo">
-        <img src="boutique.jpeg" alt="Client Logo">
-        <img src="osoll.jpeg" alt="Client Logo">
-        <img src="tendy logo.png" alt="Client Logo">
-        <img src="openmart.jpeg" alt="Client Logo">
-        <img src="kribya.jpeg" alt="Client Logo">
-                <img src="masa madre.jpg" alt="Client Logo">
-
-      </div>
-      
-      <div class="logos-slide">
-              <img src="lets bite logo joeadvertise.eg.png" alt="Client Logo">
-                <img src="lets bite logo without circle joeadvertise.eg.png" alt="Client Logo">
+        <img src="lets bite logo joeadvertise.eg.png" alt="Client Logo">
+        <img src="lets bite logo without circle joeadvertise.eg.png" alt="Client Logo">
         <img src="lo2l2a.jpeg" alt="Client Logo">
         <img src="yahya.jpeg" alt="Client Logo">
         <img src="bettles.jpeg" alt="Client Logo">
@@ -1506,10 +1318,28 @@ object-fit: cover !important;
         <img src="openmart.jpeg" alt="Client Logo">
         <img src="kribya.jpeg" alt="Client Logo">
         <img src="masa madre.jpg" alt="Client Logo">
-
+      </div>
+      <div class="logos-slide">
+        <img src="lets bite logo joeadvertise.eg.png" alt="Client Logo">
+        <img src="lets bite logo without circle joeadvertise.eg.png" alt="Client Logo">
+        <img src="lo2l2a.jpeg" alt="Client Logo">
+        <img src="yahya.jpeg" alt="Client Logo">
+        <img src="bettles.jpeg" alt="Client Logo">
+        <img src="adoomy.jpeg" alt="Client Logo">
+        <img src="fortex.png" alt="Client Logo">
+        <img src="OUD.png" alt="Client Logo">
+        <img src="aura.png" alt="Client Logo">
+        <img src="3alam.jpeg" alt="Client Logo">
+        <img src="boutique.jpeg" alt="Client Logo">
+        <img src="osoll.jpeg" alt="Client Logo">
+        <img src="tendy logo.png" alt="Client Logo">
+        <img src="openmart.jpeg" alt="Client Logo">
+        <img src="kribya.jpeg" alt="Client Logo">
+        <img src="masa madre.jpg" alt="Client Logo">
       </div>
     </section>
-   <section id="skills" style="padding-top:0">
+
+    <section id="skills" style="padding-top:0">
       <div class="section-inner">
         <p class="section-label">AGENCY METRICS</p>
         <h2 class="section-title">OUR Impact</h2>
@@ -1529,21 +1359,18 @@ object-fit: cover !important;
         </div>
       </div>
     </section>
-<!-- ═══════════════════════ WEBSITE DESIGN & DEVELOPMENT SECTION ═══════════════════════ -->
+
 <style>
-  /* تنسيقات قسم متصفح الويب - معزولة تماماً لمنع أي تداخل مع كود الموقع */
   #web-dev-section {
     padding: 6rem 1rem 4rem !important;
     position: relative;
     z-index: 10;
   }
-  
   .web-demo-container {
     max-width: 1050px;
     margin: 0 auto;
     position: relative;
   }
-
   .web-demo-card {
     display: block !important;
     background: rgba(18, 8, 36, 0.9) !important;
@@ -1555,14 +1382,11 @@ object-fit: cover !important;
     transition: all 0.4s ease !important;
     cursor: none !important;
   }
-
   .web-demo-card:hover {
     transform: translateY(-8px) !important;
     border-color: var(--neon, #d946ef) !important;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(217, 70, 239, 0.4) !important;
   }
-
-  /* شريط المتصفح العلوي */
   .browser-header-fix {
     background: #160a2c !important;
     padding: 14px 20px !important;
@@ -1575,21 +1399,18 @@ object-fit: cover !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
-
   .browser-dots-fix {
     display: flex !important;
     flex-direction: row !important;
     gap: 8px !important;
     align-items: center !important;
   }
-
   .browser-dots-fix span {
     width: 12px !important;
     height: 12px !important;
     border-radius: 50% !important;
     display: inline-block !important;
   }
-
   .browser-url-fix {
     display: flex !important;
     flex-direction: row !important;
@@ -1609,7 +1430,6 @@ object-fit: cover !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
   }
-
   .live-badge-fix {
     display: flex !important;
     flex-direction: row !important;
@@ -1625,7 +1445,6 @@ object-fit: cover !important;
     font-size: 0.75rem !important;
     letter-spacing: 1px !important;
   }
-
   .pulse-dot-fix {
     width: 8px !important;
     height: 8px !important;
@@ -1634,13 +1453,10 @@ object-fit: cover !important;
     box-shadow: 0 0 8px #4ade80 !important;
     animation: livePulseFix 1.5s infinite alternate !important;
   }
-
   @keyframes livePulseFix {
     from { opacity: 0.4; transform: scale(0.8); }
     to { opacity: 1; transform: scale(1.2); }
   }
-
-  /* حاوية الصورة والتأثير عند المرور بالماوس */
   .web-img-wrapper-fix {
     position: relative !important;
     width: 100% !important;
@@ -1649,7 +1465,6 @@ object-fit: cover !important;
     background: #090412 !important;
     display: block !important;
   }
-
   .web-preview-img-fix {
     width: 100% !important;
     height: 100% !important;
@@ -1658,11 +1473,9 @@ object-fit: cover !important;
     display: block !important;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
   }
-
   .web-demo-card:hover .web-preview-img-fix {
     transform: scale(1.04) !important;
   }
-
   .web-overlay-fix {
     position: absolute !important;
     top: 0 !important;
@@ -1678,11 +1491,9 @@ object-fit: cover !important;
     backdrop-filter: blur(4px) !important;
     z-index: 5 !important;
   }
-
   .web-demo-card:hover .web-overlay-fix {
     opacity: 1 !important;
   }
-
   .visit-btn-fix {
     display: inline-flex !important;
     flex-direction: row !important;
@@ -1701,12 +1512,9 @@ object-fit: cover !important;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     text-decoration: none !important;
   }
-
   .web-demo-card:hover .visit-btn-fix {
     transform: translateY(0) !important;
   }
-
-  /* النصوص تحت الصورة - حل مشكلة التداخل والمحاذاة */
   .web-demo-info-fix {
     margin-top: 2.5rem !important;
     text-align: center !important;
@@ -1715,7 +1523,6 @@ object-fit: cover !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
-
   #web-info-title {
     font-family: 'Cairo', 'Outfit', sans-serif !important;
     font-size: 1.5rem !important;
@@ -1726,7 +1533,6 @@ object-fit: cover !important;
     display: block !important;
     text-align: center !important;
   }
-
   #web-info-desc {
     color: #9ca3af !important;
     font-family: 'Cairo', 'Outfit', sans-serif !important;
@@ -1737,11 +1543,9 @@ object-fit: cover !important;
     display: block !important;
     text-align: center !important;
   }
-
-  /* تجاوب شاشات الموبايل والتابلت */
   @media (max-width: 1000px) {
     .browser-url-fix {
-      display: none !important; /* إخفاء الرابط في الموبايل لتوفير مساحة لزر الـ LIVE DEMO */
+      display: none !important; 
     }
     .web-img-wrapper-fix {
       aspect-ratio: 4 / 3 !important;
@@ -1762,15 +1566,16 @@ object-fit: cover !important;
   <div class="section-inner">
     <p class="section-label" id="web-dev-label">LIVE DEMO PREVIEW</p>
     <h2 class="section-title" id="web-dev-title">Website Design & Development</h2>
-     <!-- الشرح أسفل الصورة -->
-      <div class="web-demo-info-fix">
-        <h3 id="web-info-title">Interactive Website Preview (Fast Food Restaurant)</h3>
-        <p id="web-info-desc">Developing an engaging and interactive user interface for a fast-food restaurant, built with modern web technologies to ensure seamless navigation and full responsiveness across all devices.</p>
-      </div>
+     
     <div class="web-demo-container">
-      <a href="https://fastfoodhtml.vercel.app/" target="_blank" class="web-demo-card" title="Click to view live demo">
-        
-        <!-- شريط يحاكي متصفح الإنترنت -->
+      
+      <!-- المشروع الأول: Savor Cafe -->
+      <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+        <h3 id="new-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Savor Cafe & Restaurant</h3>
+        <p id="new-web-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A fully custom-built digital ordering system designed to streamline the ordering process and deliver a seamless customer experience.</p>
+      </div>
+
+      <div class="web-demo-card" style="position: relative; display: block; margin-bottom: 6rem !important;">
         <div class="browser-header-fix">
           <div class="browser-dots-fix">
             <span style="background: #ff5f56;"></span>
@@ -1778,35 +1583,77 @@ object-fit: cover !important;
             <span style="background: #27c93f;"></span>
           </div>
           <div class="browser-url-fix">
-            <svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--neon, #d946ef); flex-shrink: 0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            <span>https://fastfoodhtml.vercel.app/</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--neon); flex-shrink: 0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>https://savoregy.vercel.app/</span>
           </div>
-          <div class="live-badge-fix">
-            <span class="pulse-dot-fix"></span> LIVE DEMO
-          </div>
+          <div class="live-badge-fix"><span class="pulse-dot-fix"></span> LIVE DEMO</div>
         </div>
 
-        <!-- حاوية الصورة مع تأثير الـ Hover -->
-        <div class="web-img-wrapper-fix">
-          <img src="WW.png" alt="Fast Food Website Preview" class="web-preview-img-fix">
-          <div class="web-overlay-fix">
-            <span class="visit-btn-fix" id="web-visit-btn">
+        <div class="web-img-wrapper-fix" style="position: relative; overflow: hidden; display: flex; align-items: center;">
+          <div class="web-slider-track" dir="ltr" style="display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out;">
+            <img src="savor1.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 1">
+            <img src="savor2.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 2">
+            <img src="savor3.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 3">
+                        <img src="savoren1.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 4">
+                        <img src="savoren2.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 5">
+                        <img src="savoren3.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 6">
+
+          </div>
+          <button class="slide-prev" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❮</button>
+          <button class="slide-next" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❯</button>
+          <a href="https://savoregy.vercel.app/" target="_blank" class="web-overlay-fix" style="z-index: 5;">
+            <span class="visit-btn-fix">
               <span>Explore Live Demo</span>
               <svg viewBox="0 0 24 24" width="20" height="20" style="fill: #fff; flex-shrink: 0;"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
             </span>
-          </div>
+          </a>
         </div>
-      </a>
-   
+      </div>
+
+      <!-- المشروع الثاني: Fast Food -->
+      <div class="web-demo-info-fix" style="margin-bottom: 1.5rem;">
+        <h3 id="web-info-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Experimental Ordering Website</h3>
+        <p id="web-info-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">Developing an engaging and interactive user interface for a fast-food restaurant, built with modern web technologies.</p>
+      </div>
+
+      <div class="web-demo-card" style="position: relative; display: block;">
+        <div class="browser-header-fix">
+          <div class="browser-dots-fix">
+            <span style="background: #ff5f56;"></span>
+            <span style="background: #ffbd2e;"></span>
+            <span style="background: #27c93f;"></span>
+          </div>
+          <div class="browser-url-fix">
+            <svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--neon); flex-shrink: 0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>https://fastfoodhtml.vercel.app/</span>
+          </div>
+          <div class="live-badge-fix"><span class="pulse-dot-fix"></span> LIVE DEMO</div>
+        </div>
+
+        <div class="web-img-wrapper-fix" style="position: relative; overflow: hidden; display: flex; align-items: center;">
+          <div class="web-slider-track" dir="ltr" style="display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out;">
+            <img src="WW.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 1">
+            <img src="nar.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Page 2">
+          </div>
+          <button class="slide-prev" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❮</button>
+          <button class="slide-next" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❯</button>
+          <a href="https://fastfoodhtml.vercel.app/" target="_blank" class="web-overlay-fix" id="web-visit-btn" style="z-index: 5;">
+            <span class="visit-btn-fix">
+              <span>Explore Live Demo</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" style="fill: #fff; flex-shrink: 0;"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
-</section>
+
     <section id="our-work">
       <div class="section-inner">
         <p class="section-label">IMPRESSIVE DESIGNS</p>
         <h2 class="section-title">Graphic Design</h2>
-        
         <div class="gallery-wrapper">
           <div class="gallery-orbit">
             <img src="mockup.png" style="--i:1" alt="Work 1">
@@ -1818,261 +1665,201 @@ object-fit: cover !important;
             <img src="carousel.png" style="--i:7" alt="Work 7">
           </div>
         </div>
-
       </div>
     </section>
 
     <section id="more-work">
       <div style="text-align: center; margin-bottom: 3rem;">
-<h3 class="section-title" id="social-media-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Social Media </h3>  </div>
-<!-- ─── زراير الفلتر ─── -->
-<div class="filter-container">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="food">Restaurants</button>
-  <button class="filter-btn" data-filter="snacks">Roasteries</button>
-  <button class="filter-btn" data-filter="medical">Medical Clinics</button>
-  <button class="filter-btn" data-filter="cars">Cars</button>
-</div>
+        <h3 class="section-title" id="social-media-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Social Media</h3>  
+      </div>
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="food">Restaurants</button>
+        <button class="filter-btn" data-filter="snacks">Roasteries</button>
+        <button class="filter-btn" data-filter="medical">Medical Clinics</button>
+        <button class="filter-btn" data-filter="cars">Cars</button>
+      </div>
 
-<div class="social-grid">
-  <!-- 🍔 قسم المطاعم (data-category="food") -->
-  <img src="sauce.png" class="social-img" data-category="food" alt="Social Media Design"  decoding="async">
-  <img src="crunchy.png" class="social-img" data-category="food" alt="Social Media Design"  decoding="async">
-  <img src="cheder.png" class="social-img" data-category="food" alt="Social Media Design"  decoding="async">
-  <img src="pizza-iphone.jpeg" class="social-img" data-category="food" alt="Social Media Design"  decoding="async">
-  <img src="delivery.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
-  <img src="fried.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
- <img src="1.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="elegance.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="face.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="GOOGLE.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
- <img src="halpino.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="k.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="king.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="luxury.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="delivery.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="location.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
- <img src="mirror.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="mockup.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="night.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="p.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="peprone.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
- <img src="red.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="saudi.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="sec.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="super.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="u.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
- <img src="warn.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="luz.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="kinder.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="betifor.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
- <img src="helw.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+      <div class="social-grid">
+        <img src="sauce.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
+        <img src="crunchy.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
+        <img src="cheder.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
+        <img src="pizza-iphone.jpeg" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
+        <img src="delivery.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
+        <img src="fried.png" class="social-img" data-category="food" alt="Social Media Design" decoding="async">
+        <img src="1.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="elegance.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="face.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="GOOGLE.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="halpino.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="k.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="king.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="luxury.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="location.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="mirror.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="mockup.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="night.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="p.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="peprone.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="red.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="saudi.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="sec.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="super.jpeg" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="u.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="warn.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="luz.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="kinder.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="betifor.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="helw.png" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="uio.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
 
- <img src="uio.webp" class="social-img" data-category="food" alt="Social Media Design" loading="lazy" decoding="async">
-  <!-- 🚘 قسم السيارات (data-category="cars") -->
-  <img src="car.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="wheels.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-    <img src="carsa.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="blue.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="daw.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="eid.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="one.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="service.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-    <img src="lex.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="s.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="diss.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
-  <!-- قسم المحمصات (data-category="snacks") -->
-<img src="22.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="adha.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-<img src="becan.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="7.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-<img src="l.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="social mediafifaegxirlo2l2a._JOE_Advertise.eg.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-<img src="socialfifalo2l2a_JOE_Advertise.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-<img src="Manipulate_bowl_with_ground_2K_202607012035.jpeg" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="m.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-<img src="fifa.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="drive.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="car.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="wheels.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="carsa.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="blue.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="daw.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="eid.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="one.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="service.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="lex.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="s.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="diss.png" class="social-img" data-category="cars" alt="Social Media Design" loading="lazy" decoding="async">
 
-  <!-- 🩺 قسم العيادات الطبية والتجميل (data-category="medical") -->
-  <img src="time.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="beauty.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="split.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="splash.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="care.jpeg" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="child.jpeg" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="dental.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="22.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="adha.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="becan.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="7.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="l.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="social mediafifaegxirlo2l2a._JOE_Advertise.eg.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="socialfifalo2l2a_JOE_Advertise.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="Manipulate_bowl_with_ground_2K_202607012035.jpeg" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="m.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="fifa.webp" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="drive.png" class="social-img" data-category="snacks" alt="Social Media Design" loading="lazy" decoding="async">
 
-  <!-- 🧴 قسم العطور والمنتجات (data-category="products") -->
-  <img src="perfume.png" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="women.jpeg" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
-  <img src="pink.jpeg" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="time.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="beauty.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="split.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="splash.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="care.jpeg" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="child.jpeg" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="dental.png" class="social-img" data-category="medical" alt="Social Media Design" loading="lazy" decoding="async">
 
-  
-  <!-- تقدر تضيف باقي صورك هنا.. وكل صورة تديها الـ data-category بتاعها -->
+        <img src="perfume.png" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="women.jpeg" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+        <img src="pink.jpeg" class="social-img" data-category="products" alt="Social Media Design" loading="lazy" decoding="async">
+      </div>
+    </section>
 
-  
-</div>
-<section id="branding-section" style="padding-top: 2rem;">
-  
-  <div style="text-align: center; margin-bottom: 3rem;">
-    <h2 class="section-title" id="branding-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Brand Identity</h2>
-  </div>
-  <div class="hero-logo-container" style="text-align: center; margin-bottom: 40px;">
-  <img src="lets bite logo without circle joeadvertise.eg.png" alt="lets bite Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+    <section id="branding-section" style="padding-top: 2rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title" id="branding-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Brand Identity</h2>
+      </div>
+      <div class="hero-logo-container" style="text-align: center; margin-bottom: 40px;">
+        <img src="lets bite logo without circle joeadvertise.eg.png" alt="lets bite Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+      </div>
+      <div class="branding-gallery">
+        <img src="Catering_input_image_surface_202607031940.jpeg" alt="lets bite" class="brand-img">
+        <img src="Luxury_branding_scene_catering_w…_202607031939.jpeg" alt="lets bite" class="brand-img">
+        <img src="Sticker_on_cups_202607031940.jpeg" alt="lets bite" class="brand-img">
+        <img src="Catering_plates_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
+        <img src="Branded_packaging_collection_mockup_202607031937.jpeg" alt="lets bite" class="brand-img">
+        <img src="Gift_Box_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
+        <img src="Gloves_box_branding_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Disposable_Cutlery_Packaging_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Brochure_on_target_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Luxury_catering_delivery_packagi…_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Riyadh_billboard_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
+        <img src="Instagram_Post_target_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Waiters_uniform_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
+        <img src="Reusable_water_bottle_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
+        <img src="Polo_shirt_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Chef_plating_gourmet_appetizers_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Desk_name_plate_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="iPhone_17_Pro_Max_screen_202607031939.jpeg" alt="lets bite" class="brand-img">
+        <img src="Fine_dining_table_setup_ceramic_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Print_image_onto_tote_bag_202607031940.jpeg" alt="lets bite" class="brand-img">
+        <img src="Coffee_cup_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
+        <img src="Reusable_water_bottle_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
+        <img src="Chef_Apron_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Input_image_onto_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Corporate_catering_setup_in_office_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Instagram_Story_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+        <img src="Catering_payment_invoice_mockup_202607031939.jpeg" alt="lets bite" class="brand-img">
+        <img src="Luxury_business_card_202607031937.jpeg" alt="lets bite" class="brand-img">
+      </div>
 
-<div class="branding-gallery">
-  <img src="Catering_input_image_surface_202607031940.jpeg" alt="lets bite" class="brand-img">
-  <img src="Luxury_branding_scene_catering_w…_202607031939.jpeg" alt="lets bite" class="brand-img">
-  <img src="Sticker_on_cups_202607031940.jpeg" alt="lets bite" class="brand-img">
-  <img src="Catering_plates_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
-    <img src="Branded_packaging_collection_mockup_202607031937.jpeg" alt="lets bite" class="brand-img">
-  <img src="Gift_Box_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
-    <img src="Gloves_box_branding_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Disposable_Cutlery_Packaging_202607031938.jpeg" alt="lets bite" class="brand-img">
-  
-    <img src="Brochure_on_target_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Luxury_catering_delivery_packagi…_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Riyadh_billboard_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
-  <img src="Instagram_Post_target_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
-    <img src="Waiters_uniform_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
-  <img src="Reusable_water_bottle_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
-    <img src="Polo_shirt_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Chef_plating_gourmet_appetizers_202607031938.jpeg" alt="lets bite" class="brand-img">
+      <div class="hero-logo-container" style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+        <img src="fortex.png" alt="Fortex Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+      </div>
+      <div class="branding-gallery">
+        <img src="Arabic_Land_Cruiser_license_plate.jpeg" alt="Fortex Plate" class="brand-img">
+        <img src="Car_front_label_landcruiser.jpeg" alt="Fortex Car Grill" class="brand-img">
+        <img src="Mockup__✨_custom__white_tshirt_.jpeg" alt="Fortex T-shirt" class="brand-img">
+        <img src="Mockup__🏙️_billboard.jpeg" alt="Fortex Billboard" class="brand-img">
+        <img src="Image_in_black_frame_gallery.jpeg" alt="Fortex T-shirt" class="brand-img">
+        <img src="White_cap_on_surface.jpeg" alt="Fortex Billboard" class="brand-img">
+        <img src="Image_on_smartphone_screen.jpeg" alt="Fortex T-shirt" class="brand-img">
+        <img src="Mockup__🛍️_bag.jpeg" alt="Fortex Billboard" class="brand-img">
+      </div>
 
-  <img src="Desk_name_plate_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="iPhone_17_Pro_Max_screen_202607031939.jpeg" alt="lets bite" class="brand-img">
-  <img src="Fine_dining_table_setup_ceramic_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Print_image_onto_tote_bag_202607031940.jpeg" alt="lets bite" class="brand-img">
-    <img src="Coffee_cup_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
-  <img src="Reusable_water_bottle_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
-    <img src="Chef_Apron_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Input_image_onto_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
+      <div class="hero-logo-container" style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+        <img src="aura.png" alt="Aura Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+      </div> 
+      <div class="branding-gallery">
+        <img src="cosmetics._Ensure_the_input_image_202606212258.jpeg" class="brand-img" alt="Aura Cosmetics Brand Identity">
+        <img src="Mockup__✨_custom__open_skin_202606212258.jpeg" class="brand-img" alt="Aura Skincare Packaging">
+        <img src="iPhone_16_screen_realistic_persp…_202606212258.jpeg" class="brand-img" alt="Aura App Interface">
+        <img src="Image_on_smartphone_screen_202606212258.jpeg" class="brand-img" alt="Aura Social Media Design">
+        <img src="Image_printed_on_t-shirt_202606212258.jpeg" class="brand-img" alt="Aura T-shirt Mockup">
+        <img src="Mockup__🛍️_bag_202606212258.jpeg" class="brand-img" alt="Aura Shopping Bag">
+        <img src="Cosmetics_shop_window_display_202606212302.jpeg" class="brand-img" alt="Aura Shop Display">
+        <img src="Mockup__🧢_hat_202606212302.jpeg" class="brand-img" alt="Aura Cap Mockup">
+        <img src="Mockup__📍_pin_202606212302.jpeg" class="brand-img" alt="Aura Pin Mockup">
+        <img src="Image_in_black_frame_gallery_202606212303.jpeg" class="brand-img" alt="Aura Poster Mockup">
+        <img src="Image_on_laptop_screen_202606212351.jpeg" class="brand-img" alt="Aura Laptop Mockup">
+        <img src="Image_on_wall-mounted_TV_202606212351.jpeg" class="brand-img" alt="Aura TV Display">
+      </div>
 
-   <img src="Corporate_catering_setup_in_office_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Instagram_Story_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
-  <img src="Catering_payment_invoice_mockup_202607031939.jpeg" alt="lets bite" class="brand-img">
-  <img src="Luxury_business_card_202607031937.jpeg" alt="lets bite" class="brand-img">
-</div>
-<div class="hero-logo-container" style="text-align: center; margin-bottom: 40px;">
-  <img src="fortex.png" alt="Fortex Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
-<div class="branding-gallery">
-  <img src="Arabic_Land_Cruiser_license_plate.jpeg" alt="Fortex Plate" class="brand-img">
-  <img src="Car_front_label_landcruiser.jpeg" alt="Fortex Car Grill" class="brand-img">
-  <img src="Mockup__✨_custom__white_tshirt_.jpeg" alt="Fortex T-shirt" class="brand-img">
-  <img src="Mockup__🏙️_billboard.jpeg" alt="Fortex Billboard" class="brand-img">
-    <img src="Image_in_black_frame_gallery.jpeg" alt="Fortex T-shirt" class="brand-img">
-  <img src="White_cap_on_surface.jpeg" alt="Fortex Billboard" class="brand-img">
-    <img src="Image_on_smartphone_screen.jpeg" alt="Fortex T-shirt" class="brand-img">
-  <img src="Mockup__🛍️_bag.jpeg" alt="Fortex Billboard" class="brand-img">
-</div>
-<div class="hero-logo-container" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-  <img src="aura.png" alt="Aura Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
-</div> <div class="branding-gallery">
-   <img src="cosmetics._Ensure_the_input_image_202606212258.jpeg" class="brand-img" alt="Aura Cosmetics Brand Identity">
-   <img src="Mockup__✨_custom__open_skin_202606212258.jpeg" class="brand-img" alt="Aura Skincare Packaging">
-   <img src="iPhone_16_screen_realistic_persp…_202606212258.jpeg" class="brand-img" alt="Aura App Interface">
-   <img src="Image_on_smartphone_screen_202606212258.jpeg" class="brand-img" alt="Aura Social Media Design">
-   <img src="Image_printed_on_t-shirt_202606212258.jpeg" class="brand-img" alt="Aura T-shirt Mockup">
-   <img src="Mockup__🛍️_bag_202606212258.jpeg" class="brand-img" alt="Aura Shopping Bag">
-   <img src="Cosmetics_shop_window_display_202606212302.jpeg" class="brand-img" alt="Aura Shop Display">
-   <img src="Mockup__🧢_hat_202606212302.jpeg" class="brand-img" alt="Aura Cap Mockup">
-   <img src="Mockup__📍_pin_202606212302.jpeg" class="brand-img" alt="Aura Pin Mockup">
-   <img src="Image_in_black_frame_gallery_202606212303.jpeg" class="brand-img" alt="Aura Poster Mockup">
-   <img src="Image_on_laptop_screen_202606212351.jpeg" class="brand-img" alt="Aura Laptop Mockup">
-   <img src="Image_on_wall-mounted_TV_202606212351.jpeg" class="brand-img" alt="Aura TV Display">
-</div>
-<div class="hero-logo-container" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-  <img src="OUD.png" alt="OUD Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
-</div> <div class="branding-gallery">
-   <img src="oud (1).jpeg" class="brand-img" alt="OUD Brand Identity 1">
-   <img src="oud (2).jpeg" class="brand-img" alt="OUD Brand Identity 2">
-   <img src="oud (3).jpeg" class="brand-img" alt="OUD Brand Identity 3">
-   <img src="oud (4).jpeg" class="brand-img" alt="OUD Brand Identity 4">
-</div>
-<!-- ═══════════════════════ Uniform Design ═══════════════════════ -->
-<div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
-  <h2 class="section-title" id="uniform-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Uniform Design</h2>
-</div>
+      <div class="hero-logo-container" style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+        <img src="OUD.png" alt="OUD Logo" class="brand-img hero-logo" style="max-width: 300px; aspect-ratio: 1/1; border-radius: 16px;">
+      </div> 
+      <div class="branding-gallery">
+        <img src="oud (1).jpeg" class="brand-img" alt="OUD Brand Identity 1">
+        <img src="oud (2).jpeg" class="brand-img" alt="OUD Brand Identity 2">
+        <img src="oud (3).jpeg" class="brand-img" alt="OUD Brand Identity 3">
+        <img src="oud (4).jpeg" class="brand-img" alt="OUD Brand Identity 4">
+      </div>
+    </section>
 
-<div class="branding-gallery" style="grid-template-columns: repeat(2, 1fr); max-width: 900px;">
-  <img src="lo2l2a uniform.jpeg" alt="Uniform Design - View 1" class="brand-img">
-  <img src="lo2l2a front.jpeg" alt="Uniform Design - View 2" class="brand-img">
-    <img src="yahya back.jpeg" alt="Uniform Design - View 2" class="brand-img">
+    <div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
+      <h2 class="section-title" id="uniform-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Uniform Design</h2>
+    </div>
+    <div class="branding-gallery" style="grid-template-columns: repeat(2, 1fr); max-width: 900px;">
+      <img src="lo2l2a uniform.jpeg" alt="Uniform Design - View 1" class="brand-img">
+      <img src="lo2l2a front.jpeg" alt="Uniform Design - View 2" class="brand-img">
+      <img src="yahya back.jpeg" alt="Uniform Design - View 2" class="brand-img">
       <img src="yahya front.jpeg" alt="Uniform Design - View 2" class="brand-img">
-</div>
-<!-- ═══════════════════════ Banner Design ═══════════════════════ -->
-<div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
-  <h2 class="section-title" id="banner-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Banner Design</h2>
+    </div>
+
+    <div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
+      <h2 class="section-title" id="banner-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">Banner Design</h2>
+    </div>
+    <div class="branding-gallery" style="grid-template-columns: 1fr; max-width: 1200px; gap: 40px; width: 100%;">
+      <img src="website banner design OFFER 10 .JOE_ADS.,,eg.webp" alt="Banner Design 1" class="brand-img" style="width: 100%; height: auto; object-fit: contain; aspect-ratio: auto;">
+      <img src="fifa2.webp" alt="Banner Design 2" class="brand-img" style="width: 100%; height: auto; object-fit: contain; aspect-ratio: auto;">
+      <img src="website banner design.webp" alt="Banner Design 3" class="brand-img" style="width: 100%; height: auto; object-fit: contain; aspect-ratio: auto;">
+    </div>
+
+  
+  </div>
 </div>
 
-<!-- كبرنا الـ max-width لـ 1200px (نفس عرض حاوية الصفحة الأساسية) عشان يكون عريض جداً -->
-<div class="branding-gallery" style="grid-template-columns: 1fr; max-width: 1200px; gap: 40px; width: 100%;">
-  
-  <!-- استخدمنا object-fit: contain وبدون aspect-ratio عشان الصورة تفرد بكامل عرضها بدون ما يتقص منها ولا سنتيمتر -->
-  <img src="website banner design OFFER 10 .JOE_ADS.,,eg.webp" alt="Banner Design 1" class="brand-img" style="width: 100%; height: auto; object-fit: contain; aspect-ratio: auto;">
-  
-  <img src="fifa2.webp" alt="Banner Design 2" class="brand-img" style="width: 100%; height: auto; object-fit: contain; aspect-ratio: auto;">
-  
-  <img src="website banner design.webp" alt="Banner Design 3" class="brand-img" style="width: 100%; height: auto; object-fit: contain; aspect-ratio: auto;">
-
-</div>
-<!-- ═══════════════════════ AI ADS VIDEOS SECTION ═══════════════════════ -->
-<div style="text-align: center; margin-top: 5rem; margin-bottom: 3rem;">
-  <h2 class="section-title" id="ai-ads-title" style="margin-bottom: 0; font-size: 2.5rem; font-weight: 700;">AI ADS</h2>
-</div>
-<div class="branding-gallery ai-videos-grid" id="custom-ai-grid">
-  <div class="video-wrapper video-item">
-    <video class="brand-video" controls poster="attractive_ad_without_text_202607170216.jpeg" preload="metadata">
-      <source data-src="hot.mp4" type="video/mp4">
-    </video>
-  </div>
-  
-  <div class="video-wrapper video-item">
-    <video class="brand-video" controls poster="attractuve_ad_202607170218.jpeg" preload="metadata">
-      <source data-src="parachute.mp4" type="video/mp4">
-    </video>
-  </div>
-
-   <div class="video-wrapper video-item">
-    <video class="brand-video" controls poster="image.png_202607170224.jpeg" preload="metadata">
-      <source data-src="dynamite.mp4" type="video/mp4">
-    </video>
-  </div>
-  
-
-  <div class="video-wrapper video-item">
-    <video class="brand-video" controls poster="image.png_202607170230.jpeg" preload="metadata">
-      <source data-src="horror.mp4" type="video/mp4">
-    </video>
-  </div>
-  
-  <div class="video-wrapper video-item">
-    <video class="brand-video" controls poster="image.png_202607170232.jpeg" preload="metadata">
-      <source data-src="mirror.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="video-wrapper video-item">
-    <video class="brand-video" controls poster="image.png_202607170234.jpeg" preload="metadata">
-      <source data-src="fimora.mp4" type="video/mp4">
-    </video>
-  </div>
-  </div>
-</div>
-</div>
-</div>
-
-</div>
-<footer style="text-align:center; padding: 0rem 1rem 0rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
+<footer style="text-align:center; padding: 2rem 1rem; border-top: 1px solid rgba(124,58,237,0.15); color: var(--muted); font-size: 0.9rem;">
   © Joe_Advertise.eg — All Rights Reserved 2026 
 </footer>
+
 <script>
-
-
-// ═══════════════════════ PAGE NAVIGATION ═══════════════════════
-
-// دالة صغيرة عشان تقفل قايمة الموبايل تلقائياً لما العميل يختار صفحة
 function closeMobileMenu() {
   const navToggle = document.getElementById('nav-toggle');
   if (navToggle) navToggle.checked = false;
@@ -2083,8 +1870,9 @@ function showMain() {
   document.getElementById('services-page').classList.remove('active-page');
   document.getElementById('contact-page').classList.remove('active-page');
   document.getElementById('reviews-page').classList.remove('active-page');
-  closeMobileMenu(); // قفل القايمة
-window.scrollTo(0, 0);}
+  closeMobileMenu();
+  window.scrollTo(0, 0);
+}
 
 function showServices() {
   document.getElementById('main-site').classList.remove('active-page');
@@ -2092,7 +1880,8 @@ function showServices() {
   document.getElementById('reviews-page').classList.remove('active-page');
   document.getElementById('services-page').classList.add('active-page');
   closeMobileMenu();
-window.scrollTo(0, 0);}
+  window.scrollTo(0, 0);
+}
 
 function showContact() {
   document.getElementById('main-site').classList.remove('active-page');
@@ -2100,7 +1889,8 @@ function showContact() {
   document.getElementById('reviews-page').classList.remove('active-page');
   document.getElementById('contact-page').classList.add('active-page');
   closeMobileMenu();
-window.scrollTo(0, 0);}
+  window.scrollTo(0, 0);
+}
 
 function showReviews() {
   document.getElementById('main-site').classList.remove('active-page');
@@ -2108,8 +1898,9 @@ function showReviews() {
   document.getElementById('contact-page').classList.remove('active-page');
   document.getElementById('reviews-page').classList.add('active-page');
   closeMobileMenu();
-window.scrollTo(0, 0);}
-// ═══════════════════════ CURSOR ═══════════════════════
+  window.scrollTo(0, 0);
+}
+
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
@@ -2121,6 +1912,7 @@ function animCursor() {
   requestAnimationFrame(animCursor);
 }
 animCursor();
+
 document.addEventListener('mouseover', e => {
   if (e.target.closest('a, button, .skill-card, .service-card, .contact-pill, .reason-item, .gallery-orbit img')) {
     cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
@@ -2131,7 +1923,6 @@ document.addEventListener('mouseover', e => {
   }
 });
 
-// ═══════════════════════ ROBOT CANVAS ═══════════════════════
 (function() {
   const canvas = document.getElementById('robotCanvas');
   if (!canvas) return;
@@ -2171,12 +1962,10 @@ document.addEventListener('mouseover', e => {
     }
     ctx.beginPath(); ctx.moveTo(-25, 30); ctx.quadraticCurveTo(0, 30 + Math.sin(t*2)*5, 25, 30); ctx.strokeStyle = PURPLE_L; ctx.lineWidth = 3; ctx.stroke();
     ctx.restore(); requestAnimationFrame(draw);
-    
   }
   draw();
 })();
 
-// ═══════════════════════ 3D CAROUSEL DRAG & AUTO-SPIN (Fluid Momentum) ═══════════════════════
 (function() {
   const orbit = document.querySelector('.gallery-orbit');
   const wrapper = document.querySelector('.gallery-wrapper');
@@ -2186,19 +1975,12 @@ document.addEventListener('mouseover', e => {
   let isDragging = false;
   let startX = 0;
   let prevX = 0;
-  
   const autoRotateSpeed = -0.7; 
   let velocity = autoRotateSpeed; 
   let isHovered = false;
 
-  wrapper.addEventListener('mouseenter', () => {
-    isHovered = true;
-  });
-  
-  wrapper.addEventListener('mouseleave', () => {
-    isHovered = false;
-    isDragging = false;
-  });
+  wrapper.addEventListener('mouseenter', () => { isHovered = true; });
+  wrapper.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
 
   function dragStart(e) {
     isDragging = true;
@@ -2215,14 +1997,11 @@ document.addEventListener('mouseover', e => {
     prevX = x;
   }
 
-  function dragEnd() {
-    isDragging = false;
-  }
+  function dragEnd() { isDragging = false; }
 
   wrapper.addEventListener('mousedown', dragStart);
   window.addEventListener('mousemove', dragMove);
   window.addEventListener('mouseup', dragEnd);
-
   wrapper.addEventListener('touchstart', dragStart, {passive: true});
   window.addEventListener('touchmove', dragMove, {passive: true});
   window.addEventListener('touchend', dragEnd);
@@ -2235,85 +2014,13 @@ document.addEventListener('mouseover', e => {
         velocity += (0 - velocity) * 0.05;
       }
     }
-
     currentAngle += velocity;
     orbit.style.transform = `rotateY(${currentAngle}deg)`;
     requestAnimationFrame(animateCarousel);
   }
-  
   animateCarousel();
 })();
 
-// ═══════════════════════ SLANTED MARQUEE DRAG (1:1 Exact Movement) ═══════════════════════
-(function() {
-  const tracks = document.querySelectorAll('.marquee-track');
-
-  // منع المتصفح تماماً من سحب الصور كملفات (حل نهائي للتعليق والنتشتة)
-  document.querySelectorAll('.mq-img').forEach(img => {
-    img.addEventListener('dragstart', (e) => e.preventDefault());
-  });
-
-  tracks.forEach((track, index) => {
-    const autoSpeed = track.classList.contains('track-left') ? -1 : 1; 
-    let currentX = 0;
-    let isDragging = false;
-    let isHovered = false;
-    let prevX = 0;
-
-    track.innerHTML += track.innerHTML;
-
-    track.addEventListener('mouseenter', () => isHovered = true);
-    track.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
-
-    function dragStart(e) {
-      isDragging = true;
-      prevX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-    }
-
-    function dragMove(e) {
-      if (!isDragging) return;
-      const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-      const delta = x - prevX;
-      
-      currentX += delta;
-      prevX = x;
-    }
-
-    function dragEnd() {
-      isDragging = false;
-    }
-
-    track.addEventListener('mousedown', dragStart);
-    window.addEventListener('mousemove', dragMove);
-    window.addEventListener('mouseup', dragEnd);
-
-    track.addEventListener('touchstart', dragStart, {passive: true});
-    window.addEventListener('touchmove', dragMove, {passive: true});
-    window.addEventListener('touchend', dragEnd);
-
-    function animateMarquee() {
-      if (!isDragging) {
-        if (!isHovered) {
-          currentX += autoSpeed; 
-        }
-      }
-
-      const halfWidth = track.scrollWidth / 2;
-
-      if (currentX <= -halfWidth) {
-        currentX += halfWidth;
-      } else if (currentX >= 0) {
-        currentX -= halfWidth;
-      }
-
-      track.style.transform = `translateX(${currentX}px)`;
-      requestAnimationFrame(animateMarquee);
-    }
-
-    animateMarquee();
-  });
-})();
-// ═══════════════════════ LANGUAGE TOGGLE ═══════════════════════
 let isArabic = false;
 
 function toggleLang() {
@@ -2324,22 +2031,32 @@ function toggleLang() {
   if (isArabic) {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
-  
     btn.textContent = 'English';
-    // ترجمة قسم تصميم وتطوير المواقع (للعربية)
+
     const webDevTitle = document.getElementById('web-dev-title');
     if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
+    
+    const newWebTitle = document.getElementById('new-web-title');
+    if(newWebTitle) newWebTitle.textContent = 'سافور كافيه ومطعم';
+
+    const newWebDesc = document.getElementById('new-web-desc');
+    if(newWebDesc) newWebDesc.textContent = 'نظام طلب رقمي مخصص بالكامل مصمم لتسهيل عملية الطلب وتقديم تجربة عميل سلسة.';
+
     const bannerTitle = document.getElementById('banner-title');
-if (bannerTitle) bannerTitle.textContent = 'تصميم البانرات الإعلانية';
+    if (bannerTitle) bannerTitle.textContent = 'تصميم البانرات الإعلانية';
+
     const aiAdsTitle = document.getElementById('ai-ads-title');
-if (aiAdsTitle) aiAdsTitle.textContent = 'إعلانات الذكاء الاصطناعي ';
+    if (aiAdsTitle) aiAdsTitle.textContent = 'إعلانات الذكاء الاصطناعي';
+
     const webDevLabel = document.getElementById('web-dev-label');
     if(webDevLabel) webDevLabel.textContent = 'معاينة حية لمشروع';
+
     const uniformTitle = document.getElementById('uniform-title');
-if (uniformTitle) uniformTitle.textContent = 'تصميم الأزياء';
+    if (uniformTitle) uniformTitle.textContent = 'تصميم الأزياء';
+
     const webInfoTitle = document.getElementById('web-info-title');
-    if(webInfoTitle) webInfoTitle.textContent = 'نموذج تجريبي لشكل موقع إلكتروني (Fast Food Restaurant)';
-    // ترجمة أزرار الفلتر (للعربية)
+    if(webInfoTitle) webInfoTitle.textContent = 'نموذج تجريبي لموقع إلكتروني ';
+
     const filterAll = document.querySelector('.filter-btn[data-filter="all"]');
     if (filterAll) filterAll.textContent = 'الكل';
     const filterFood = document.querySelector('.filter-btn[data-filter="food"]');
@@ -2350,30 +2067,27 @@ if (uniformTitle) uniformTitle.textContent = 'تصميم الأزياء';
     if (filterMedical) filterMedical.textContent = 'عيادات طبية';
     const filterCars = document.querySelector('.filter-btn[data-filter="cars"]');
     if (filterCars) filterCars.textContent = 'سيارات';
+
     const webInfoDesc = document.getElementById('web-info-desc');
-    if(webInfoDesc) webInfoDesc.textContent = 'تطوير واجهة مستخدم تفاعلية وجذابة ، مصممة بأحدث تقنيات الويب مع تجربة تصفح سلسة وسرعة استجابة عالية على جميع الشاشات والهواتف.';
+    if(webInfoDesc) webInfoDesc.textContent = 'تطوير واجهة مستخدم تفاعلية وجذابة، مصممة بأحدث تقنيات الويب مع تجربة تصفح سلسة وسرعة استجابة عالية على جميع الشاشات والهواتف.';
     
     const webVisitBtn = document.querySelector('#web-visit-btn span');
     if(webVisitBtn) webVisitBtn.textContent = 'تصفح الموقع الحي';
-    // NAV
+
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'الرئيسية';
     document.querySelector('.nav-links li:nth-child(2) a').textContent = 'الأعمال';
     document.querySelector('.nav-links li:nth-child(3) a').textContent = 'الخدمات';
     document.querySelector('.nav-links li:nth-child(4) a').textContent = 'آراء العملاء';
     document.querySelector('.nav-links li:nth-child(5) a').textContent = 'تواصل معنا';
     
-    
-    // HERO
     document.querySelector('.hero-title').textContent = 'مصمم جرافيك · منشئ إعلانات AI · مطور واجهات';
-    document.querySelector('.hero-desc').textContent = 'تصميم جرافيك، تطوير واجهات المواقع الأمامية ، و تصميم مشاهد تسويقية باستخدام أحدث تقنيات الذكاء الاصطناعي . نصمم هويات بصرية فاخرة للعلامات التجارية لرُقي علامتك التجارية و منحها حضورًا أكثر تميزًا..';
+    document.querySelector('.hero-desc').textContent = 'تصميم جرافيك، تطوير واجهات المواقع الأمامية، و تصميم مشاهد تسويقية باستخدام أحدث تقنيات الذكاء الاصطناعي . نصمم هويات بصرية فاخرة للعلامات التجارية لرُقي علامتك التجارية و منحها حضورًا أكثر تميزًا..';
     document.querySelector('.hero .btn-primary').textContent = 'تواصل معنا';
 
-    // METRICS SECTION
     const skillsLabel = document.querySelector('#skills .section-label');
     if(skillsLabel) {
         skillsLabel.textContent = 'أرقامنا';
-        document.querySelector('#skills .section-title').textContent = `بصمة تصنع الفارق
-حيث تتحول الرؤية إلى نتائج`;
+        document.querySelector('#skills .section-title').textContent = 'بصمة تصنع الفارق\nحيث تتحول الرؤية إلى نتائج';
         const metricCards = document.querySelectorAll('#skills .skill-card');
         if(metricCards.length >= 3) {
             metricCards[0].querySelector('.skill-desc').textContent = 'عميل وثق بنا';
@@ -2382,16 +2096,15 @@ if (uniformTitle) uniformTitle.textContent = 'تصميم الأزياء';
         }
     }
     
-    // OUR WORK 
     const brandingTitle = document.getElementById('branding-title');
     if (brandingTitle) brandingTitle.textContent = 'الهوية البصرية';
     document.querySelector('#our-work .section-label').textContent = 'أحدث أعمالنا';
     document.querySelector('#our-work .section-title').textContent = 'التصميم الجرافيك';
-const clientsTitle = document.getElementById('clients-title');
+    const clientsTitle = document.getElementById('clients-title');
     if(clientsTitle) clientsTitle.textContent = 'شركاء نجاحنا';
     const socialMediaTitle = document.getElementById('social-media-title');
     if (socialMediaTitle) socialMediaTitle.textContent = 'تصميمات السوشيال ميديا';
-// SERVICES PAGE
+
     const servicesTitle = document.getElementById('services-page-title');
     if (servicesTitle) servicesTitle.textContent = 'خـدمـاتـنـا';
     const servicesDesc = document.getElementById('services-page-desc');
@@ -2407,8 +2120,7 @@ const clientsTitle = document.getElementById('clients-title');
         serviceCards[2].querySelector('.service-desc').textContent = 'إنتاج إعلانات فيديو سينمائية وتعليقات صوتية واقعية بأحدث أدوات الذكاء الاصطناعي لتعزيز حملاتك التسويقية.';
     }
 
-    // CONTACT PAGE (صفحة تواصل معنا)
-const contactPageTitle = document.querySelector('#contact-page .contact-header h1');
+    const contactPageTitle = document.querySelector('#contact-page .contact-header h1');
     if(contactPageTitle) contactPageTitle.textContent = 'تواصل معنا';
     const contactHeaderP = document.querySelector('#contact-page .contact-header p');
     if(contactHeaderP) contactHeaderP.textContent = 'جاهزين لتطوير البراند الخاص بك الآن';
@@ -2427,10 +2139,9 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
         reasonCards[2].querySelector('p').textContent = 'هدفنا ليس مجرد تقديم "تصميم جميل"، بل تصميم يحل مشكلة تسويقية يوصل رسالة يحكي قصة. سنقترح عليك أفكاراً وزوايا باستمرار للعب على سيكيولوجية العميل وتخدم رسالتك لضمان الوصول لأعلى وأفضل نتيجة ممكنة.';
     }
 
-    // BACK BUTTONS
     const backBtns = document.querySelectorAll('.back-btn');
     backBtns.forEach(btn => btn.textContent = '← العودة للرئيسية');
-// REVIEWS SECTION
+
     const reviewsPageTitle = document.getElementById('reviews-page-title');
     if (reviewsPageTitle) reviewsPageTitle.textContent = 'آراء عملاؤنا';
     const reviewsPageDesc = document.getElementById('reviews-page-desc');
@@ -2448,7 +2159,16 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
     const reviewsLoading = document.getElementById('reviewsLoading');
     if (reviewsLoading) reviewsLoading.textContent = 'جاري تحميل الآراء...';
   } else {
-  // ترجمة أزرار الفلتر (للإنجليزية)
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+    btn.textContent = 'العربية';
+
+    const newWebTitleEn = document.getElementById('new-web-title');
+    if(newWebTitleEn) newWebTitleEn.textContent = 'Savor Cafe & Restaurant';
+
+    const newWebDescEn = document.getElementById('new-web-desc');
+    if(newWebDescEn) newWebDescEn.textContent = 'A fully custom-built digital ordering system designed to streamline the ordering process and deliver a seamless customer experience.';
+
     const filterAllEn = document.querySelector('.filter-btn[data-filter="all"]');
     if (filterAllEn) filterAllEn.textContent = 'All';
     const filterFoodEn = document.querySelector('.filter-btn[data-filter="food"]');
@@ -2459,13 +2179,14 @@ const contactPageTitle = document.querySelector('#contact-page .contact-header h
     if (filterMedicalEn) filterMedicalEn.textContent = 'Medical Clinics';
     const filterCarsEn = document.querySelector('.filter-btn[data-filter="cars"]');
     if (filterCarsEn) filterCarsEn.textContent = 'Cars';
+
     const bannerTitleEn = document.getElementById('banner-title');
-if (bannerTitleEn) bannerTitleEn.textContent = 'Banner Design';
+    if (bannerTitleEn) bannerTitleEn.textContent = 'Banner Design';
     const uniformTitleEn = document.getElementById('uniform-title');
-if (uniformTitleEn) uniformTitleEn.textContent = 'Uniform Design';
-  const aiAdsTitleEn = document.getElementById('ai-ads-title');
-if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
-    // ترجمة قسم تصميم وتطوير المواقع (للإنجليزي)
+    if (uniformTitleEn) uniformTitleEn.textContent = 'Uniform Design';
+    const aiAdsTitleEn = document.getElementById('ai-ads-title');
+    if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
+
     const webDevTitleEn = document.getElementById('web-dev-title');
     if(webDevTitleEn) webDevTitleEn.textContent = 'Website Design & Development';
     
@@ -2480,7 +2201,7 @@ if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
     
     const webVisitBtnEn = document.querySelector('#web-visit-btn span');
     if(webVisitBtnEn) webVisitBtnEn.textContent = 'Explore Live Demo';
-    // REVIEWS SECTION
+
     const reviewsPageTitleEn = document.getElementById('reviews-page-title');
     if (reviewsPageTitleEn) reviewsPageTitleEn.textContent = 'Client Reviews';
     const reviewsPageDescEn = document.getElementById('reviews-page-desc');
@@ -2497,27 +2218,23 @@ if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
     if (reviewSubmitBtnEn) reviewSubmitBtnEn.textContent = 'Submit review';
     const reviewsLoadingEn = document.getElementById('reviewsLoading');
     if (reviewsLoadingEn) reviewsLoadingEn.textContent = 'Loading reviews...';
-  const socialMediaTitleEn = document.getElementById('social-media-title');
+
+    const socialMediaTitleEn = document.getElementById('social-media-title');
     if (socialMediaTitleEn) socialMediaTitleEn.textContent = 'Social Media Designs';
-    document.documentElement.setAttribute('dir', 'ltr');
-    document.documentElement.setAttribute('lang', 'en');
-  const clientsTitleEn = document.getElementById('clients-title');
+
+    const clientsTitleEn = document.getElementById('clients-title');
     if(clientsTitleEn) clientsTitleEn.textContent = 'OUR Clients';
-    btn.textContent = 'العربية';
-    
-    // NAV
+
     document.querySelector('.nav-links li:nth-child(1) a').textContent = 'Home';
     document.querySelector('.nav-links li:nth-child(2) a').textContent = 'Portfolio';
     document.querySelector('.nav-links li:nth-child(3) a').textContent = 'Services';
-        document.querySelector('.nav-links li:nth-child(4) a').textContent = 'Reviews';
+    document.querySelector('.nav-links li:nth-child(4) a').textContent = 'Reviews';
     document.querySelector('.nav-links li:nth-child(5) a').textContent = 'Contact Us';
     
-    // HERO
     document.querySelector('.hero-title').textContent = 'Graphic Designer · AI Ads Creator · Front-End Dev';
     document.querySelector('.hero-desc').textContent = 'Graphic Designer, Front-End Developer & AI creator. We engineer premium brand identities and cinematic AI commercials that elevate your business.';
     document.querySelector('.hero .btn-primary').textContent = 'Contact us';
 
-    // METRICS SECTION
     const skillsLabelEn = document.querySelector('#skills .section-label');
     if(skillsLabelEn) {
         skillsLabelEn.textContent = 'AGENCY METRICS';
@@ -2530,17 +2247,15 @@ if (aiAdsTitleEn) aiAdsTitleEn.textContent = 'AI ADS';
         }
     }
     
-    // OUR WORK 
     const brandingTitleEn = document.getElementById('branding-title');
     if (brandingTitleEn) brandingTitleEn.textContent = 'Brand Identity';
     document.querySelector('#our-work .section-label').textContent = 'IMPRESIVE DESIGNS';
     document.querySelector('#our-work .section-title').textContent = 'Graphic Design';
 
-    // SERVICES PAGE
     const servicesTitleEn = document.getElementById('services-page-title');
-if (servicesTitleEn) servicesTitleEn.textContent = 'SERVICES';
-const servicesDescEn = document.getElementById('services-page-desc');
-if (servicesDescEn) servicesDescEn.textContent = 'What we can do to elevate your brand';
+    if (servicesTitleEn) servicesTitleEn.textContent = 'SERVICES';
+    const servicesDescEn = document.getElementById('services-page-desc');
+    if (servicesDescEn) servicesDescEn.textContent = 'What we can do to elevate your brand';
     
     if(serviceCards.length >= 3) {
         serviceCards[0].querySelector('.service-name').textContent = 'GRAPHIC DESIGN';
@@ -2552,8 +2267,7 @@ if (servicesDescEn) servicesDescEn.textContent = 'What we can do to elevate your
         serviceCards[2].querySelector('.service-desc').textContent = 'Production of cinematic AI commercials and lifelike voiceovers, leveraging state-of-the-art artificial intelligence technologies to maximize engagement and drive marketing success.';
     }
 
-    // CONTACT PAGE (صفحة تواصل معنا بالإنجليزي)
-const contactPageTitleEn = document.querySelector('#contact-page .contact-header h1');
+    const contactPageTitleEn = document.querySelector('#contact-page .contact-header h1');
     if(contactPageTitleEn) contactPageTitleEn.textContent = 'GET IN TOUCH';
     const contactHeaderPEn = document.querySelector('#contact-page .contact-header p');
     if(contactHeaderPEn) contactHeaderPEn.textContent = 'Ready to elevate your brand right now';
@@ -2572,13 +2286,11 @@ const contactPageTitleEn = document.querySelector('#contact-page .contact-header
         reasonCardsEn[2].querySelector('p').textContent = 'Our goal isn\'t just a "beautiful design", but a design that solves a marketing problem and tells a story. We will constantly suggest ideas to leverage customer psychology and achieve the highest possible conversion rates.';
     }
 
-    // BACK BUTTONS
     const backBtnsEn = document.querySelectorAll('.back-btn');
     backBtnsEn.forEach(btn => btn.textContent = '← Back to Home');
   }
 }
 
-// ═══════════════════════ ANIMATED COUNTER (DELAYED FOR INTRO) ═══════════════════════
 const counters = document.querySelectorAll('.counter-num');
 let countersStarted = false;
 
@@ -2595,9 +2307,7 @@ function runCounters() {
     function updateCount(timestamp) {
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
-      
-            const percentage = Math.min(progress / duration, 1);
-      
+      const percentage = Math.min(progress / duration, 1);
       const current = Math.floor(percentage * target);
       counter.innerText = '+' + current;
       
@@ -2607,7 +2317,6 @@ function runCounters() {
         counter.innerText = '+' + target; 
       }
     }
-    
     requestAnimationFrame(updateCount);
   });
 }
@@ -2617,7 +2326,6 @@ function checkCounterVisibility() {
   if (skillsSection) {
     const sectionPos = skillsSection.getBoundingClientRect().top;
     const screenPos = window.innerHeight;
-    
     if (sectionPos < screenPos - 100) {
       runCounters();
     }
@@ -2629,20 +2337,127 @@ setTimeout(() => {
   checkCounterVisibility();
 }, 2500);
 
+document.addEventListener("DOMContentLoaded", function() {
+  const sliderContainers = document.querySelectorAll('.web-demo-card');
 
+  sliderContainers.forEach(container => {
+    const track = container.querySelector('.web-slider-track');
+    const btnNext = container.querySelector('.slide-next');
+    const btnPrev = container.querySelector('.slide-prev');
+
+    if (track) {
+      const images = track.querySelectorAll('img');
+      const imgCount = images.length;
+      let currentIndex = 0;
+      let autoSlideInterval;
+
+      function goToNextSlide() {
+        currentIndex = (currentIndex + 1) % imgCount; 
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      function goToPrevSlide() {
+        currentIndex = (currentIndex - 1 + imgCount) % imgCount; 
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(goToNextSlide, 4500);
+      }
+
+      function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+      }
+
+      if (btnNext && btnPrev) {
+        btnNext.addEventListener('click', (e) => {
+          e.preventDefault(); 
+          goToNextSlide();
+          resetAutoSlide(); 
+        });
+
+        btnPrev.addEventListener('click', (e) => {
+          e.preventDefault();
+          goToPrevSlide();
+          resetAutoSlide(); 
+        });
+
+        [btnNext, btnPrev].forEach(btn => {
+          btn.addEventListener('mouseenter', () => {
+            btn.style.background = 'var(--neon)';
+            btn.style.color = '#fff';
+          });
+          btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'rgba(9,4,18,0.8)';
+            btn.style.color = 'var(--neon)';
+          });
+        });
+      }
+      startAutoSlide();
+    }
+  });
+
+  const socialImages = document.querySelectorAll('.social-img');
+  const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+  const imageFadeObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-up-active');
+        observer.unobserve(entry.target); 
+      }
+    });
+  }, observerOptions);
+  socialImages.forEach(img => imageFadeObserver.observe(img));
+
+  const lightbox = document.createElement('div');
+  lightbox.id = 'lightbox';
+  lightbox.className = 'lightbox-overlay';
+  lightbox.innerHTML = `
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-image" src="" alt="Design Preview">
+  `;
+  document.body.appendChild(lightbox);
+
+  const lightboxImg = document.getElementById('lightbox-img');
+  socialImages.forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src; 
+      lightbox.classList.add('active');
+    });
+  });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target !== lightboxImg) {
+      lightbox.classList.remove('active');
+      setTimeout(() => { lightboxImg.src = ''; }, 400); 
+    }
+  });
+
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filterValue = btn.getAttribute('data-filter');
+      socialImages.forEach(img => {
+        if (filterValue === 'all' || img.getAttribute('data-category') === filterValue) {
+          img.classList.remove('hide');
+        } else {
+          img.classList.add('hide');
+        }
+      });
+    });
+  });
+});
 </script>
+</body>
 <!-- ═══════════════════════ CLIENT REVIEWS: SUPABASE ═══════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function() {
   const SUPABASE_URL = "https://wzixccdyvajhyxjwijpa.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_mOJggeRNz_zCfDz65o814A_go2cgnrs";
-
-  // لو لسه معملتش حساب Supabase، سيب دول زي ما هما مؤقتاً لحد ما تعمل الخطوة دي
-  if (SUPABASE_URL === "PUT_YOUR_SUPABASE_URL_HERE") {
-      document.getElementById('reviewsGrid').innerHTML = `<div class="reviews-empty" id="reviewsEmptyMsg">No reviews yet — be the first to share yours</div>`;
-      return;
-  }
 
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -2651,6 +2466,9 @@ setTimeout(() => {
   const msg = document.getElementById('reviewMsg');
   const submitBtn = document.getElementById('reviewSubmitBtn');
   const starPicker = document.getElementById('starPicker');
+  
+  if (!starPicker || !grid || !form) return;
+
   const stars = starPicker.querySelectorAll('span');
   let selectedRating = 5;
 
@@ -2679,11 +2497,12 @@ setTimeout(() => {
   }
 
   async function loadReviews() {
-   const { data, error } = await sb
+    const { data, error } = await sb
       .from('reviews')
       .select('*')
       .eq('is_approved', true)
       .order('created_at', { ascending: false });
+    
     if (error) {
       grid.innerHTML = `<div class="reviews-empty">${isArabic ? 'تعذر تحميل الآراء حاليًا' : 'Could not load reviews right now'}</div>`;
       return;
@@ -2736,234 +2555,5 @@ setTimeout(() => {
 
   loadReviews();
 })();
-// ═══════════════════════ CUSTOM AI VIDEO PLAYER SCRIPT ═══════════════════════
-document.querySelectorAll('.custom-player').forEach(player => {
-  const video = player.querySelector('video');
-  const playBtn = player.querySelector('.play-pause');
-  const iconPlay = player.querySelector('.icon-play');
-  const iconPause = player.querySelector('.icon-pause');
-  const skipBack = player.querySelector('.skip-backward');
-  const skipFwd = player.querySelector('.skip-forward');
-  const muteBtn = player.querySelector('.mute-btn');
-  const iconVol = player.querySelector('.icon-vol');
-  const iconMuted = player.querySelector('.icon-muted');
-  const volumeSlider = player.querySelector('.volume-slider');
-  const speedSelect = player.querySelector('.speed-select');
-  const fullscreenBtn = player.querySelector('.fullscreen-btn');
-  const progress = player.querySelector('.progress-bar');
-  const progressFilled = player.querySelector('.progress-filled');
-
-  // تشغيل / إيقاف
-  function togglePlay() {
-    if (video.paused) {
-      document.querySelectorAll('.custom-player video').forEach(v => { if (v !== video) v.pause(); });
-      video.play();
-    } else {
-      video.pause();
-    }
-  }
-
-  playBtn.addEventListener('click', togglePlay);
-  video.addEventListener('click', togglePlay);
-
-  video.addEventListener('play', () => {
-    iconPlay.style.display = 'none';
-    iconPause.style.display = 'block';
-    player.classList.remove('paused');
-  });
-
-  video.addEventListener('pause', () => {
-    iconPlay.style.display = 'block';
-    iconPause.style.display = 'none';
-    player.classList.add('paused');
-  });
-
-  // تقديم وتأخير 5 ثواني
-  skipBack.addEventListener('click', () => video.currentTime -= 5);
-  skipFwd.addEventListener('click', () => video.currentTime += 5);
-
-  // التحكم في كتم الصوت وشريط السحب
-  muteBtn.addEventListener('click', () => {
-    video.muted = !video.muted;
-    if (video.muted) {
-      iconVol.style.display = 'none';
-      iconMuted.style.display = 'block';
-      volumeSlider.value = 0;
-    } else {
-      iconVol.style.display = 'block';
-      iconMuted.style.display = 'none';
-      volumeSlider.value = video.volume || 1;
-    }
-  });
-
-  volumeSlider.addEventListener('input', (e) => {
-    const val = parseFloat(e.target.value);
-    video.volume = val;
-    video.muted = (val === 0);
-    if (video.muted) {
-      iconVol.style.display = 'none';
-      iconMuted.style.display = 'block';
-    } else {
-      iconVol.style.display = 'block';
-      iconMuted.style.display = 'none';
-    }
-  });
-
-  // التحكم في سرعة الفيديو
-  if (speedSelect) {
-    speedSelect.addEventListener('change', (e) => {
-      video.playbackRate = parseFloat(e.target.value);
-    });
-  }
-
-  // شريط التقديم والتأخير (Progress)
-  video.addEventListener('timeupdate', () => {
-    const percent = (video.currentTime / video.duration) * 100;
-    if (progressFilled) progressFilled.style.width = `${percent}%`;
-  });
-
-  progress.addEventListener('click', (e) => {
-    const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
-    video.currentTime = scrubTime;
-  });
-
-  // شاشة كاملة (Fullscreen)
-  fullscreenBtn.addEventListener('click', () => {
-    if (!document.fullscreenElement) {
-      if (player.requestFullscreen) player.requestFullscreen();
-      else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
-    } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-    }
-  });
-});
-// ═══════════════════════ LAZY LOAD VIDEOS (التحميل المؤجل) ═══════════════════════
-document.addEventListener("DOMContentLoaded", function() {
-  const lazyVideos = document.querySelectorAll('video.brand-video');
-  
-  if ("IntersectionObserver" in window) {
-    const videoObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const video = entry.target;
-          const source = video.querySelector('source');
-          if (source && source.dataset.src) {
-            source.src = source.dataset.src;
-            video.load(); // تحميل الفيديو لما العميل يوصله
-          }
-          observer.unobserve(video); // توقف عن المراقبة بعد التحميل عشان الأداء
-        }
-      });
-    }, { rootMargin: "0px 0px 200px 0px" }); // يبدأ يحمل قبل ما العميل يوصل بـ 200 بيكسل
-
-    lazyVideos.forEach(video => {
-      videoObserver.observe(video);
-    });
-  }
-});
-document.querySelectorAll('video').forEach(video => {
-  // عند دخول وضع الشاشة الكاملة
-  video.addEventListener('fullscreenchange', () => {
-    if (document.fullscreenElement) {
-      // محاولة تغيير اتجاه الشاشة إلى الوضع الأفقي
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(function(error) {
-          console.log("الدوران يتطلب تفاعل المستخدم أو غير مدعوم في هذا المتصفح");
-        });
-      }
-    } else {
-      // عند الخروج من الشاشة الكاملة، نرجع الاتجاه الطبيعي
-      if (screen.orientation && screen.orientation.unlock) {
-        screen.orientation.unlock();
-      }
-    }
-  });
-});
-document.addEventListener("DOMContentLoaded", function() {
-  const socialImages = document.querySelectorAll('.social-img');
-
-  // إعدادات الـ Observer
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.15 // الأنيميشن هيشتغل لما 15% من الصورة تظهر في الشاشة
-  };
-
-  const imageFadeObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // إضافة كلاس الظهور
-        entry.target.classList.add('fade-up-active');
-        
-        // إيقاف المراقبة على الصورة دي عشان الأنيميشن ما يشتغلش تاني لو العميل طلع ونزل
-        observer.unobserve(entry.target); 
-      }
-    });
-  }, observerOptions);
-  
-
-  // تشغيل المراقبة على كل صورة
-  socialImages.forEach(img => {
-    imageFadeObserver.observe(img);
-  });
-});
-document.addEventListener("DOMContentLoaded", function() {
-  // 1. إنشاء الـ HTML الخاص بالـ Lightbox أوتوماتيكياً
-  const lightbox = document.createElement('div');
-  lightbox.id = 'lightbox';
-  lightbox.className = 'lightbox-overlay';
-  lightbox.innerHTML = `
-    <span class="lightbox-close">&times;</span>
-    <img id="lightbox-img" class="lightbox-image" src="" alt="Design Preview">
-  `;
-  document.body.appendChild(lightbox);
-
-  const lightboxImg = document.getElementById('lightbox-img');
-  const socialImages = document.querySelectorAll('.social-img');
-
-  // 2. تشغيل الـ Lightbox لما نضغط على أي صورة
-  socialImages.forEach(img => {
-    img.addEventListener('click', () => {
-      lightboxImg.src = img.src; // بياخد نفس مسار الصورة اللي ضغطت عليها
-      lightbox.classList.add('active');
-    });
-  });
-
-  // 3. قفل الـ Lightbox لما نضغط على علامة الـ X أو في أي مكان في الخلفية
-  lightbox.addEventListener('click', (e) => {
-    // لو العميل ضغط على الصورة نفسها مش هيقفل، لو ضغط براها هيقفل
-    if (e.target !== lightboxImg) {
-      lightbox.classList.remove('active');
-      
-      // تفريغ الصورة بعد ما الأنيميشن يخلص عشان متبانش وقت الفتح الجاي
-      setTimeout(() => { lightboxImg.src = ''; }, 400); 
-    }
-  });
-});
-document.addEventListener("DOMContentLoaded", function() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const socialImages = document.querySelectorAll('.social-img');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // 1. نشيل كلاس active من كل الزراير ونحطه على الزرار اللي انداس عليه
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      // 2. نجيب نوع الفلتر من الزرار (all, food, real-estate, ...)
-      const filterValue = btn.getAttribute('data-filter');
-
-      // 3. نلف على الصور ونقارن التصنيف
-      socialImages.forEach(img => {
-        if (filterValue === 'all' || img.getAttribute('data-category') === filterValue) {
-          img.classList.remove('hide');
-        } else {
-          img.classList.add('hide');
-        }
-      });
-    });
-  });
-});
 </script>
-</body>
 </html>
