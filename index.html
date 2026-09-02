@@ -74,6 +74,151 @@
 </script>
 
 <style>
+/* تنسيق حاوية التوجل */
+.lang-switch-wrapper {
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.lang-switch-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: none;
+}
+
+/* المسار الداكن للتوجل */
+.lang-track {
+  width: 48px;
+  height: 24px;
+  background-color: rgba(18, 8, 36, 0.8);
+  border: 1px solid var(--accent1);
+  border-radius: 30px;
+  position: relative;
+  transition: 0.4s;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* الدائرة المتحركة (Thumb) */
+.lang-thumb {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--neon);
+  border-radius: 50%;
+  transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 0 10px var(--neon);
+}
+
+/* التنسيق الأساسي للنص والأعلام */
+.lang-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 900;
+  transition: 0.3s;
+}
+
+/* الحالة الافتراضية (English مفعل) */
+.en-label {
+  color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
+  opacity: 1;
+}
+
+.ar-label {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+/* --- حالة التفعيل للغة العربية (Checked) --- */
+#lang-toggle-checkbox:checked + .lang-switch-container .lang-track {
+  border-color: var(--neon);
+}
+
+#lang-toggle-checkbox:checked + .lang-switch-container .lang-thumb {
+  transform: translateX(24px);
+  background-color: var(--accent1);
+  box-shadow: 0 0 10px var(--accent1);
+}
+
+#lang-toggle-checkbox:checked + .lang-switch-container .en-label {
+  color: var(--muted);
+  text-shadow: none;
+  opacity: 0.5;
+}
+
+#lang-toggle-checkbox:checked + .lang-switch-container .ar-label {
+  color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
+  opacity: 1;
+}
+
+/* تعديل الترتيب في الموبايل عشان التوجل يجي قبل أيقونة المنيو */
+@media (max-width: 1000px) {
+  .nav-right {
+    gap: 1rem !important;
+  }
+  .lang-switch-wrapper {
+    order: -1; 
+  }
+}
+
+.lang-slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(18, 8, 36, 0.8);
+  border: 1px solid var(--accent1);
+  border-radius: 30px;
+  transition: .4s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* الدائرة اللي بتتحرك */
+.lang-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--neon);
+  border-radius: 50%;
+  transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 0 10px var(--neon);
+  z-index: 2;
+}
+
+/* حالة التبديل للغة العربية (Checked) */
+input:checked + .lang-slider {
+  border-color: var(--neon);
+}
+
+input:checked + .lang-slider:before {
+  transform: translateX(30px);
+  background-color: var(--accent1);
+  box-shadow: 0 0 10px var(--accent1);
+}
+
+/* نصوص EN و AR */
+.lang-text {
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 900;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lang-text.ar {
+  font-family: 'Cairo', sans-serif;
+}
 .filter-container {
   display: flex;
   justify-content: center;
@@ -1174,24 +1319,44 @@ section { padding: 8rem 4rem; }
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
 <nav>
-<a href="#" class="nav-logo" style="display: flex; align-items: center;" onclick="showMain(); return false;">
-  <img src="logo.webp" alt="joe_advertise" class="animated-logo" width="150" height="80">
-</a>
-<input type="checkbox" id="nav-toggle" class="nav-toggle" style="display:none;">
-<label for="nav-toggle" class="nav-toggle-label" aria-label="افتح القائمة الرئيسية"><span></span></label>
-   <ul class="nav-links">
-  <li><a href="#" onclick="showMain(); return false;">Home</a></li>
-  <li><a href="https://www.behance.net/gallery/245003305/Portfolio-2026-Sr-Graphic-Designer-Youssef-Ebrahim" target="_blank">Portfolio</a></li>
-  <li><a href="#" onclick="showServices(); return false;">Services</a></li>
-    <li><a href="#" onclick="showReviews(); return false;">Reviews</a></li>
-  <li><a href="#" onclick="showContact(); return false;" class="nav-cta">Contact Us</a></li>
-  <li>
-    <button onclick="toggleLang()" id="langBtn" style="padding:0.6rem 1.8rem; border:1px solid var(--accent1); border-radius:50px; background:linear-gradient(45deg,rgba(124,58,237,0.1),rgba(217,70,239,0.1)); color:var(--text); font-family:'Outfit',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:1px; cursor:none; transition:all 0.3s;">
-      العربية
-    </button>
-  </li>
-</ul>
-  </nav>
+  <!-- اللوجو -->
+  <a href="#" class="nav-logo" style="display: flex; align-items: center;" onclick="showMain(); return false;">
+    <img src="logo.webp" alt="joe_advertise" class="animated-logo" width="150" height="80">
+  </a>
+
+  <!-- حاوية اليمين لتجميع العناصر معاً -->
+  <div class="nav-right" style="display: flex; align-items: center; gap: 2rem;">
+    
+    <!-- زرار المنيو المخفي -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display:none;">
+    
+    <!-- الروابط بما فيها Contact Us -->
+    <ul class="nav-links">
+      <li><a href="#" onclick="showMain(); return false;">Home</a></li>
+      <li><a href="https://www.behance.net/gallery/245003305/Portfolio-2026-Sr-Graphic-Designer-Youssef-Ebrahim" target="_blank">Portfolio</a></li>
+      <li><a href="#" onclick="showServices(); return false;">Services</a></li>
+      <li><a href="#" onclick="showReviews(); return false;">Reviews</a></li>
+      <li><a href="#" onclick="showContact(); return false;" class="nav-cta">Contact Us</a></li>
+    </ul>
+
+    <!-- أيقونة المنيو (بتظهر في الموبايل بس) -->
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="افتح القائمة الرئيسية"><span></span></label>
+    
+    <!-- التوجل سويتش بالأعلام -->
+    <div class="lang-switch-wrapper">
+      <input type="checkbox" id="lang-toggle-checkbox" onchange="toggleLang()" style="display: none;">
+      
+      <label for="lang-toggle-checkbox" class="lang-switch-container">
+        <span class="lang-label en-label">🇺🇸 EN</span>
+        <div class="lang-track">
+          <div class="lang-thumb"></div>
+        </div>
+        <span class="lang-label ar-label">AR 🇪🇬</span>
+      </label>
+    </div>
+
+  </div>
+</nav>
 
 <div id="services-page">
     <div class="page-inner">
@@ -1274,9 +1439,6 @@ section { padding: 8rem 4rem; }
 
     <section id="reviews-section" style="padding: 0; margin-top: 2rem;">
       <div class="reviews-inner">
-        <div class="reviews-grid" id="reviewsGrid">
-          <div class="reviews-loading" id="reviewsLoading">Loading reviews...</div>
-        </div>
         <div class="review-form-wrap" style="margin-top: 5rem;">
           <div class="review-form-title" id="reviewFormTitle">Share your experience</div>
           <form class="review-form" id="reviewForm">
@@ -2059,14 +2221,12 @@ let isArabic = false;
 
 function toggleLang() {
   isArabic = !isArabic;
-  const btn = document.getElementById('langBtn');
   let serviceCards = document.querySelectorAll('.service-card');
 
   if (isArabic) {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
-    btn.textContent = 'English';
-    btn.textContent = isArabic ? 'English' : 'العربية';
+   
 
     const webDevTitle = document.getElementById('web-dev-title');
     if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
@@ -2504,7 +2664,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const prevBtn = document.getElementById('reviewsPrev');
   const nextBtn = document.getElementById('reviewsNext');
   
-  if (!starPicker || !grid || !form) return;
+  if (!starPicker || !form) return;
 
   let currentReview = 0;
   let autoSlideTimer;
@@ -2586,18 +2746,18 @@ document.addEventListener("DOMContentLoaded", function() {
       .order('created_at', { ascending: false });
     
     if (error) {
-      grid.innerHTML = `<div class="reviews-empty">${isArabic ? 'تعذر تحميل الآراء حاليًا' : 'Could not load reviews right now'}</div>`;
+      if (grid) grid.innerHTML = `<div class="reviews-empty">${isArabic ? 'تعذر تحميل الآراء حاليًا' : 'Could not load reviews right now'}</div>`;
       return;
     }
     if (!data || data.length === 0) {
-      grid.innerHTML = `<div class="reviews-empty" id="reviewsEmptyMsg">${isArabic ? 'لسه مفيش آراء، كن أول من يشارك رأيه' : 'No reviews yet — be the first to share yours'}</div>`;
+      if (grid) grid.innerHTML = `<div class="reviews-empty" id="reviewsEmptyMsg">${isArabic ? 'لسه مفيش آراء، كن أول من يشارك رأيه' : 'No reviews yet — be the first to share yours'}</div>`;
       renderReviewSlider([]);
       return;
     }
     window.clientReviews = data;
     renderReviewSlider(data);
     resetAutoSlide(data);
-    grid.innerHTML = data.map(r => `
+    const reviewsMarkup = data.map(r => `
       <div class="review-card">
         <div class="review-stars">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</div>
         <div class="review-text">${escapeHtml(r.comment)}</div>
@@ -2605,6 +2765,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="review-date">${timeAgo(r.created_at)}</div>
       </div>
     `).join('');
+    if (grid) grid.innerHTML = reviewsMarkup;
   }
 
   form.addEventListener('submit', async function(e) {
