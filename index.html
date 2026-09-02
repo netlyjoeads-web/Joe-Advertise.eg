@@ -1094,10 +1094,26 @@ section { padding: 8rem 4rem; }
 .review-msg.success { color: #4ade80; }
 .review-msg.error { color: #f87171; }
 
+#client-reviews-preview { padding-top: 3rem; }
+.reviews-slider { max-width: 820px; margin: 0 auto; position: relative; padding: 0 4.5rem; }
+.reviews-slider-viewport { overflow: hidden; border-radius: 16px; }
+.reviews-slider-track { display: flex; transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1); direction: ltr; }
+.reviews-slider .review-card { min-width: 100%; box-sizing: border-box; min-height: 230px; display: flex; flex-direction: column; justify-content: center; text-align: center; direction: ltr; }
+.reviews-slider .review-text { max-width: 620px; margin: 0 auto 1.2rem; }
+.reviews-slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: 1px solid var(--accent1); border-radius: 50%; background: rgba(9, 4, 18, 0.85); color: var(--neon); font-size: 1.5rem; line-height: 1; cursor: none; transition: all 0.3s; z-index: 2; }
+.reviews-slider-btn:hover { background: var(--neon); color: #fff; box-shadow: 0 0 20px rgba(217,70,239,0.45); }
+.reviews-slider-btn.prev { left: 0; }
+.reviews-slider-btn.next { right: 0; }
+.reviews-slider-empty { min-height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); }
+.reviews-slider-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
+.reviews-slider-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: none; transition: all 0.3s; }
+.reviews-slider-dot.active { width: 24px; border-radius: 8px; background: var(--neon); box-shadow: 0 0 10px var(--neon); }
+
 @media (max-width: 900px) {
   #reviews-section { padding: 4rem 1.2rem 3rem; }
   .reviews-grid { grid-template-columns: 1fr; }
   .review-form-wrap { padding: 1.5rem; }
+  .reviews-slider { padding: 0 3.2rem; }
 }
 .review-row.pending { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
 .name { display: flex; align-items: center; gap: 10px; }
@@ -1157,7 +1173,7 @@ section { padding: 8rem 4rem; }
 <a href="https://wa.me/201035419531?text=شفت%20الموقع%20وحابب%20أعرف%20تفاصيل%20أكتر" target="_blank" class="wa-float" id="waFloat" aria-label="تواصل معنا عبر واتساب">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
-  <nav>
+<nav>
 <a href="#" class="nav-logo" style="display: flex; align-items: center;" onclick="showMain(); return false;">
   <img src="logo.webp" alt="joe_advertise" class="animated-logo" width="150" height="80">
 </a>
@@ -1344,6 +1360,7 @@ section { padding: 8rem 4rem; }
         <p class="section-label">AGENCY METRICS</p>
         <h2 class="section-title">OUR Impact</h2>
         <div class="skills-grid">
+        
           <div class="skill-card">
             <div class="skill-name counter-num" data-target="50" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
             <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">Businesses Trusted Joe Advertise</p>
@@ -1356,6 +1373,23 @@ section { padding: 8rem 4rem; }
             <div class="skill-name counter-num" data-target="3" style="font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--neon2); text-shadow: 0 0 25px var(--neon); margin-bottom: 0.5rem; direction: ltr;">+0</div>
             <p class="skill-desc" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; color: var(--text);">YEARS OF EXPERIENCE</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="client-reviews-preview">
+      <div class="section-inner">
+        <p class="section-label">CLIENT REVIEWS</p>
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="reviews-slider" aria-label="Client reviews carousel">
+          <button type="button" class="reviews-slider-btn prev" id="reviewsPrev" aria-label="Previous review">&#8592;</button>
+          <div class="reviews-slider-viewport">
+            <div class="reviews-slider-track" id="reviewsSliderTrack">
+              <div class="reviews-slider-empty" id="reviewsSliderStatus">Loading reviews...</div>
+            </div>
+          </div>
+          <button type="button" class="reviews-slider-btn next" id="reviewsNext" aria-label="Next review">&#8594;</button>
+          <div class="reviews-slider-dots" id="reviewsSliderDots" aria-label="Review slides"></div>
         </div>
       </div>
     </section>
@@ -2032,6 +2066,7 @@ function toggleLang() {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
     btn.textContent = 'English';
+    btn.textContent = isArabic ? 'English' : 'العربية';
 
     const webDevTitle = document.getElementById('web-dev-title');
     if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
@@ -2156,11 +2191,10 @@ function toggleLang() {
     if (reviewCommentLabel) reviewCommentLabel.textContent = 'تعليقك';
     const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
     if (reviewSubmitBtn) reviewSubmitBtn.textContent = 'إرسال الرأي';
-    const reviewsLoading = document.getElementById('reviewsLoading');
-    if (reviewsLoading) reviewsLoading.textContent = 'جاري تحميل الآراء...';
   } else {
     document.documentElement.setAttribute('dir', 'ltr');
     document.documentElement.setAttribute('lang', 'en');
+    btn.textContent = 'العربية';
     btn.textContent = 'العربية';
 
     const newWebTitleEn = document.getElementById('new-web-title');
@@ -2216,8 +2250,6 @@ function toggleLang() {
     if (reviewCommentLabelEn) reviewCommentLabelEn.textContent = 'Your comment';
     const reviewSubmitBtnEn = document.getElementById('reviewSubmitBtn');
     if (reviewSubmitBtnEn) reviewSubmitBtnEn.textContent = 'Submit review';
-    const reviewsLoadingEn = document.getElementById('reviewsLoading');
-    if (reviewsLoadingEn) reviewsLoadingEn.textContent = 'Loading reviews...';
 
     const socialMediaTitleEn = document.getElementById('social-media-title');
     if (socialMediaTitleEn) socialMediaTitleEn.textContent = 'Social Media Designs';
@@ -2466,8 +2498,58 @@ document.addEventListener("DOMContentLoaded", function() {
   const msg = document.getElementById('reviewMsg');
   const submitBtn = document.getElementById('reviewSubmitBtn');
   const starPicker = document.getElementById('starPicker');
+  const sliderTrack = document.getElementById('reviewsSliderTrack');
+  const sliderDots = document.getElementById('reviewsSliderDots');
+  const sliderStatus = document.getElementById('reviewsSliderStatus');
+  const prevBtn = document.getElementById('reviewsPrev');
+  const nextBtn = document.getElementById('reviewsNext');
   
   if (!starPicker || !grid || !form) return;
+
+  let currentReview = 0;
+  let autoSlideTimer;
+
+  function showReview(index, reviews) {
+    if (!sliderTrack || !reviews.length) return;
+    currentReview = (index + reviews.length) % reviews.length;
+    sliderTrack.style.transform = `translateX(-${currentReview * 100}%)`;
+    sliderDots.querySelectorAll('button').forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === currentReview));
+  }
+
+  function renderReviewSlider(reviews) {
+    if (!sliderTrack) return;
+    if (!reviews.length) {
+      sliderTrack.innerHTML = `<div class="reviews-slider-empty">${isArabic ? 'لسه مفيش آراء معتمدة' : 'No approved reviews yet'}</div>`;
+      sliderDots.innerHTML = '';
+      prevBtn.hidden = true;
+      nextBtn.hidden = true;
+      return;
+    }
+    sliderTrack.innerHTML = reviews.map(r => `
+      <div class="review-card">
+        <div class="review-stars">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</div>
+        <div class="review-text">${escapeHtml(r.comment)}</div>
+        <div class="review-name">${escapeHtml(r.name)}</div>
+        <div class="review-date">${timeAgo(r.created_at)}</div>
+      </div>
+    `).join('');
+    sliderDots.innerHTML = reviews.map((_, index) => `<button type="button" class="reviews-slider-dot${index === 0 ? ' active' : ''}" aria-label="Review ${index + 1}"></button>`).join('');
+    sliderDots.querySelectorAll('button').forEach((dot, index) => dot.addEventListener('click', () => { showReview(index, reviews); resetAutoSlide(reviews); }));
+    currentReview = 0;
+    showReview(0, reviews);
+    prevBtn.hidden = reviews.length < 2;
+    nextBtn.hidden = reviews.length < 2;
+  }
+
+  function resetAutoSlide(reviews) {
+    clearInterval(autoSlideTimer);
+    if (reviews.length > 1) autoSlideTimer = setInterval(() => showReview(currentReview + 1, reviews), 4500);
+  }
+
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => { showReview(currentReview - 1, window.clientReviews || []); resetAutoSlide(window.clientReviews || []); });
+    nextBtn.addEventListener('click', () => { showReview(currentReview + 1, window.clientReviews || []); resetAutoSlide(window.clientReviews || []); });
+  }
 
   const stars = starPicker.querySelectorAll('span');
   let selectedRating = 5;
@@ -2509,8 +2591,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     if (!data || data.length === 0) {
       grid.innerHTML = `<div class="reviews-empty" id="reviewsEmptyMsg">${isArabic ? 'لسه مفيش آراء، كن أول من يشارك رأيه' : 'No reviews yet — be the first to share yours'}</div>`;
+      renderReviewSlider([]);
       return;
     }
+    window.clientReviews = data;
+    renderReviewSlider(data);
+    resetAutoSlide(data);
     grid.innerHTML = data.map(r => `
       <div class="review-card">
         <div class="review-stars">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</div>
