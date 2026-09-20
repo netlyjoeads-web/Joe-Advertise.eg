@@ -1824,6 +1824,41 @@ section { padding: 8rem 4rem; }
     display: block !important;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
   }
+  .project-image-slot {
+    width: 100% !important;
+    height: 100% !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background:
+      linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(0, 0, 0, 0.08)),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,0.02) 0,
+        rgba(255,255,255,0.02) 1px,
+        transparent 1px,
+        transparent 24px
+      ),
+      #090412 !important;
+    border: 1px solid rgba(124, 58, 237, 0.25) !important;
+    color: rgba(255,255,255,0.75) !important;
+    font-family: 'Cairo', 'Outfit', sans-serif !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
+  }
+  .project-image-slot span {
+    display: inline-block !important;
+    padding: 0.75rem 1.25rem !important;
+    border: 1px solid rgba(124, 58, 237, 0.4) !important;
+    border-radius: 999px !important;
+    background: rgba(124, 58, 237, 0.1) !important;
+  }
   .web-demo-card:hover .web-preview-img-fix {
     transform: scale(1.04) !important;
   }
@@ -1920,7 +1955,47 @@ section { padding: 8rem 4rem; }
      
     <div class="web-demo-container">
       
-      <!-- المشروع الأول: Savor Cafe -->
+      <!-- المشروع الأول: OpenMartEgypt -->
+      <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+        <h3 id="openmart-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">OpenMartEgypt e-commerce website</h3>
+        <p id="openmart-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A shopping experience built for speed. At Openmart, we’ve removed the friction. Enjoy lightning-fast browsing, seamless instant response across all devices, and an effortless checkout completed in seconds. Pick your favorite items, order with a single click, and we’ll handle the rest swiftly right to your door.</p>
+      </div>
+
+      <div class="web-demo-card" style="position: relative; display: block; margin-bottom: 6rem !important;">
+        <div class="browser-header-fix">
+          <div class="browser-dots-fix">
+            <span style="background: #ff5f56;"></span>
+            <span style="background: #ffbd2e;"></span>
+            <span style="background: #27c93f;"></span>
+          </div>
+          <div class="browser-url-fix">
+            <svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--neon); flex-shrink: 0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>https://www.openmartegypt.com/</span>
+          </div>
+          <div class="live-badge-fix"><span class="pulse-dot-fix"></span> LIVE DEMO</div>
+        </div>
+
+        <div class="web-img-wrapper-fix" style="position: relative; overflow: hidden; display: flex; align-items: center;">
+          <div class="web-slider-track" dir="ltr" style="display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out;">
+            <img src="openmartegypt1.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="OpenMart Image 1">
+            <img src="openmartegypt2.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="OpenMart Image 2">
+            <img src="openmartegypt3.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="OpenMart Image 3">
+            <img src="openmarten1.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="OpenMart Image 4">
+            <img src="openmarten2.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="OpenMart Image 5">
+            <img src="openmarten3.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="OpenMart Image 6">
+          </div>
+          <button class="slide-prev" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❮</button>
+          <button class="slide-next" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❯</button>
+          <a href="#" class="web-overlay-fix" style="z-index: 5;">
+            <span class="visit-btn-fix">
+              <span>Explore Live Demo</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" style="fill: #fff; flex-shrink: 0;"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- المشروع الثاني: Savor Cafe -->
       <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
         <h3 id="new-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Savor Cafe & Restaurant</h3>
         <p id="new-web-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A fully custom-built digital ordering system designed to streamline the ordering process and deliver a seamless customer experience.</p>
@@ -1961,7 +2036,7 @@ section { padding: 8rem 4rem; }
         </div>
       </div>
 
-      <!-- المشروع الثاني: Fast Food -->
+      <!-- المشروع الثالث: Fast Food -->
       <div class="web-demo-info-fix" style="margin-bottom: 1.5rem;">
         <h3 id="web-info-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Experimental Ordering Website</h3>
         <p id="web-info-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">Developing an engaging and interactive user interface for a fast-food restaurant, built with modern web technologies.</p>
@@ -2394,6 +2469,12 @@ function toggleLang() {
     const newWebDesc = document.getElementById('new-web-desc');
     if(newWebDesc) newWebDesc.textContent = 'نظام طلب رقمي مخصص بالكامل مصمم لتسهيل عملية الطلب وتقديم تجربة عميل سلسة.';
 
+    const openmartTitle = document.getElementById('openmart-title');
+    if(openmartTitle) openmartTitle.textContent = 'موقع OpenMartEgypt للتجارة الإلكترونية';
+
+    const openmartDesc = document.getElementById('openmart-desc');
+    if(openmartDesc) openmartDesc.textContent = 'تجربة تسوق صُممت لتواكب سرعتك. في أوبن مارت، حذفنا كل التعقيدات؛ تصفح خفيف وفائق السرعة، استجابة لحظية على جميع الأجهزة، وتجربة طلب تتم في ثوانٍ معدودة دون خطوات معقدة. اختر منتجك، أتمم طلبك بضغطة زر، ودع الباقي علينا ليصلك بأسرع وقت.';
+
     const bannerTitle = document.getElementById('banner-title');
     if (bannerTitle) bannerTitle.textContent = 'تصميم البانرات الإعلانية';
 
@@ -2537,6 +2618,12 @@ function toggleLang() {
 
     const newWebDescEn = document.getElementById('new-web-desc');
     if(newWebDescEn) newWebDescEn.textContent = 'A fully custom-built digital ordering system designed to streamline the ordering process and deliver a seamless customer experience.';
+
+    const openmartTitleEn = document.getElementById('openmart-title');
+    if(openmartTitleEn) openmartTitleEn.textContent = 'OpenMartEgypt e-commerce website';
+
+    const openmartDescEn = document.getElementById('openmart-desc');
+    if(openmartDescEn) openmartDescEn.textContent = 'A shopping experience built for speed. At Openmart, we’ve removed the friction. Enjoy lightning-fast browsing, seamless instant response across all devices, and an effortless checkout completed in seconds. Pick your favorite items, order with a single click, and we’ll handle the rest swiftly right to your door.';
 
     const filterAllEn = document.querySelector('.filter-btn[data-filter="all"]');
     if (filterAllEn) filterAllEn.textContent = 'All';
