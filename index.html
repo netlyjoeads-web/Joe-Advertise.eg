@@ -1962,6 +1962,45 @@ section { padding: 8rem 4rem; }
         </div>
       </div>
 
+      <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+        <h3 id="openmart-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Openmart E-commerce Website</h3>
+        <p id="openmart-web-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A bilingual online store designed to make browsing products and placing orders simple and convenient.</p>
+      </div>
+
+      <div class="web-demo-card" style="position: relative; display: block; margin-bottom: 6rem !important;">
+        <div class="browser-header-fix">
+          <div class="browser-dots-fix">
+            <span style="background: #ff5f56;"></span>
+            <span style="background: #ffbd2e;"></span>
+            <span style="background: #27c93f;"></span>
+          </div>
+          <div class="browser-url-fix">
+            <svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--neon); flex-shrink: 0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>https://www.openmartegypt.com/</span>
+          </div>
+          <div class="live-badge-fix"><span class="pulse-dot-fix"></span> LIVE DEMO</div>
+        </div>
+
+        <div class="web-img-wrapper-fix" style="position: relative; overflow: hidden; display: flex; align-items: center;">
+          <div class="web-slider-track" dir="ltr" style="display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out;">
+            <img src="openmartegypt1.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Openmart Arabic website homepage">
+            <img src="openmartegypt2.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Openmart Arabic website product page">
+            <img src="openmartegypt3.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Openmart Arabic website product listing">
+            <img src="openmarten1.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Openmart English website homepage">
+            <img src="openmarten2.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Openmart English website categories">
+            <img src="openmarten3.png" class="web-preview-img-fix" style="width: 100%; flex-shrink: 0;" alt="Openmart English website product page">
+          </div>
+          <button class="slide-prev" aria-label="Previous Openmart preview" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❮</button>
+          <button class="slide-next" aria-label="Next Openmart preview" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(9,4,18,0.8); color: var(--neon); border: 1px solid var(--accent1); width: 45px; height: 45px; border-radius: 50%; z-index: 20; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: none; transition: 0.3s; box-shadow: 0 0 15px rgba(217,70,239,0.3);">❯</button>
+          <a href="https://www.openmartegypt.com/" target="_blank" rel="noopener noreferrer" class="web-overlay-fix" style="z-index: 5;">
+            <span class="visit-btn-fix">
+              <span>Explore Live Demo</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" style="fill: #fff; flex-shrink: 0;"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
       <!-- المشروع الأول: Savor Cafe -->
       <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
         <h3 id="new-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Savor Cafe & Restaurant</h3>
@@ -2446,6 +2485,12 @@ function toggleLang() {
     const webDevTitle = document.getElementById('web-dev-title');
     if(webDevTitle) webDevTitle.textContent = 'تصميم وتطوير المواقع الإلكترونية';
 
+    const openmartWebTitle = document.getElementById('openmart-web-title');
+    if(openmartWebTitle) openmartWebTitle.textContent = 'متجر Openmart الإلكتروني';
+
+    const openmartWebDesc = document.getElementById('openmart-web-desc');
+    if(openmartWebDesc) openmartWebDesc.textContent = 'متجر إلكتروني ثنائي اللغة يسهّل تصفح المنتجات وإتمام الطلبات.';
+
     const partytimeWebTitle = document.getElementById('partytime-web-title');
     if(partytimeWebTitle) partytimeWebTitle.textContent = 'موقع Partytime';
 
@@ -2595,6 +2640,12 @@ function toggleLang() {
   } else {
     document.documentElement.setAttribute('dir', 'ltr');
     document.documentElement.setAttribute('lang', 'en');
+
+    const openmartWebTitleEn = document.getElementById('openmart-web-title');
+    if(openmartWebTitleEn) openmartWebTitleEn.textContent = 'Openmart E-commerce Website';
+
+    const openmartWebDescEn = document.getElementById('openmart-web-desc');
+    if(openmartWebDescEn) openmartWebDescEn.textContent = 'A bilingual online store designed to make browsing products and placing orders simple and convenient.';
 
     const newWebTitleEn = document.getElementById('new-web-title');
     if(newWebTitleEn) newWebTitleEn.textContent = 'Savor Cafe & Restaurant';
