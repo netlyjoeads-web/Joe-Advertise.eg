@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
+  <link rel="preload" href="casko.otf.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="logo.webp" as="image" fetchpriority="high">
   <meta name="description" content="Joe Advertise متخصصة في تصميمات السوشيال ميديا، بناء الهويات البصرية الفاخرة، تطوير واجهات المواقع التفاعلية، وإنتاج إعلانات الذكاء الاصطناعي.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joeadvertiseeg.vercel.app/">
@@ -20,8 +22,7 @@
 <meta name="google-site-verification" content="QN8OlqoffLArld9a3hdAFiBUv_OXoLSHeJ_Z0sx7Kmg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Joe Advertise</title>
- <link rel="preload" href="logo.webp" as="image" fetchpriority="high">
-<link rel="preload" href="casko.otf.woff" as="font" type="font/woff" crossorigin>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="joe ads logo .egy.png" type="image/x-icon"rel="icon">
@@ -85,9 +86,35 @@
     }
   ]
 }
-</script>
 
+</script>
+<script>
+  (function () {
+    if (localStorage.getItem('joe_theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+    if (localStorage.getItem('joe_lang') === 'ar') {
+      document.documentElement.setAttribute('dir', 'rtl');
+      document.documentElement.setAttribute('lang', 'ar');
+    }
+  })();
+</script>
 <style>
+  html.light-mode, body.light-mode {
+  --bg: #ffffff;
+  --text: #2f0854;
+  --muted: #5a269c;
+  --surface: #f8f4ff;
+  --grid: rgba(47, 8, 84, 0.08);
+}
+@font-face {
+  font-family: 'CASKO';
+  src: url('casko.otf.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+  
   /* إظهار اللوجو باللون الغامق */
 body.light-mode .animated-logo {
   filter: brightness(0) invert(0) !important; /* هيخليه أسود عشان يتقري */
@@ -206,11 +233,62 @@ body.light-mode .gallery-orbit img {
 }
 
 body.light-mode .hero-name .line1 { color: var(--text); }
-body.light-mode .filter-btn { background: #f8f4ff; border-color: rgba(47, 8, 84, 0.2); color: var(--text); }
-body.light-mode .filter-btn:hover, body.light-mode .filter-btn.active { color: #fff; }
+body.light-mode .filter-btn {
+  background: #f8f4ff;
+  border-color: rgba(47, 8, 84, 0.2);
+  color: var(--text);
+}
+body.light-mode .filter-btn:hover,
+body.light-mode .filter-btn.active {
+  background: var(--accent1);
+  border-color: var(--accent1);
+  color: #ffffff;
+}
 
 /* تعديل الـ Cursor للوضع النهاري عشان يبان */
 body.light-mode .cursor { mix-blend-mode: normal; background: var(--accent1); box-shadow: 0 0 15px var(--accent1); }
+/* إصلاح قائمة الموبايل وحقول التقييمات والنجوم في الوضع النهاري */
+body.light-mode .nav-links {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+body.light-mode .review-form input[type="text"],
+body.light-mode .review-form textarea {
+  background: #ffffff;
+  border-color: rgba(47, 8, 84, 0.25);
+  color: var(--text);
+}
+body.light-mode .star-picker span {
+  color: rgba(47, 8, 84, 0.2);
+}
+body.light-mode .star-picker span.active {
+  color: #ffb703;
+  text-shadow: 0 0 10px rgba(255, 183, 3, 0.5);
+}
+body.light-mode .reviews-slider-btn {
+  background: #ffffff;
+}
+body.light-mode .reviews-slider-dot {
+  background: rgba(47, 8, 84, 0.25);
+}
+
+/* ضبط اتجاه النصوص تلقائياً حسب اللغة */
+html[dir="rtl"] .hero-desc,
+html[dir="rtl"] .skill-desc {
+  direction: rtl;
+}
+html[dir="ltr"] .reason-body p {
+  direction: ltr;
+}
+
+/* تفعيل حركة إضاءة الخلفية */
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.1); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-60px, -40px) scale(1.1); }
+}
 /* تنسيق حاوية التوجل */
 .lang-switch-wrapper {
   display: flex;
@@ -223,6 +301,7 @@ body.light-mode .cursor { mix-blend-mode: normal; background: var(--accent1); bo
   align-items: center;
   gap: 10px;
   cursor: none;
+  direction: ltr;
 }
 
 /* المسار الداكن للتوجل */
@@ -311,59 +390,6 @@ body.light-mode .cursor { mix-blend-mode: normal; background: var(--accent1); bo
     order: 3; /* زرار الهمبرجر منيو آخر حاجة على اليمين */
     margin-left: 5px; /* مسافة بسيطة تفصله عن الزراير */
   }
-}
-.lang-slider {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(18, 8, 36, 0.8);
-  border: 1px solid var(--accent1);
-  border-radius: 30px;
-  transition: .4s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-}
-
-/* الدائرة اللي بتتحرك */
-.lang-slider:before {
-  position: absolute;
-  content: "";
-  height: 22px;
-  width: 22px;
-  left: 3px;
-  bottom: 3px;
-  background-color: var(--neon);
-  border-radius: 50%;
-  transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  box-shadow: 0 0 10px var(--neon);
-  z-index: 2;
-}
-
-/* حالة التبديل للغة العربية (Checked) */
-input:checked + .lang-slider {
-  border-color: var(--neon);
-}
-
-input:checked + .lang-slider:before {
-  transform: translateX(30px);
-  background-color: var(--accent1);
-  box-shadow: 0 0 10px var(--accent1);
-}
-
-/* نصوص EN و AR */
-.lang-text {
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 900;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.lang-text.ar {
-  font-family: 'Cairo', sans-serif;
 }
 .filter-container {
   display: flex;
@@ -525,256 +551,12 @@ input:checked + .lang-slider:before {
   }
 }
 
-:fullscreen {
-  background-color: #000;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-:fullscreen video {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-}
-
-video {
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-.ai-videos-grid {
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: 30px !important;
-}
-
-.video-item {
-  grid-column: span 1 !important;
-  aspect-ratio: 16 / 9 !important;
-}
-
-.video-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  background: #090412;
-  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.video-wrapper:hover {
-  transform: translateY(-5px);
-  border-color: var(--neon);
-  box-shadow: 0 10px 30px rgba(217, 70, 239, 0.3);
-}
-
-.brand-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  cursor: pointer;
-}
-
-.player-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(0deg, rgba(9, 4, 18, 0.95) 0%, rgba(9, 4, 18, 0.6) 70%, transparent 100%);
-  padding: 15px 15px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 20;
-}
-
-.video-wrapper:hover .player-controls,
-.video-wrapper.paused .player-controls {
-  opacity: 1;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  cursor: pointer;
-  position: relative;
-  transition: height 0.2s ease;
-}
-
-.progress-bar:hover {
-  height: 6px;
-}
-
-.progress-filled {
-  height: 100%;
-  background: var(--neon);
-  width: 0%;
-  border-radius: 10px;
-  box-shadow: 0 0 10px var(--neon);
-  transition: width 0.1s linear;
-  position: relative;
-}
-
-.controls-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.controls-left, .controls-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.ctrl-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease, color 0.2s ease;
-  width: 26px;
-  height: 26px;
-}
-
-.ctrl-btn svg {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
-}
-
-.ctrl-btn:hover {
-  color: var(--neon);
-  transform: scale(1.15);
-  filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.6));
-}
-
-.volume-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.volume-slider {
-  width: 55px;
-  height: 4px;
-  -webkit-appearance: none;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  outline: none;
-  cursor: pointer;
-  transition: width 0.3s ease;
-}
-
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--neon);
-  cursor: pointer;
-  box-shadow: 0 0 8px var(--neon);
-}
-
-.speed-select {
-  background: rgba(18, 8, 36, 0.85);
-  border: 1px solid rgba(124, 58, 237, 0.5);
-  color: #fff;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 6px;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.speed-select:hover {
-  border-color: var(--neon);
-  color: var(--neon);
-  box-shadow: 0 0 10px rgba(217, 70, 239, 0.4);
-}
-
-.speed-select option {
-  background: #120824;
-  color: #fff;
-}
 
 @media (max-width: 1000px) {
-  .ai-videos-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .video-item {
-    aspect-ratio: 16 / 9 !important;
-    height: auto !important;
-  }
-  .player-controls {
-    opacity: 1;
-    padding: 10px 10px 8px;
-  }
-  .volume-slider {
-    width: 45px;
-  }
+
 }
 
-.back-btn {
-    display: inline-flex !important;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #ffffff !important;
-    background: rgba(124, 58, 237, 0.2) !important;
-    padding: 12px 25px;
-    border-radius: 50px;
-    border: 1px solid var(--accent1) !important;
-    transition: all 0.3s ease;
-    cursor: none;
-    margin-bottom: 2rem;
-    z-index: 1000;
-    position: relative;
-    text-decoration: none;
-}
 
-.back-btn:hover {
-    background: var(--accent1) !important;
-    color: #ffffff !important;
-    transform: translateX(-5px);
-    box-shadow: 0 0 15px var(--neon);
-}
-
-.page-title-style {
-    font-family: 'CASKO', sans-serif;
-    font-size: clamp(3rem, 7vw, 6rem);
-    text-transform: uppercase;
-    color: #ffffff;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
-    line-height: 1.2;
-}
-
-@font-face {
-  font-family: 'CASKO';
-  src: url('casko.otf.woff') format('woff'); 
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   --bg: #090412;
@@ -849,8 +631,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.5rem 
 @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
 .page-inner { max-width: 1200px; margin: 0 auto; }
-.back-btn { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700;  color: var(--accent2); background: none; border: none; cursor: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 3rem; padding: 0; transition: color 0.3s; }
-.back-btn:hover { color: var(--neon); }
+
 
 #services-page, #contact-page { min-height: 100vh; padding: 10rem 4rem 5rem; position: relative; }
 .services-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem; }
@@ -898,8 +679,10 @@ section { padding: 8rem 4rem; }
 .hero-name { font-size: clamp(3.5rem, 7vw, 7rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
 .hero-name span { display: block; }
 .hero-name .line1 { color: var(--text); }
-.hero-name .line2 { color: transparent; -webkit-text-stroke: 2px var(--accent1); }
-.hero-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--neon); letter-spacing: 2px;  margin-bottom: 1.5rem; }
+.hero-name .line2 {
+  color: #ffffff;
+  -webkit-text-stroke: 0;
+}.hero-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--neon); letter-spacing: 2px;  margin-bottom: 1.5rem; }
 .hero-desc { color: var(--muted); font-size: 1.1rem; line-height: 1.8; max-width: 500px; direction: ltr; margin-bottom: 2.5rem; }
 .btn { padding: 1rem 2.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-decoration: none; border-radius: 50px; transition: all 0.3s; cursor: none; display: inline-block; }
 .btn-primary { background: var(--accent1); color: #fff; border: 1px solid var(--accent1); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
@@ -988,10 +771,7 @@ section { padding: 8rem 4rem; }
 @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 0 rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 20px rgba(37,211,102,0.5),0 0 0 12px rgba(37,211,102,0)} }
 
 @media (max-width: 1000px) {
-  .premium-spacing {
-    margin-top: 150px !important;
-    margin-bottom: 150px !important;
-  }
+
   nav { 
     padding: 1rem 1.5rem !important; 
     flex-direction: row !important; 
@@ -1071,13 +851,7 @@ section { padding: 8rem 4rem; }
     border-radius: 10px !important; 
     object-fit: cover !important;
   }
-  .marquee-track {
-    gap: 15px !important; 
-  }
-  .marquee-wrapper {
-    gap: 1.5rem !important;
-    padding: 2rem 0 !important;
-  }
+
   .gallery-orbit {
     width: 130px !important;
     height: 190px !important;
@@ -1100,10 +874,7 @@ section { padding: 8rem 4rem; }
     font-size: 0.9rem !important;
     padding: 0.7rem 1rem !important;
   }
-  nav { padding: 1rem 1.5rem !important; flex-direction: column; gap: 1rem; }
-  .nav-links { flex-wrap: wrap; justify-content: center; gap: 1rem; width: 100%; }
-  .nav-links a { font-size: 0.8rem; }
-  .nav-cta { padding: 0.5rem 1.2rem; }
+
   .hero {
     padding: 12rem 0.8rem 3rem !important;
   }
@@ -1134,61 +905,6 @@ section { padding: 8rem 4rem; }
   section, #services-page, #contact-page { padding: 3rem 0.8rem; }
 }
 
-.glitch-wrapper {
-  position: relative;
-  z-index: 2;
-  opacity: 0; 
-  transition: opacity 0.5s ease;
-  text-align: center;
-}
-
-.glitch-text {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 7vw, 6rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #ffffff;
-  position: relative;
-  letter-spacing: 5px;
-  animation: glitch-main 3s infinite;
-}
-
-.glitch-text::before,
-.glitch-text::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.8;
-}
-
-.glitch-text::before {
-  color: #00ffff; 
-  z-index: -1;
-  animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-}
-
-.glitch-text::after {
-  color: #ff00ff; 
-  z-index: -2;
-  animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
-}
-
-@keyframes glitch-anim {
-  0% { transform: translate(0); }
-  20% { transform: translate(-3px, 3px); }
-  40% { transform: translate(-3px, -3px); }
-  60% { transform: translate(3px, 3px); }
-  80% { transform: translate(3px, -3px); }
-  100% { transform: translate(0); }
-}
-
-@keyframes glitch-main {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.9; }
-}
 
 .clients-logos-section {
   padding: 10px 0;
@@ -1229,34 +945,14 @@ section { padding: 8rem 4rem; }
   animation: 25s slide-logos linear infinite;
 }
 
-.logos-slide img {
-  height: 50px; 
-  margin: 0 40px;
-  opacity: 0.3;
-  filter: grayscale(100%);
-  transition: all 0.4s ease;
-  cursor: none;
-  padding:0;
-}
 
-.logos-slide img:hover {
-  opacity: 1;
-  filter: grayscale(0%);
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6)); 
-}
 
 @keyframes slide-logos {
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }
 }
 
-@media (max-width: 1000px) {
-  .logos-slide img {
-    height: 35px;
-    margin: 0 20px;
-  }
-}
+
 
 .clients-logos-section .logos-slide img {
   width: 90px !important;
@@ -1306,20 +1002,7 @@ section { padding: 8rem 4rem; }
   box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
 }
 
-.img-small {
-  grid-column: span 1;
-  aspect-ratio: 1 / 1;
-}
 
-.img-wide {
-  grid-column: span 2;
-  aspect-ratio: 2 / 1; 
-}
-
-.img-large {
-  grid-column: span 2;
-  aspect-ratio: 1 / 1; 
-}
 
 @media (max-width: 1000px) {
   .branding-gallery {
@@ -1406,14 +1089,7 @@ section { padding: 8rem 4rem; }
   .review-form-wrap { padding: 1.5rem; }
   .reviews-slider { padding: 0 3.2rem; }
 }
-.review-row.pending { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
-.name { display: flex; align-items: center; gap: 10px; }
-.badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-family: 'Cairo', sans-serif; }
-.badge.pending-badge { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
-.badge.approved-badge { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-.actions { display: flex; flex-direction: column; gap: 0.6rem; }
-.approve-btn { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); cursor: pointer; border-radius: 50px; padding: 0.7rem 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; transition: 0.3s; }
-.approve-btn:hover { background: #4ade80; color: #120824; }
+
 
 #contact-page, #services-page, #reviews-page {
   padding-top: 11rem !important;
@@ -1453,7 +1129,6 @@ section { padding: 8rem 4rem; }
 </style>
 </head>
 <body>
-
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -1524,7 +1199,7 @@ section { padding: 8rem 4rem; }
         <div class="services-cards">
             <div class="service-card"><div class="service-num">01</div><div class="service-name">Graphic Design</div><p class="service-desc">Professional visual content design for social media platforms, including distinctive brand identity development, professional logo design, and high-converting creative assets that help brands grow, stand out, and thrive across diverse industries.</p></div>
             <div class="service-card"><div class="service-num">02</div><div class="service-name">WEB DEVELOPMENT</div><p class="service-desc">Development of interactive and creative web interfaces — portfolio websites, landing pages, and engaging user experiences powered by the latest web technologies.</p></div>
-            <div class="service-card"><div class="service-num">03</div><div class="service-name">AI CREATOR</div><p class="service-desc">Production of cinematic AI commercials and lifelike voiceovers, leveraging state-of-the-art artificial intelligence technologies to maximize engagement and drive marketing success.</p></div>
+            <div class="service-card"><div class="service-num">03</div><div class="service-name">AI ADS</div><p class="service-desc">Production of cinematic AI commercials and lifelike voiceovers, leveraging state-of-the-art artificial intelligence technologies to maximize engagement and drive marketing success.</p></div>
         </div>
     </div>
 </div>
@@ -1624,8 +1299,8 @@ section { padding: 8rem 4rem; }
         </div>
         <div class="hero-left">
           <h1 class="hero-name"><span class="line1">Joe</span><span class="line2">Advertise</span></h1>
-          <p class="hero-title">Graphic Designer · AI Ads Creator · Web Development</p>
-          <p class="hero-desc">Graphic Designer , Web Development . We engineer premium brand identities and cinematic AI commercials that elevate your business.</p>
+          <p class="hero-title">Graphic Design · AI Ads · Web Development</p>
+          <p class="hero-desc">Graphic Design , Web Development . We engineer premium brand identities and cinematic AI commercials that elevate your business.</p>
           <a href="https://wa.me/201035419531" target="_blank" class="btn btn-primary">Contact us</a>
         </div>
       </div>
@@ -1882,7 +1557,7 @@ section { padding: 8rem 4rem; }
     font-family: 'Cairo', 'Outfit', sans-serif !important;
     font-size: 1.5rem !important;
     font-weight: 700 !important;
-    color: #ffffff !important;
+color: var(--text) !important;
     margin-bottom: 1rem !important;
     line-height: 1.6 !important;
     display: block !important;
@@ -1925,7 +1600,7 @@ section { padding: 8rem 4rem; }
     <div class="web-demo-container">
       
       <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-        <h3 id="partytime-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Partytime Website</h3>
+        <h3 id="partytime-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: var(--text) !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Partytime Website</h3>
         <p id="partytime-web-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A modern, responsive website experience designed to showcase Partytime and make exploring its services simple and engaging.</p>
       </div>
 
@@ -1963,7 +1638,7 @@ section { padding: 8rem 4rem; }
       </div>
 
       <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-        <h3 id="openmart-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Openmart E-commerce Website</h3>
+        <h3 id="openmart-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: var(--text) !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Openmart E-commerce Website</h3>
         <p id="openmart-web-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A bilingual online store designed to make browsing products and placing orders simple and convenient.</p>
       </div>
 
@@ -2003,7 +1678,7 @@ section { padding: 8rem 4rem; }
 
       <!-- المشروع الأول: Savor Cafe -->
       <div class="web-demo-info-fix" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-        <h3 id="new-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Savor Cafe & Restaurant</h3>
+        <h3 id="new-web-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: var(--text) !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Savor Cafe & Restaurant</h3>
         <p id="new-web-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">A fully custom-built digital ordering system designed to streamline the ordering process and deliver a seamless customer experience.</p>
       </div>
 
@@ -2044,7 +1719,7 @@ section { padding: 8rem 4rem; }
 
       <!-- المشروع الثاني: Fast Food -->
       <div class="web-demo-info-fix" style="margin-bottom: 1.5rem;">
-        <h3 id="web-info-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: #ffffff !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Experimental Ordering Website</h3>
+        <h3 id="web-info-title" style="font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.5rem !important; font-weight: 700 !important; color: var(--text) !important; margin-bottom: 1rem !important; line-height: 1.6 !important; text-align: center !important;">Experimental Ordering Website</h3>
         <p id="web-info-desc" style="color: #9ca3af !important; font-family: 'Cairo', 'Outfit', sans-serif !important; font-size: 1.05rem !important; line-height: 1.9 !important; max-width: 800px !important; margin: 0 auto !important; text-align: center !important;">Developing an engaging and interactive user interface for a fast-food restaurant, built with modern web technologies.</p>
       </div>
 
@@ -2220,7 +1895,6 @@ section { padding: 8rem 4rem; }
         <img src="Riyadh_billboard_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
         <img src="Instagram_Post_target_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
         <img src="Waiters_uniform_on_surface_202607031939.jpeg" alt="lets bite" class="brand-img">
-        <img src="Reusable_water_bottle_on_surface_202607031937.jpeg" alt="lets bite" class="brand-img">
         <img src="Polo_shirt_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
         <img src="Chef_plating_gourmet_appetizers_202607031938.jpeg" alt="lets bite" class="brand-img">
         <img src="Desk_name_plate_on_surface_202607031938.jpeg" alt="lets bite" class="brand-img">
@@ -2308,46 +1982,63 @@ section { padding: 8rem 4rem; }
 </footer>
 
 <script>
+const pagesMap = {
+  main: 'main-site',
+  services: 'services-page',
+  contact: 'contact-page',
+  reviews: 'reviews-page'
+};
+
 function closeMobileMenu() {
   const navToggle = document.getElementById('nav-toggle');
   if (navToggle) navToggle.checked = false;
 }
 
-function showMain() {
-  document.getElementById('main-site').classList.add('active-page');
-  document.getElementById('services-page').classList.remove('active-page');
-  document.getElementById('contact-page').classList.remove('active-page');
-  document.getElementById('reviews-page').classList.remove('active-page');
+function navigateTo(pageName, addToHistory = true) {
+  const targetPage = pagesMap[pageName] ? pageName : 'main';
+
+  Object.entries(pagesMap).forEach(([key, elementId]) => {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.classList.toggle('active-page', key === targetPage);
+    }
+  });
+
+  const currentPage = window.location.hash.replace('#', '') || 'main';
+  if (addToHistory && currentPage !== targetPage) {
+    const newUrl = targetPage === 'main'
+      ? window.location.pathname + window.location.search
+      : '#' + targetPage;
+    history.pushState({ page: targetPage }, '', newUrl);
+  }
+
   closeMobileMenu();
   window.scrollTo(0, 0);
 }
 
-function showServices() {
-  document.getElementById('main-site').classList.remove('active-page');
-  document.getElementById('contact-page').classList.remove('active-page');
-  document.getElementById('reviews-page').classList.remove('active-page');
-  document.getElementById('services-page').classList.add('active-page');
-  closeMobileMenu();
-  window.scrollTo(0, 0);
-}
+function showMain() { navigateTo('main'); }
+function showServices() { navigateTo('services'); }
+function showContact() { navigateTo('contact'); }
+function showReviews() { navigateTo('reviews'); }
 
-function showContact() {
-  document.getElementById('main-site').classList.remove('active-page');
-  document.getElementById('services-page').classList.remove('active-page');
-  document.getElementById('reviews-page').classList.remove('active-page');
-  document.getElementById('contact-page').classList.add('active-page');
-  closeMobileMenu();
-  window.scrollTo(0, 0);
-}
+window.addEventListener('popstate', (e) => {
+  const hashPage = window.location.hash.replace('#', '');
+  const targetPage = (e.state && e.state.page) || hashPage || 'main';
+  navigateTo(targetPage, false);
+});
 
-function showReviews() {
-  document.getElementById('main-site').classList.remove('active-page');
-  document.getElementById('services-page').classList.remove('active-page');
-  document.getElementById('contact-page').classList.remove('active-page');
-  document.getElementById('reviews-page').classList.add('active-page');
-  closeMobileMenu();
-  window.scrollTo(0, 0);
-}
+(function initRouter() {
+  const initialHash = window.location.hash.replace('#', '');
+  const initialPage = pagesMap[initialHash] ? initialHash : 'main';
+  const initialUrl = initialPage === 'main'
+    ? window.location.pathname + window.location.search
+    : '#' + initialPage;
+
+  history.replaceState({ page: initialPage }, '', initialUrl);
+  if (initialPage !== 'main') {
+    navigateTo(initialPage, false);
+  }
+})();
 
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -2475,6 +2166,7 @@ function toggleLang() {
   // Toggle the state based on the checkbox
   const checkbox = document.getElementById('lang-toggle-checkbox');
   isArabic = checkbox.checked; // Use the checkbox state directly
+  localStorage.setItem('joe_lang', isArabic ? 'ar' : 'en');
 
   let serviceCards = document.querySelectorAll('.service-card');
 
@@ -2506,8 +2198,6 @@ function toggleLang() {
     const bannerTitle = document.getElementById('banner-title');
     if (bannerTitle) bannerTitle.textContent = 'تصميم البانرات الإعلانية';
 
-    const aiAdsTitle = document.getElementById('ai-ads-title');
-    if (aiAdsTitle) aiAdsTitle.textContent = 'إعلانات الذكاء الاصطناعي';
 
     const webDevLabel = document.getElementById('web-dev-label');
     if(webDevLabel) webDevLabel.textContent = 'معاينة حية لمشروع';
@@ -2545,7 +2235,7 @@ function toggleLang() {
     }
     
     const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) heroTitle.textContent = 'مصمم جرافيك · منشئ إعلانات AI · تطوير المواقع الإلكترونية';
+    if (heroTitle) heroTitle.textContent = 'التصميم الجرافيك · منشئ إعلانات AI · تطوير المواقع الإلكترونية';
     const heroDesc = document.querySelector('.hero-desc');
     if (heroDesc) heroDesc.textContent = 'تصميم جرافيك، تطوير المواقع الإلكترونية، وتصميم مشاهد تسويقية باستخدام أحدث تقنيات الذكاء الاصطناعي. نصمم هويات بصرية فاخرة للعلامات التجارية لرقي علامتك التجارية ومنحها حضورًا أكثر تميزًا.';
     const heroBtn = document.querySelector('.hero .btn-primary');
@@ -2702,9 +2392,9 @@ function toggleLang() {
     }
     
     const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) heroTitle.textContent = 'Graphic Designer · AI Ads Creator · Web Development';
+    if (heroTitle) heroTitle.textContent = 'Graphic Design · AI Ads · Web Development';
     const heroDesc = document.querySelector('.hero-desc');
-    if (heroDesc) heroDesc.textContent = 'Graphic Designer, Web Developer & AI creator. We engineer premium brand identities and cinematic AI commercials that elevate your business.';
+    if (heroDesc) heroDesc.textContent = 'Graphic Design, Web Developer & AI creator. We engineer premium brand identities and cinematic AI commercials that elevate your business.';
     const heroBtn = document.querySelector('.hero .btn-primary');
     if (heroBtn) heroBtn.textContent = 'Contact us';
 
@@ -2937,13 +2627,13 @@ document.addEventListener("DOMContentLoaded", function() {
   `;
   document.body.appendChild(lightbox);
 
-  const lightboxImg = document.getElementById('lightbox-img');
-  socialImages.forEach(img => {
-    img.addEventListener('click', () => {
-      lightboxImg.src = img.src; 
-      lightbox.classList.add('active');
-    });
+const lightboxImg = document.getElementById('lightbox-img');
+document.querySelectorAll('.social-img, .brand-img').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src; 
+    lightbox.classList.add('active');
   });
+});
 
   lightbox.addEventListener('click', (e) => {
     if (e.target !== lightboxImg) {
@@ -2969,7 +2659,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-</body>
 <!-- ═══════════════════════ CLIENT REVIEWS: SUPABASE ═══════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -3128,14 +2817,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
   loadReviews();
 })();
-// دالة لتغيير الوضع الليلي / النهاري
+// دالة لتغيير الوضع الليلي / النهاري وحفظه
 function toggleTheme() {
   const themeCheckbox = document.getElementById('theme-toggle-checkbox');
-  if (themeCheckbox.checked) {
-    document.body.classList.add('light-mode');
-  } else {
-    document.body.classList.remove('light-mode');
-  }
+  const isLight = themeCheckbox.checked;
+  document.body.classList.toggle('light-mode', isLight);
+  localStorage.setItem('joe_theme', isLight ? 'light' : 'dark');
 }
+
+// استعادة إعدادات اللغة والثيم المحفوظة عند فتح الموقع
+(function restorePreferences() {
+  const savedTheme = localStorage.getItem('joe_theme');
+  const themeCheckbox = document.getElementById('theme-toggle-checkbox');
+  if (savedTheme === 'light' && themeCheckbox) {
+    themeCheckbox.checked = true;
+    document.body.classList.add('light-mode');
+  }
+
+  const savedLang = localStorage.getItem('joe_lang');
+  const langCheckbox = document.getElementById('lang-toggle-checkbox');
+  if (savedLang === 'ar' && langCheckbox) {
+    langCheckbox.checked = true;
+    toggleLang();
+  }
+})();
 </script>
+</body>
 </html>
