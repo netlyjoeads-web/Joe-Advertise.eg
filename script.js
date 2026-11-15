@@ -1182,7 +1182,7 @@ document.addEventListener('click', (e) => {
     });
   }
 
-// منطق إظهار Exit Popup (متوافق مع الـ SPA وبدون تعارض مع زر الرجوع)
+// منطق إظهار Exit Popup (دعم كامل للكمبيوتر وموبايل Back Button)
   let exitCooldown = false;
   let userInteracted = false;
   const sessionStartTime = Date.now();
@@ -1196,8 +1196,8 @@ document.addEventListener('click', (e) => {
     if (!exitOverlay) return;
     if (localStorage.getItem('joe_lead_submitted') === '1') return;
     
-    // شروط عدم الإزعاج: مر 15 ثانية على الأقل + تفاعل الزائر + مش في فترة تهدئة
-    if (!userInteracted || Date.now() - sessionStartTime < 15000) return;
+    // شروط عدم الإزعاج: مر 6 ثواني على الأقل + تفاعل الزائر + مش في فترة تهدئة
+    if (!userInteracted || Date.now() - sessionStartTime < 6000) return;
     if (exitOverlay.classList.contains('open') || exitCooldown) return;
 
     if (callbackCard) callbackCard.classList.remove('open');
@@ -1227,31 +1227,21 @@ document.addEventListener('click', (e) => {
     }
   });
 
-  // 2. للموبايل: عند مغادرة المتصفح أو التبديل لتطبيق آخر (Visibility Hidden)
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && userInteracted && Date.now() - sessionStartTime > 15000) {
-      if (localStorage.getItem('joe_lead_submitted') !== '1') {
+  // 2. للموبايل: اعتراض زر الرجوع (Back) لإظهار النافذة عند محاولة الخروج الفعلي
+  if (isMobile) {
+    if (localStorage.getItem('joe_lead_submitted') !== '1') {
+      history.pushState({ exitIntentGuard: true }, '', window.location.href);
+    }
+
+    window.addEventListener('popstate', (e) => {
+      if (localStorage.getItem('joe_lead_submitted') === '1') return;
+
+      // لو المستخدم ضغط رجوع ووصل لحالة الحراسة (محاولة الخروج من الموقع)
+      if (e.state && e.state.exitIntentGuard) {
+        // إعادة حقن حالة الحراسة عشان لو قفل النافذة الكود يفضل جاهز لو حاول يخرج تاني
+        history.pushState({ exitIntentGuard: true }, '', window.location.href);
         triggerExitPopup();
       }
-    }
-  });
-
-  // 3. للموبايل: السحب السريع للأعلى والوصول لقمة الصفحة بعد تصفح حقيقي (محاولة الخروج/التحديث)
-  let maxScroll = 0;
-  let lastY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const currentY = window.scrollY;
-    if (currentY > maxScroll) maxScroll = currentY;
-
-    if (
-      isMobile &&
-      maxScroll > 600 &&
-      lastY - currentY > 200 &&
-      currentY <= 10
-    ) {
-      maxScroll = 0;
-      triggerExitPopup();
-    }
-    lastY = currentY;
-  }, { passive: true });
+    });
+  }
 })();
