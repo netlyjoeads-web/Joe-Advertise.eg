@@ -1193,16 +1193,17 @@ document.addEventListener('click', (e) => {
   });
 
   function triggerExitPopup() {
-    if (!exitOverlay) return;
-    if (localStorage.getItem('joe_lead_submitted') === '1') return;
+    if (!exitOverlay) return false;
+    if (localStorage.getItem('joe_lead_submitted') === '1') return false;
     
     // شروط عدم الإزعاج: مر 6 ثواني على الأقل + تفاعل الزائر + مش في فترة تهدئة
-    if (!userInteracted || Date.now() - sessionStartTime < 6000) return;
-    if (exitOverlay.classList.contains('open') || exitCooldown) return;
+    if (!userInteracted || Date.now() - sessionStartTime < 6000) return false;
+    if (exitOverlay.classList.contains('open') || exitCooldown) return false;
 
     if (callbackCard) callbackCard.classList.remove('open');
     exitOverlay.classList.add('open');
-    if (exitInput) setTimeout(() => exitInput.focus(), 200);
+    if (exitInput && !isMobile) setTimeout(() => exitInput.focus(), 200);
+    return true;
   }
 
   function closeExitPopup() {
@@ -1236,11 +1237,18 @@ document.addEventListener('click', (e) => {
     window.addEventListener('popstate', (e) => {
       if (localStorage.getItem('joe_lead_submitted') === '1') return;
 
-      // لو المستخدم ضغط رجوع ووصل لحالة الحراسة (محاولة الخروج من الموقع)
-      if (e.state && e.state.exitIntentGuard) {
-        // إعادة حقن حالة الحراسة عشان لو قفل النافذة الكود يفضل جاهز لو حاول يخرج تاني
+      // الرجوع إلى حالة الحراسة يعني تنقلاً داخلياً؛ أما الحالة السابقة لها فتعني محاولة مغادرة الموقع.
+      if (e.state && e.state.exitIntentGuard) return;
+
+      // زر الرجوع يغلق النافذة المفتوحة أولاً، وبعدها يظل الرجوع التالي متاحاً لمغادرة الموقع.
+      if (exitOverlay && exitOverlay.classList.contains('open')) {
+        closeExitPopup();
+        return;
+      }
+
+      // أعد تفعيل الحراسة فقط عند ظهور النافذة، حتى لا نمنع الرجوع إذا لم تتحقق شروط الإظهار.
+      if (triggerExitPopup()) {
         history.pushState({ exitIntentGuard: true }, '', window.location.href);
-        triggerExitPopup();
       }
     });
   }
