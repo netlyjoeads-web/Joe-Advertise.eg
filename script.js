@@ -1085,10 +1085,6 @@ function validatePhoneNumber(raw) {
   attachNumericFilter(callbackInput);
   attachNumericFilter(exitInput);
 
-  if (localStorage.getItem('joe_lead_submitted') === '1' && callbackBtn) {
-    callbackBtn.classList.add('submitted');
-  }
-
   if (callbackBtn && callbackCard) {
     callbackBtn.addEventListener('click', () => {
       callbackCard.classList.toggle('open');
@@ -1141,7 +1137,10 @@ document.addEventListener('click', (e) => {
 
       // حفظ إن العميل ساب رقمه لمنع ظهور Exit Popup نهائياً
       localStorage.setItem('joe_lead_submitted', '1');
-      if (callbackBtn) callbackBtn.classList.add('submitted');
+      if (callbackBtn) {
+        callbackBtn.classList.add('submitted');
+        setTimeout(() => callbackBtn.classList.remove('submitted'), 30000);
+      }
 
       successEl.textContent = ar
         ? 'تم استلام رقمك بنجاح! هنتواصل معاك واتساب في دقائق ✅'
