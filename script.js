@@ -207,6 +207,8 @@ function toggleLang() {
   let serviceCards = document.querySelectorAll('.service-card');
 
   if (isArabic) {
+    if (callbackInput) callbackInput.placeholder = 'اكتب رقم الواتساب الخاص بك';
+    if (exitInput) exitInput.placeholder = 'اكتب رقم الواتساب الخاص بك';
     const cbBadge = document.getElementById('callbackBadgeText');
     if (cbBadge) cbBadge.textContent = 'نكلمك؟';
     const cbTitle = document.getElementById('callbackCardTitle');
@@ -998,51 +1000,58 @@ function toggleTheme() {
     else if (href.includes('facebook.com')) notifyInterest('facebook', 'ضغط على صفحة فيسبوك');
   });
 
-  // 3. توحيد وتدقيق رقم الهاتف (أرقام فقط + طول محدد + منع الأرقام الوهمية)
-  function normalizeDigits(val) {
+function normalizeDigits(val) {
     const arabicNums = '٠١٢٣٤٥٦٧٨٩';
     return String(val || '')
       .replace(/[٠-٩]/g, d => arabicNums.indexOf(d))
       .replace(/\D/g, '');
   }
 
-  function validatePhoneNumber(raw) {
-    const digits = normalizeDigits(raw);
+function validatePhoneNumber(raw) {
+    let digits = normalizeDigits(raw);
     const ar = document.documentElement.getAttribute('lang') === 'ar';
 
+    if (digits.startsWith('00')) {
+      digits = digits.slice(2);
+    }
+
+    // تصحيح تلقائي لو كتب 20010... للرقم المصري
+    if (/^2001[0125]\d{8}$/.test(digits)) {
+      digits = '2' + digits.slice(2);
+    }
+
     if (!digits) {
-      return { valid: false, msg: ar ? 'من فضلك اكتب رقم الموبايل' : 'Please enter your phone number' };
-    }
-    if (/^(\d)\1+$/.test(digits) || digits === '01234567890' || digits === '1234567890') {
-      return { valid: false, msg: ar ? 'من فضلك اكتب رقم صحيح غير وهمي' : 'Please enter a valid real phone number' };
-    }
-    // رقم مصري يبدأ بـ 01 -> لازم 11 رقم بالظبط
-    if (digits.startsWith('01')) {
-      if (!/^01[0125]\d{8}$/.test(digits)) {
-        return {
-          valid: false,
-          msg: ar ? 'الرقم المصري لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015' : 'Egyptian mobile number must be 11 digits (e.g. 010XXXXXXXX)'
-        };
-      }
-      return { valid: true, digits };
-    }
-    // رقم مصري بكود الدولة 201 -> لازم 12 رقم
-    if (digits.startsWith('201')) {
-      if (!/^201[0125]\d{8}$/.test(digits)) {
-        return {
-          valid: false,
-          msg: ar ? 'تأكد من كتابة الـ 12 رقم بشكل صحيح بعد 20' : 'Please enter a valid 12-digit Egyptian number'
-        };
-      }
-      return { valid: true, digits };
-    }
-    // أرقام دولية أو خليجية (من 10 إلى 15 رقم)
-    if (digits.length < 10 || digits.length > 15) {
       return {
         valid: false,
-        msg: ar ? 'رقم الهاتف لازم يكون من 10 إلى 15 رقم' : 'Phone number must be between 10 and 15 digits'
+        msg: ar ? 'من فضلك اكتب رقم الواتساب' : 'Please enter your WhatsApp number'
       };
     }
+
+    // رفض الأرقام الوهمية المكررة أو المتسلسلة
+    if (/^(\d)\1+$/.test(digits) || /^(0123456789|1234567890|9876543210)/.test(digits)) {
+      return {
+        valid: false,
+        msg: ar ? 'من فضلك اكتب رقم واتساب صحيح' : 'Please enter a valid WhatsApp number'
+      };
+    }
+
+    const isEgyptianLocalInvalid = digits.startsWith('01') && !/^01[0125]\d{8}$/.test(digits);
+    const isEgyptianIntlInvalid = digits.startsWith('201') && !/^201[0125]\d{8}$/.test(digits);
+
+    if (
+      digits.length < 8 ||
+      digits.length > 15 ||
+      isEgyptianLocalInvalid ||
+      isEgyptianIntlInvalid
+    ) {
+      return {
+        valid: false,
+        msg: ar
+          ? 'تأكد من كتابة رقم الواتساب بشكل صحيح (أو أضف كود الدولة للأرقام الدولية)'
+          : 'Please enter a valid WhatsApp number (add country code if international)'
+      };
+    }
+
     return { valid: true, digits };
   }
 

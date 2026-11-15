@@ -5,15 +5,29 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
-function buildWhatsAppLink(phone) {
-  const digits = String(phone || '').replace(/\D/g, '');
+function buildWhatsAppLink(phone, countryCode) {
+  let digits = String(phone || '').replace(/\D/g, '');
   if (!digits) return '';
+  if (digits.startsWith('00')) digits = digits.slice(2);
+
+  // الرقم المصري المحلي (11 رقم يبدأ بـ 01)
   if (digits.startsWith('01') && digits.length === 11) {
     return `https://wa.me/2${digits}`;
   }
+
+  // لو عميل من أي دولة تانية كتب رقم محلي يبدأ بـ 0 من غير كود الدولة
+  const localPrefixes = {
+    SA: '966', AE: '971', KW: '965', QA: '974', BH: '973',
+    OM: '968', JO: '962', LB: '961', IQ: '964', PS: '970',
+    YE: '967', SD: '249', LY: '218', TN: '216', DZ: '213', MA: '212'
+  };
+  if (digits.startsWith('0') && localPrefixes[countryCode]) {
+    return `https://wa.me/${localPrefixes[countryCode]}${digits.slice(1)}`;
+  }
+
+  // أي رقم دولي مكتوب بكود الدولة لأي دولة في العالم
   return `https://wa.me/${digits}`;
 }
-
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -49,7 +63,7 @@ module.exports = async (req, res) => {
   let text = '';
 
   if (type === 'lead') {
-    const waLink = buildWhatsAppLink(phone);
+const waLink = buildWhatsAppLink(phone, country);
     text = [
       '🔥 <b>عميل مهتم ساب رقمه على Joe Advertise!</b>',
       `📞 <b>الرقم:</b> <code>${escapeHtml(phone)}</code>`,
