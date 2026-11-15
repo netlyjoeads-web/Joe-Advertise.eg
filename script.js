@@ -1182,15 +1182,21 @@ document.addEventListener('click', (e) => {
     });
   }
 
- // منطق إظهار Exit Popup (يظهر عند محاولة الخروج طالما العميل لم يرسل رقمه)
+// منطق إظهار Exit Popup (فقط عند الخروج الفعلي وبعد تفاعل الزائر)
   let exitCooldown = false;
+  let userInteracted = false;
+
+  // تسجيل إن الزائر بدأ يتصفح الموقع فعلاً (سكرول أو لمس أو ضغط)
+  ['scroll', 'click', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, () => { userInteracted = true; }, { once: true, passive: true });
+  });
 
   function triggerExitPopup() {
     if (!exitOverlay) return;
-    // الشرط الوحيد للمنع الدائم: إن العميل يكون ساب رقمه فعلاً
+    // منع الظهور لو العميل ساب رقمه مسبقاً
     if (localStorage.getItem('joe_lead_submitted') === '1') return;
-    // لو النافذة مفتوحة أصلاً أو لسه قافلها من ثواني (منع التكرار المزعج في نفس اللحظة)
-    if (exitOverlay.classList.contains('open') || exitCooldown) return;
+    // منع الظهور لو لسه داخل الموقع وماتفاعلش أو في فترة التهدئة
+    if (!userInteracted || exitOverlay.classList.contains('open') || exitCooldown) return;
 
     if (callbackCard) callbackCard.classList.remove('open');
     exitOverlay.classList.add('open');
@@ -1200,11 +1206,8 @@ document.addEventListener('click', (e) => {
   function closeExitPopup() {
     if (!exitOverlay) return;
     exitOverlay.classList.remove('open');
-    // فترة تهدئة 10 ثواني بعد الضغط على X عشان يقدر يتصفح، ولو حاول يخرج تاني هتظهرله
     exitCooldown = true;
-    setTimeout(() => {
-      exitCooldown = false;
-    }, 10000);
+    setTimeout(() => { exitCooldown = false; }, 15000);
   }
 
   if (exitClose && exitOverlay) {
@@ -1216,29 +1219,44 @@ document.addEventListener('click', (e) => {
 
   const pageLoadTime = Date.now();
 
-  // 1. للكمبيوتر: عند تحريك الماوس لأعلى ناحية الخروج من الصفحة (بعد 3 ثواني من الدخول)
-  document.addEventListener('mouseout', (e) => {
-    if (Date.now() - pageLoadTime < 3000) return;
-    if (!e.relatedTarget && !e.toElement && e.clientY <= 10) {
+  // 1. للكمبيوتر: عند تحريك الماوس لأعلى ناحية شريط المتصفح/زرار الإغلاق (بعد 8 ثواني من الدخول)
+  document.addEventListener('mouseleave', (e) => {
+    if (Date.now() - pageLoadTime < 8000) return;
+    if (e.clientY <= 10) {
       triggerExitPopup();
     }
   });
 
-  // 2. للموبايل والكمبيوتر: عند محاولة مغادرة الصفحة أو التبديل لتطبيق/تاب تاني
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && Date.now() - pageLoadTime > 3000) {
+  // 2. للموبايل: عند الضغط على زرار الرجوع (Back) في الموبايل أو المتصفح
+  history.pushState({ exitGuard: true }, '');
+  window.addEventListener('popstate', () => {
+    if (
+      localStorage.getItem('joe_lead_submitted') !== '1' &&
+      userInteracted &&
+      Date.now() - pageLoadTime > 8000
+    ) {
+      history.pushState({ exitGuard: true }, '');
       triggerExitPopup();
     }
   });
 
-  // 3. للموبايل: عند الوصول لأعلى الصفحة بعد تصفح حقيقي للأسفل (محاولة السحب للخروج أو تحديث الصفحة)
-  let hasScrolledDown = false;
+  // 3. للموبايل: عند السحب السريع لأعلى في بداية الصفحة (نية مغادرة/تحديث بعد تصفح حقيقي)
+  let maxScroll = 0;
+  let lastY = window.scrollY;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      hasScrolledDown = true;
-    } else if (isMobile && hasScrolledDown && window.scrollY <= 10 && Date.now() - pageLoadTime > 5000) {
-      hasScrolledDown = false;
+    const currentY = window.scrollY;
+    if (currentY > maxScroll) maxScroll = currentY;
+
+    if (
+      isMobile &&
+      maxScroll > 450 &&
+      Date.now() - pageLoadTime > 10000 &&
+      lastY - currentY > 180 &&
+      currentY < 150
+    ) {
+      maxScroll = 0;
       triggerExitPopup();
     }
+    lastY = currentY;
   }, { passive: true });
 })();
