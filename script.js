@@ -1038,7 +1038,7 @@ function validatePhoneNumber(raw) {
     const isEgyptianLocalInvalid = digits.startsWith('01') && !/^01[0125]\d{8}$/.test(digits);
     const isEgyptianIntlInvalid = digits.startsWith('201') && !/^201[0125]\d{8}$/.test(digits);
 
-    if (
+if (
       digits.length < 8 ||
       digits.length > 15 ||
       isEgyptianLocalInvalid ||
@@ -1047,8 +1047,8 @@ function validatePhoneNumber(raw) {
       return {
         valid: false,
         msg: ar
-          ? 'تأكد من كتابة رقم الواتساب بشكل صحيح (أو أضف كود الدولة للأرقام الدولية)'
-          : 'Please enter a valid WhatsApp number (add country code if international)'
+          ? 'رقم الواتساب غير مكتمل أو غير صحيح، تأكد من كتابة جميع الأرقام'
+          : 'Incomplete or invalid WhatsApp number, please check the digits'
       };
     }
 
