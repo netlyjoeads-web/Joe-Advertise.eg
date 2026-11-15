@@ -882,3 +882,22 @@ function toggleTheme() {
     toggleLang();
   }
 })();
+(function trackVisit() {
+  if (navigator.webdriver || sessionStorage.getItem('joe_visit_notified')) return;
+  sessionStorage.setItem('joe_visit_notified', '1');
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const device = isMobile ? 'موبايل' : 'كمبيوتر';
+  const referrer = document.referrer || 'دخول مباشر (Direct)';
+
+  fetch('/api/visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      page: window.location.pathname,
+      referrer,
+      device
+    }),
+    keepalive: true
+  }).catch(() => {});
+})();
