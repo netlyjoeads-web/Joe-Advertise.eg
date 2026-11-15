@@ -888,14 +888,36 @@ function toggleTheme() {
 
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const device = isMobile ? 'موبايل' : 'كمبيوتر';
-  const referrer = document.referrer || 'دخول مباشر (Direct)';
+
+  const params = new URLSearchParams(window.location.search);
+  const utmSource = params.get('utm_source');
+  const rawRef = document.referrer || '';
+  const ownHost = window.location.hostname;
+
+  let source = 'دخول مباشر (Direct)';
+
+  if (utmSource) {
+    source = utmSource;
+  } else if (params.has('fbclid') || /facebook\.com|fb\.com/i.test(rawRef)) {
+    source = 'فيسبوك (Facebook)';
+  } else if (/instagram\.com/i.test(rawRef)) {
+    source = 'إنستجرام (Instagram)';
+  } else if (params.has('gclid') || /google\./i.test(rawRef)) {
+    source = 'جوجل (Google)';
+  } else if (/tiktok\.com/i.test(rawRef)) {
+    source = 'تيك توك (TikTok)';
+  } else if (/t\.me|telegram/i.test(rawRef)) {
+    source = 'تليجرام (Telegram)';
+  } else if (rawRef && !rawRef.includes(ownHost)) {
+    source = rawRef;
+  }
 
   fetch('/api/visit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      page: window.location.pathname,
-      referrer,
+      page: window.location.pathname + window.location.hash,
+      referrer: source,
       device
     }),
     keepalive: true
