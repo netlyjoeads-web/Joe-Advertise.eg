@@ -764,12 +764,25 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentReview = 0;
   let autoSlideTimer;
 
+  function updateSliderHeight() {
+    if (!sliderTrack || !sliderTrack.parentElement) return;
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      const currentCard = sliderTrack.querySelectorAll('.review-card')[currentReview];
+      if (currentCard) sliderTrack.parentElement.style.height = `${currentCard.offsetHeight}px`;
+    } else {
+      sliderTrack.parentElement.style.removeProperty('height');
+    }
+  }
+
   function showReview(index, reviews) {
     if (!sliderTrack || !reviews.length) return;
     currentReview = (index + reviews.length) % reviews.length;
     sliderTrack.style.transform = `translateX(-${currentReview * 100}%)`;
+    updateSliderHeight();
     sliderDots.querySelectorAll('button').forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === currentReview));
   }
+
+  window.addEventListener('resize', updateSliderHeight);
 
   function renderReviewSlider(reviews) {
     if (!sliderTrack) return;

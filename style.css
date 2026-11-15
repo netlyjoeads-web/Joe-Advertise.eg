@@ -977,6 +977,15 @@ section { padding: 8rem 4rem; }
   .reviews-grid { grid-template-columns: 1fr; }
   .review-form-wrap { padding: 1.5rem; }
   .reviews-slider { padding: 0 3.2rem; }
+  .reviews-slider-track { align-items: flex-start; }
+  .reviews-slider .review-card {
+    min-height: 0;
+    justify-content: flex-start;
+    padding: 1.1rem 1rem;
+  }
+  .reviews-slider .review-stars { margin-bottom: 0.5rem; }
+  .reviews-slider .review-text { line-height: 1.6; margin-bottom: 0.8rem; }
+  .reviews-slider-viewport { transition: height 0.3s ease; }
 }
 
 #contact-page, #services-page, #reviews-page {
@@ -1619,5 +1628,56 @@ body.light-mode .exit-popup-box input[type="tel"] {
   .exit-popup-close,
   .lead-submit-btn {
     cursor: pointer !important;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1200px) {
+  nav {
+    padding: 1rem 2rem;
+  }
+
+  .nav-right {
+    gap: 1rem !important;
+  }
+
+  .nav-links {
+    gap: clamp(1.25rem, 2vw, 2rem);
+  }
+
+  .nav-links a,
+  .nav-cta {
+    white-space: nowrap;
+  }
+
+  .nav-cta {
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 360px) {
+  nav {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
+    gap: 0.4rem !important;
+  }
+
+  .nav-right {
+    gap: 0.2rem !important;
+  }
+
+  .animated-logo {
+    height: 36px !important;
+  }
+
+  .theme-switch-container {
+    gap: 2px !important;
+  }
+
+  .theme-icon {
+    font-size: 0.72rem !important;
+  }
+
+  .lang-label {
+    font-size: 0.65rem !important;
   }
 }
