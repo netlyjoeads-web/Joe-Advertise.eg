@@ -113,6 +113,42 @@
 <div class="aurora"><div class="aurora-blob"></div><div class="aurora-blob"></div></div>
 
 <div class="content">
+  <!-- زرار طلب معاودة الاتصال فوق الواتساب -->
+<button type="button" class="callback-float" id="callbackFloatBtn" aria-label="اطلب مكالمة أو رسالة واتساب" title="سيب رقمك وهنكلمك">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+    <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.07 21 3 13.93 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z"/>
+  </svg>
+  <span class="callback-badge" id="callbackBadgeText">For Inquires or details</span>
+</button>
+
+<!-- كارت إدخال الرقم السريع -->
+<div class="callback-card" id="callbackCard" aria-hidden="true">
+  <button type="button" class="callback-close" id="callbackCardClose" aria-label="إغلاق">&times;</button>
+  <div class="callback-title" id="callbackCardTitle">Leave your WhatsApp number</div>
+  <p class="callback-sub" id="callbackCardSub">We’ll reach out with packages & details within minutes.</p>
+  <form id="callbackFloatForm" novalidate>
+    <input type="tel" id="callbackPhoneInput" inputmode="numeric" maxlength="15" placeholder="01XXXXXXXXX" autocomplete="tel" required>
+    <div class="lead-error" id="callbackError"></div>
+    <button type="submit" class="lead-submit-btn" id="callbackSubmitBtn">Send Number</button>
+    <div class="lead-success" id="callbackSuccess"></div>
+  </form>
+</div>
+
+<!-- نافذة الخروج الذكية (Exit Intent Popup) -->
+<div class="exit-popup-overlay" id="exitPopupOverlay" aria-hidden="true">
+  <div class="exit-popup-box" role="dialog" aria-modal="true" aria-labelledby="exitPopupTitle">
+    <button type="button" class="exit-popup-close" id="exitPopupClose" aria-label="إغلاق">&times;</button>
+    <div class="exit-popup-tag" id="exitPopupTag">WAIT A SECOND ✦</div>
+    <h3 class="exit-popup-title" id="exitPopupTitle">Have a project in mind?</h3>
+    <p class="exit-popup-desc" id="exitPopupDesc">Leave your WhatsApp number before you go and we’ll send you our packages & portfolio details right away.</p>
+    <form id="exitPopupForm" novalidate>
+      <input type="tel" id="exitPhoneInput" inputmode="numeric" maxlength="15" placeholder="010XXXXXXXX" autocomplete="tel" required>
+      <div class="lead-error" id="exitError"></div>
+      <button type="submit" class="lead-submit-btn" id="exitSubmitBtn">Get Details on WhatsApp</button>
+      <div class="lead-success" id="exitSuccess"></div>
+    </form>
+  </div>
+</div>
 <a href="https://wa.me/201035419531?text=شفت%20الموقع%20وحابب%20أعرف%20تفاصيل%20أكتر" target="_blank" class="wa-float" id="waFloat" aria-label="تواصل معنا عبر واتساب">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.886a.5.5 0 0 0 .615.613l6.094-1.465A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.51-5.18-1.4l-.36-.214-3.776.909.924-3.685-.235-.375A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>

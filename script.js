@@ -207,6 +207,22 @@ function toggleLang() {
   let serviceCards = document.querySelectorAll('.service-card');
 
   if (isArabic) {
+    const cbBadge = document.getElementById('callbackBadgeText');
+    if (cbBadge) cbBadge.textContent = 'نكلمك؟';
+    const cbTitle = document.getElementById('callbackCardTitle');
+    if (cbTitle) cbTitle.textContent = 'اترك رقم الواتساب الخاص بك';
+    const cbSub = document.getElementById('callbackCardSub');
+    if (cbSub) cbSub.textContent = 'هنبعتلك تفاصيل الباقات والأسعار على واتساب في دقائق.';
+    const cbBtn = document.getElementById('callbackSubmitBtn');
+    if (cbBtn) cbBtn.textContent = 'إرسال الرقم';
+    const exTag = document.getElementById('exitPopupTag');
+    if (exTag) exTag.textContent = 'لحظة واحدة ✦';
+    const exTitle = document.getElementById('exitPopupTitle');
+    if (exTitle) exTitle.textContent = 'عندك مشروع أو استفسار؟';
+    const exDesc = document.getElementById('exitPopupDesc');
+    if (exDesc) exDesc.textContent = 'سيب رقم الواتساب بتاعك قبل ما تمشي وهنبعتلك باقات الأسعار ونرد على كل استفساراتك فوراً.';
+    const exBtn = document.getElementById('exitSubmitBtn');
+    if (exBtn) exBtn.textContent = 'ابعتولي التفاصيل واتساب';
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'ar');
    
@@ -362,6 +378,22 @@ function toggleLang() {
     if (sliderStatus) sliderStatus.textContent = 'لسه مفيش آراء معتمدة';
 
   } else {
+    const cbBadgeEn = document.getElementById('callbackBadgeText');
+    if (cbBadgeEn) cbBadgeEn.textContent = 'Call me';
+    const cbTitleEn = document.getElementById('callbackCardTitle');
+    if (cbTitleEn) cbTitleEn.textContent = 'Leave your WhatsApp number';
+    const cbSubEn = document.getElementById('callbackCardSub');
+    if (cbSubEn) cbSubEn.textContent = 'We’ll reach out with packages & details within minutes.';
+    const cbBtnEn = document.getElementById('callbackSubmitBtn');
+    if (cbBtnEn) cbBtnEn.textContent = 'Send Number';
+    const exTagEn = document.getElementById('exitPopupTag');
+    if (exTagEn) exTagEn.textContent = 'WAIT A SECOND ✦';
+    const exTitleEn = document.getElementById('exitPopupTitle');
+    if (exTitleEn) exTitleEn.textContent = 'Have a project in mind?';
+    const exDescEn = document.getElementById('exitPopupDesc');
+    if (exDescEn) exDescEn.textContent = 'Leave your WhatsApp number before you go and we’ll send you our packages & portfolio details right away.';
+    const exBtnEn = document.getElementById('exitSubmitBtn');
+    if (exBtnEn) exBtnEn.textContent = 'Get Details on WhatsApp';
     document.documentElement.setAttribute('dir', 'ltr');
     document.documentElement.setAttribute('lang', 'en');
 
@@ -882,44 +914,312 @@ function toggleTheme() {
     toggleLang();
   }
 })();
-(function trackVisit() {
-  if (navigator.webdriver || sessionStorage.getItem('joe_visit_notified')) return;
-  sessionStorage.setItem('joe_visit_notified', '1');
-
+/* =========================================================
+   9. Enhanced Visitor Tracking, Lead Capture & Exit Popup
+   ========================================================= */
+(function initTrackingAndLeads() {
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const device = isMobile ? 'موبايل' : 'كمبيوتر';
 
-  const params = new URLSearchParams(window.location.search);
-  const utmSource = params.get('utm_source');
-  const rawRef = document.referrer || '';
-  const ownHost = window.location.hostname;
+  function getTrafficSource() {
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = params.get('utm_source');
+    const rawRef = document.referrer || '';
+    const ownHost = window.location.hostname;
 
-  let source = 'دخول مباشر (Direct)';
-
-  if (utmSource) {
-    source = utmSource;
-  } else if (params.has('fbclid') || /facebook\.com|fb\.com/i.test(rawRef)) {
-    source = 'فيسبوك (Facebook)';
-  } else if (/instagram\.com/i.test(rawRef)) {
-    source = 'إنستجرام (Instagram)';
-  } else if (params.has('gclid') || /google\./i.test(rawRef)) {
-    source = 'جوجل (Google)';
-  } else if (/tiktok\.com/i.test(rawRef)) {
-    source = 'تيك توك (TikTok)';
-  } else if (/t\.me|telegram/i.test(rawRef)) {
-    source = 'تليجرام (Telegram)';
-  } else if (rawRef && !rawRef.includes(ownHost)) {
-    source = rawRef;
+    if (utmSource) return utmSource;
+    if (params.has('fbclid') || /facebook\.com|fb\.com/i.test(rawRef)) return 'فيسبوك (Facebook)';
+    if (/instagram\.com/i.test(rawRef)) return 'إنستجرام (Instagram)';
+    if (params.has('gclid') || /google\./i.test(rawRef)) return 'جوجل (Google)';
+    if (/tiktok\.com/i.test(rawRef)) return 'تيك توك (TikTok)';
+    if (/t\.me|telegram/i.test(rawRef)) return 'تليجرام (Telegram)';
+    if (rawRef && !rawRef.includes(ownHost)) return rawRef;
+    return 'دخول مباشر (Direct)';
   }
 
-  fetch('/api/visit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      page: window.location.pathname + window.location.hash,
-      referrer: source,
-      device
-    }),
-    keepalive: true
-  }).catch(() => {});
+  function getVisitorStatus() {
+    let count = parseInt(localStorage.getItem('joe_visit_count') || '0', 10);
+    if (!sessionStorage.getItem('joe_visit_counted')) {
+      count += 1;
+      localStorage.setItem('joe_visit_count', String(count));
+      sessionStorage.setItem('joe_visit_counted', '1');
+    }
+    return count > 1
+      ? `🔄 زائر عائد (مهتم - زيارة رقم ${count})`
+      : 'زائر جديد 🆕';
+  }
+
+  const trafficSource = getTrafficSource();
+  const visitorStatus = getVisitorStatus();
+
+  // 1. إشعار دخول الزائر
+  if (!navigator.webdriver && !sessionStorage.getItem('joe_visit_notified')) {
+    sessionStorage.setItem('joe_visit_notified', '1');
+    fetch('/api/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'visit',
+        page: window.location.pathname + window.location.hash,
+        referrer: trafficSource,
+        device,
+        visitorStatus
+      }),
+      keepalive: true
+    }).catch(() => {});
+  }
+
+  // 2. تتبع النقرات المهمة (معاينة المشاريع أو أزرار التواصل)
+  function notifyInterest(key, actionLabel) {
+    if (navigator.webdriver || sessionStorage.getItem('joe_int_' + key)) return;
+    sessionStorage.setItem('joe_int_' + key, '1');
+    fetch('/api/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'interest',
+        actionLabel,
+        visitorStatus,
+        device
+      }),
+      keepalive: true
+    }).catch(() => {});
+  }
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+    if (href.includes('partytime-eg.com')) notifyInterest('partytime', 'فتح معاينة موقع Partytime');
+    else if (href.includes('openmartegypt.com')) notifyInterest('openmart', 'فتح معاينة متجر Openmart');
+    else if (href.includes('savoregy.vercel.app')) notifyInterest('savor', 'فتح معاينة موقع Savor');
+    else if (href.includes('fastfoodhtml.vercel.app')) notifyInterest('fastfood', 'فتح معاينة موقع المطعم التجريبي');
+    else if (href.includes('wa.me')) notifyInterest('whatsapp', 'ضغط على زرار واتساب');
+    else if (href.includes('facebook.com')) notifyInterest('facebook', 'ضغط على صفحة فيسبوك');
+  });
+
+  // 3. توحيد وتدقيق رقم الهاتف (أرقام فقط + طول محدد + منع الأرقام الوهمية)
+  function normalizeDigits(val) {
+    const arabicNums = '٠١٢٣٤٥٦٧٨٩';
+    return String(val || '')
+      .replace(/[٠-٩]/g, d => arabicNums.indexOf(d))
+      .replace(/\D/g, '');
+  }
+
+  function validatePhoneNumber(raw) {
+    const digits = normalizeDigits(raw);
+    const ar = document.documentElement.getAttribute('lang') === 'ar';
+
+    if (!digits) {
+      return { valid: false, msg: ar ? 'من فضلك اكتب رقم الموبايل' : 'Please enter your phone number' };
+    }
+    if (/^(\d)\1+$/.test(digits) || digits === '01234567890' || digits === '1234567890') {
+      return { valid: false, msg: ar ? 'من فضلك اكتب رقم صحيح غير وهمي' : 'Please enter a valid real phone number' };
+    }
+    // رقم مصري يبدأ بـ 01 -> لازم 11 رقم بالظبط
+    if (digits.startsWith('01')) {
+      if (!/^01[0125]\d{8}$/.test(digits)) {
+        return {
+          valid: false,
+          msg: ar ? 'الرقم المصري لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015' : 'Egyptian mobile number must be 11 digits (e.g. 010XXXXXXXX)'
+        };
+      }
+      return { valid: true, digits };
+    }
+    // رقم مصري بكود الدولة 201 -> لازم 12 رقم
+    if (digits.startsWith('201')) {
+      if (!/^201[0125]\d{8}$/.test(digits)) {
+        return {
+          valid: false,
+          msg: ar ? 'تأكد من كتابة الـ 12 رقم بشكل صحيح بعد 20' : 'Please enter a valid 12-digit Egyptian number'
+        };
+      }
+      return { valid: true, digits };
+    }
+    // أرقام دولية أو خليجية (من 10 إلى 15 رقم)
+    if (digits.length < 10 || digits.length > 15) {
+      return {
+        valid: false,
+        msg: ar ? 'رقم الهاتف لازم يكون من 10 إلى 15 رقم' : 'Phone number must be between 10 and 15 digits'
+      };
+    }
+    return { valid: true, digits };
+  }
+
+  function attachNumericFilter(inputEl) {
+    if (!inputEl) return;
+    inputEl.addEventListener('input', () => {
+      const cleaned = normalizeDigits(inputEl.value).slice(0, 15);
+      if (inputEl.value !== cleaned) inputEl.value = cleaned;
+    });
+  }
+
+  // عناصر زرار الاتصال السريع فوق الواتساب
+  const callbackBtn = document.getElementById('callbackFloatBtn');
+  const callbackCard = document.getElementById('callbackCard');
+  const callbackClose = document.getElementById('callbackCardClose');
+  const callbackForm = document.getElementById('callbackFloatForm');
+  const callbackInput = document.getElementById('callbackPhoneInput');
+  const callbackError = document.getElementById('callbackError');
+  const callbackSuccess = document.getElementById('callbackSuccess');
+  const callbackSubmit = document.getElementById('callbackSubmitBtn');
+
+  // عناصر نافذة الخروج (Exit Popup)
+  const exitOverlay = document.getElementById('exitPopupOverlay');
+  const exitClose = document.getElementById('exitPopupClose');
+  const exitForm = document.getElementById('exitPopupForm');
+  const exitInput = document.getElementById('exitPhoneInput');
+  const exitError = document.getElementById('exitError');
+  const exitSuccess = document.getElementById('exitSuccess');
+  const exitSubmit = document.getElementById('exitSubmitBtn');
+
+  attachNumericFilter(callbackInput);
+  attachNumericFilter(exitInput);
+
+  if (localStorage.getItem('joe_lead_submitted') === '1' && callbackBtn) {
+    callbackBtn.classList.add('submitted');
+  }
+
+  if (callbackBtn && callbackCard) {
+    callbackBtn.addEventListener('click', () => {
+      callbackCard.classList.toggle('open');
+      if (callbackCard.classList.contains('open') && callbackInput) {
+        setTimeout(() => callbackInput.focus(), 150);
+      }
+    });
+  }
+  if (callbackClose && callbackCard) {
+    callbackClose.addEventListener('click', () => callbackCard.classList.remove('open'));
+  }
+document.addEventListener('click', (e) => {
+    if (
+      callbackCard &&
+      callbackCard.classList.contains('open') &&
+      !callbackCard.contains(e.target) &&
+      !(callbackBtn && callbackBtn.contains(e.target))
+    ) {
+      callbackCard.classList.remove('open');
+    }
+  });
+  async function handleLeadSubmit(e, inputEl, errorEl, successEl, submitBtn, leadSource, onDone) {
+    e.preventDefault();
+    const ar = document.documentElement.getAttribute('lang') === 'ar';
+    errorEl.textContent = '';
+    successEl.textContent = '';
+
+    const check = validatePhoneNumber(inputEl.value);
+    if (!check.valid) {
+      errorEl.textContent = check.msg;
+      inputEl.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch('/api/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'lead',
+          phone: check.digits,
+          leadSource,
+          referrer: trafficSource,
+          device
+        })
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      // حفظ إن العميل ساب رقمه لمنع ظهور Exit Popup نهائياً
+      localStorage.setItem('joe_lead_submitted', '1');
+      if (callbackBtn) callbackBtn.classList.add('submitted');
+
+      successEl.textContent = ar
+        ? 'تم استلام رقمك بنجاح! هنتواصل معاك واتساب في دقائق ✅'
+        : 'Received! We’ll message you on WhatsApp within minutes ✅';
+      inputEl.value = '';
+      if (onDone) setTimeout(onDone, 1800);
+    } catch {
+      errorEl.textContent = ar ? 'حصل خطأ في الإرسال، حاول تاني' : 'Could not send right now, please try again';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  }
+
+  if (callbackForm) {
+    callbackForm.addEventListener('submit', (e) => {
+      handleLeadSubmit(
+        e,
+        callbackInput,
+        callbackError,
+        callbackSuccess,
+        callbackSubmit,
+        'زر الاتصال السريع (فوق الواتساب)',
+        () => callbackCard && callbackCard.classList.remove('open')
+      );
+    });
+  }
+
+  if (exitForm) {
+    exitForm.addEventListener('submit', (e) => {
+      handleLeadSubmit(
+        e,
+        exitInput,
+        exitError,
+        exitSuccess,
+        exitSubmit,
+        'نافذة الخروج (Exit Popup)',
+        () => exitOverlay && exitOverlay.classList.remove('open')
+      );
+    });
+  }
+
+  // منطق إظهار Exit Popup (مرة واحدة فقط + ممنوع لو ساب رقمه)
+  function triggerExitPopup() {
+    if (!exitOverlay) return;
+    if (localStorage.getItem('joe_lead_submitted') === '1') return;
+    if (sessionStorage.getItem('joe_exit_popup_shown') === '1') return;
+
+    sessionStorage.setItem('joe_exit_popup_shown', '1');
+    if (callbackCard) callbackCard.classList.remove('open');
+    exitOverlay.classList.add('open');
+    if (exitInput) setTimeout(() => exitInput.focus(), 200);
+  }
+
+  if (exitClose && exitOverlay) {
+    exitClose.addEventListener('click', () => exitOverlay.classList.remove('open'));
+    exitOverlay.addEventListener('click', (e) => {
+      if (e.target === exitOverlay) exitOverlay.classList.remove('open');
+    });
+  }
+
+  const pageLoadTime = Date.now();
+  // للكمبيوتر: حركة الماوس لأعلى المتصفح بعد 5 ثواني من التصفح
+  document.addEventListener('mouseout', (e) => {
+    if (Date.now() - pageLoadTime < 5000) return;
+    if (!e.relatedTarget && !e.toElement && e.clientY <= 5) {
+      triggerExitPopup();
+    }
+  });
+
+  // للموبايل: بعد تصفح 35% من الصفحة ومرور 12 ثانية، عند السحب السريع لأعلى للرجوع
+  let maxScrollReached = 0;
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight > 0 && currentY / docHeight > 0.35) {
+      maxScrollReached = 1;
+    }
+    if (
+      isMobile &&
+      maxScrollReached === 1 &&
+      Date.now() - pageLoadTime > 12000 &&
+      lastScrollY - currentY > 220 &&
+      currentY < 300
+    ) {
+      triggerExitPopup();
+    }
+    lastScrollY = currentY;
+  }, { passive: true });
 })();
