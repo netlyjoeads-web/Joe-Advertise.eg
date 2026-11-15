@@ -201,10 +201,14 @@ let isArabic = false;
 
 function toggleLang() {
   const checkbox = document.getElementById('lang-toggle-checkbox');
+  if (!checkbox) return;
+
   isArabic = checkbox.checked;
   localStorage.setItem('joe_lang', isArabic ? 'ar' : 'en');
 
-  let serviceCards = document.querySelectorAll('.service-card');
+  const serviceCards = document.querySelectorAll('.service-card');
+  const callbackInput = document.getElementById('callbackPhoneInput');
+  const exitInput = document.getElementById('exitPhoneInput');
 
   if (isArabic) {
     if (callbackInput) callbackInput.placeholder = 'اكتب رقم الواتساب الخاص بك';
@@ -380,8 +384,10 @@ function toggleLang() {
     if (sliderStatus) sliderStatus.textContent = 'لسه مفيش آراء معتمدة';
 
   } else {
+    if (callbackInput) callbackInput.placeholder = 'Your WhatsApp Number';
+    if (exitInput) exitInput.placeholder = '01XXXXXXXXX';
     const cbBadgeEn = document.getElementById('callbackBadgeText');
-    if (cbBadgeEn) cbBadgeEn.textContent = 'Call me';
+    if (cbBadgeEn) cbBadgeEn.textContent = 'For inquires or details';
     const cbTitleEn = document.getElementById('callbackCardTitle');
     if (cbTitleEn) cbTitleEn.textContent = 'Leave your WhatsApp number';
     const cbSubEn = document.getElementById('callbackCardSub');
