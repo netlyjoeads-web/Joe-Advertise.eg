@@ -1182,11 +1182,12 @@ document.addEventListener('click', (e) => {
     });
   }
 
-// منطق إظهار Exit Popup (فقط عند محاولة الخروج الفعلي خارج حدود صفحة المتصفح)
+// منطق إظهار Exit Popup (فقط عند الخروج الحقيقي وبدون أي إزعاج أثناء التصفح)
   let exitCooldown = false;
   let userInteracted = false;
+  const sessionStartTime = Date.now();
 
-  // تسجيل إن الزائر تفاعل مع الموقع (سكرول أو ضغط) لضمان عدم ظهورها فور الدخول
+  // تسجيل أن الزائر تفاعل مع الموقع فعلاً
   ['scroll', 'click', 'touchstart'].forEach(evt => {
     window.addEventListener(evt, () => { userInteracted = true; }, { once: true, passive: true });
   });
@@ -1194,7 +1195,10 @@ document.addEventListener('click', (e) => {
   function triggerExitPopup() {
     if (!exitOverlay) return;
     if (localStorage.getItem('joe_lead_submitted') === '1') return;
-    if (!userInteracted || exitOverlay.classList.contains('open') || exitCooldown) return;
+    
+    // شروط صارمة جداً لعدم الإزعاج: مر 15 ثانية على الأقل + الزائر تفاعل مع الموقع + مش في فترة تهدئة
+    if (!userInteracted || Date.now() - sessionStartTime < 15000) return;
+    if (exitOverlay.classList.contains('open') || exitCooldown) return;
 
     if (callbackCard) callbackCard.classList.remove('open');
     exitOverlay.classList.add('open');
@@ -1205,7 +1209,7 @@ document.addEventListener('click', (e) => {
     if (!exitOverlay) return;
     exitOverlay.classList.remove('open');
     exitCooldown = true;
-    setTimeout(() => { exitCooldown = false; }, 20000); // فترة تهدئة 20 ثانية لو قفلها عشان متبقاش مزعجة
+    setTimeout(() => { exitCooldown = false; }, 30000); // فترة تهدئة 30 ثانية لو قفلها
   }
 
   if (exitClose && exitOverlay) {
@@ -1215,45 +1219,30 @@ document.addEventListener('click', (e) => {
     });
   }
 
-  // 1. للكمبيوتر: رصد خروج مؤشر الماوس تماماً خارج نافذة المتصفح من الأعلى (باتجاه شريط التبويب أو الإغلاق)
-  document.addEventListener('mouseout', (e) => {
+  // 1. للكمبيوتر: حصرياً عند خروج مؤشر الماوس تماماً خارج إطار صفحة الويب من الأعلى (ناحية شريط تبويبات المتصفح)
+  document.addEventListener('mouseleave', (e) => {
     if (localStorage.getItem('joe_lead_submitted') === '1') return;
-    if (!userInteracted) return;
-
-    // التأكد أن المؤشر غادر إطار الشاشة من الأعلى فعلياً (clientY <= 0) وأن الهدف أصبح خارج النافذة
+    // التأكد أن الماوس خرج فوق حدود الشاشة (<= 0) وليس داخل الموقع
     if (e.clientY <= 0 && e.relatedTarget === null) {
       triggerExitPopup();
     }
   });
 
-  // 2. للموبايل: عند الضغط على زر الرجوع (Back)
+  // 2. للموبايل: عند الضغط على زر الرجوع (Back) في الموبايل لمغادرة الصفحة
   history.pushState({ exitGuard: true }, '');
   window.addEventListener('popstate', () => {
-    if (
-      localStorage.getItem('joe_lead_submitted') !== '1' &&
-      userInteracted
-    ) {
+    if (localStorage.getItem('joe_lead_submitted') !== '1' && userInteracted) {
       history.pushState({ exitGuard: true }, '');
       triggerExitPopup();
     }
   });
 
-  // 3. للموبايل: السحب القوي لأعلى بعد تصفح عميق في الصفحة
-  let maxScroll = 0;
-  let lastY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const currentY = window.scrollY;
-    if (currentY > maxScroll) maxScroll = currentY;
-
-    if (
-      isMobile &&
-      maxScroll > 500 &&
-      lastY - currentY > 250 &&
-      currentY < 100
-    ) {
-      maxScroll = 0;
-      triggerExitPopup();
+  // 3. للموبايل: عند مغادرة التطبيق أو إخفاء التاب (Visibility Hidden)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && userInteracted && Date.now() - sessionStartTime > 15000) {
+      if (localStorage.getItem('joe_lead_submitted') !== '1') {
+        triggerExitPopup();
+      }
     }
-    lastY = currentY;
-  }, { passive: true });
+  });
 })();
