@@ -1126,6 +1126,148 @@ section { padding: 8rem 4rem; }
   transform: translateX(-5px) !important;
   box-shadow: 0 0 15px var(--neon) !important;
 }
+@media (max-width: 1000px) {
+  /* 1. ضبط الـ Navbar والمسافة بين الشعار والأيقونات */
+  nav {
+    padding: 0.75rem 1rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .nav-logo {
+    flex-shrink: 0 !important;
+  }
+
+  .animated-logo {
+    height: 40px !important;
+    width: auto !important;
+  }
+
+  .nav-right {
+    gap: 0.55rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* تصغير زر الوضع الليلي/النهاري ليناسب شاشة الموبايل */
+  .theme-switch-container {
+    gap: 4px !important;
+  }
+
+  .theme-icon {
+    font-size: 0.8rem !important;
+    line-height: 1 !important;
+  }
+
+  .theme-track {
+    width: 34px !important;
+    height: 18px !important;
+  }
+
+  .theme-thumb {
+    width: 12px !important;
+    height: 12px !important;
+    left: 2px !important;
+    bottom: 2px !important;
+  }
+
+  #theme-toggle-checkbox:checked + .theme-switch-container .theme-thumb {
+    transform: translateX(16px) !important;
+  }
+
+  /* تصغير زر اللغة ومنع انقسام النص على سطرين */
+  .lang-switch-container {
+    gap: 4px !important;
+  }
+
+  .lang-label {
+    font-size: 0.72rem !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+  }
+
+  .lang-track {
+    width: 36px !important;
+    height: 18px !important;
+  }
+
+  .lang-thumb {
+    width: 12px !important;
+    height: 12px !important;
+    left: 2px !important;
+    bottom: 2px !important;
+  }
+
+  #lang-toggle-checkbox:checked + .lang-switch-container .lang-thumb {
+    transform: translateX(18px) !important;
+  }
+
+  /* ضبط حجم أيقونة المنيو الجانبية */
+  .nav-toggle-label {
+    gap: 5px !important;
+    margin-left: 2px !important;
+  }
+
+  .nav-toggle-label span,
+  .nav-toggle-label::before,
+  .nav-toggle-label::after {
+    width: 24px !important;
+    height: 2.5px !important;
+  }
+
+  #nav-toggle:checked ~ .nav-toggle-label::before {
+    transform: translateY(7.5px) rotate(45deg) !important;
+  }
+
+  #nav-toggle:checked ~ .nav-toggle-label::after {
+    transform: translateY(-7.5px) rotate(-45deg) !important;
+  }
+
+  /* 2. إزالة الفراغ الكبير وتنسيق الـ Hero Section */
+  .hero {
+    min-height: auto !important;
+    padding: 6.2rem 1.2rem 3rem !important;
+    align-items: flex-start !important;
+  }
+
+  .hero-name {
+    font-size: clamp(2.6rem, 11vw, 3.8rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hero-title {
+    font-size: 0.9rem !important;
+    letter-spacing: 1px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.65 !important;
+    margin: 0 auto 1.8rem !important;
+    max-width: 95% !important;
+  }
+
+  .hero .btn-primary {
+    padding: 0.85rem 2.2rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* تصغير أيقونة الواتساب العائمة قليلاً لتناسب الموبايل */
+  .wa-float {
+    width: 48px !important;
+    height: 48px !important;
+    bottom: 1.2rem !important;
+    left: 1.2rem !important;
+  }
+
+  .wa-float svg {
+    width: 26px !important;
+    height: 26px !important;
+  }
+}
 </style>
 </head>
 <body>
