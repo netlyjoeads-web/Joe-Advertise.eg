@@ -942,6 +942,45 @@ function toggleTheme() {
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const device = isMobile ? 'موبايل' : 'كمبيوتر';
 
+  // === 1. ضع كود اللوجو والرمز السري هنا ===
+  const OWNER_PIN = '200796'; // غيّر الرقم ده لأي رمز سري يعجبك
+  let logoClicks = 0;
+  let logoClickTimer = null;
+  const navLogo = document.querySelector('.nav-logo, .logo, header a');
+
+  if (navLogo) {
+    navLogo.addEventListener('click', (e) => {
+      logoClicks += 1;
+      clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => { logoClicks = 0; }, 1500);
+
+      if (logoClicks >= 5) {
+        e.preventDefault();
+        logoClicks = 0;
+
+        const enteredPin = prompt('أدخل الرمز السري للمالك:');
+        if (enteredPin !== OWNER_PIN) {
+          if (enteredPin !== null) alert('❌ الرمز السري غير صحيح');
+          return;
+        }
+
+        const isIgnored = localStorage.getItem('joe_ignore_me') === '1';
+        if (isIgnored) {
+          localStorage.removeItem('joe_ignore_me');
+          alert('🔔 تم إلغاء وضع المالك: ستصلك إشعارات زيارات من هذا الجهاز الآن.');
+        } else {
+          localStorage.setItem('joe_ignore_me', '1');
+          alert('🛡️ تم تفعيل وضع المالك بنجاح! لن تصلك أي إشعارات زيارات من هذا الجهاز بعد الآن.');
+        }
+      }
+    });
+  }
+
+  function isOwnerDevice() {
+    return localStorage.getItem('joe_ignore_me') === '1';
+  }
+  // === نهاية كود المالك ===
+
   function getTrafficSource() {
     const params = new URLSearchParams(window.location.search);
     const utmSource = params.get('utm_source');
@@ -973,8 +1012,8 @@ function toggleTheme() {
   const trafficSource = getTrafficSource();
   const visitorStatus = getVisitorStatus();
 
-  // 1. إشعار دخول الزائر
-  if (!navigator.webdriver && !sessionStorage.getItem('joe_visit_notified')) {
+  // === 2. تأكد من وجود !isOwnerDevice() هنا ===
+  if (!navigator.webdriver && !isOwnerDevice() && !sessionStorage.getItem('joe_visit_notified')) {
     sessionStorage.setItem('joe_visit_notified', '1');
     fetch('/api/visit', {
       method: 'POST',
@@ -990,9 +1029,9 @@ function toggleTheme() {
     }).catch(() => {});
   }
 
-  // 2. تتبع النقرات المهمة (معاينة المشاريع أو أزرار التواصل)
+  // === 3. وهنا أيضاً في تتبع النقرات ===
   function notifyInterest(key, actionLabel) {
-    if (navigator.webdriver || sessionStorage.getItem('joe_int_' + key)) return;
+    if (navigator.webdriver || isOwnerDevice() || sessionStorage.getItem('joe_int_' + key)) return;
     sessionStorage.setItem('joe_int_' + key, '1');
     fetch('/api/visit', {
       method: 'POST',
@@ -1006,6 +1045,7 @@ function toggleTheme() {
       keepalive: true
     }).catch(() => {});
   }
+
 
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
