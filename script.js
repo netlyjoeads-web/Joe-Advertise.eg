@@ -211,6 +211,12 @@ function toggleLang() {
   const exitInput = document.getElementById('exitPhoneInput');
 
   if (isArabic) {
+    const heroPill = document.querySelector('.hero-pill');
+if (heroPill) heroPill.textContent = 'أفكار إبداعية. نتائج قوية.';
+const btnSolid = document.querySelector('.btn-hero-solid');
+if (btnSolid) btnSolid.textContent = 'ابدأ مشروعك';
+const btnOutline = document.querySelector('.btn-hero-outline');
+if (btnOutline) btnOutline.innerHTML = '<span class="arrow-box">↗</span> استكشف أعمالنا';
     if (callbackInput) callbackInput.placeholder = 'اكتب رقم الواتساب الخاص بك';
     if (exitInput) exitInput.placeholder = 'اكتب رقم الواتساب الخاص بك';
     const cbBadge = document.getElementById('callbackBadgeText');
@@ -384,6 +390,12 @@ function toggleLang() {
     if (sliderStatus) sliderStatus.textContent = 'لسه مفيش آراء معتمدة';
 
   } else {
+    const heroPillEn = document.querySelector('.hero-pill');
+if (heroPillEn) heroPillEn.textContent = 'Creative Ideas. Powerful Results.';
+const btnSolidEn = document.querySelector('.btn-hero-solid');
+if (btnSolidEn) btnSolidEn.textContent = 'Start a Project';
+const btnOutlineEn = document.querySelector('.btn-hero-outline');
+if (btnOutlineEn) btnOutlineEn.innerHTML = '<span class="arrow-box">↗</span> Explore Our Work';
     if (callbackInput) callbackInput.placeholder = 'Your WhatsApp Number';
     if (exitInput) exitInput.placeholder = '01XXXXXXXXX';
     const cbBadgeEn = document.getElementById('callbackBadgeText');
@@ -1312,3 +1324,11 @@ document.addEventListener('click', (e) => {
     });
   }
 })();
+const botFace = document.getElementById('botFaceFeatures');
+if (botFace) {
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 18;
+    const y = (e.clientY / window.innerHeight - 0.5) * 14;
+    botFace.style.transform = `translate(${x}px, ${y}px)`;
+  });
+}

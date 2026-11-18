@@ -307,16 +307,107 @@
   <div id="main-site" class="active-page">
     <section class="hero" id="home">
       <div class="hero-inner">
-        <div class="hero-robot-wrap">
-          <canvas id="robotCanvas" width="600" height="600"></canvas>
-        </div>
-        <div class="hero-left">
-          <h1 class="hero-name"><span class="line1">Joe</span><span class="line2">Advertise</span></h1>
-          <p class="hero-title">Graphic Design · AI Ads · Web Development</p>
-          <p class="hero-desc">Graphic Design , Web Development . We engineer premium brand identities and cinematic AI commercials that elevate your business.</p>
-          <a href="https://wa.me/201035419531" target="_blank" class="btn btn-primary">Contact us</a>
-        </div>
-      </div>
+       <div class="hero-robot-wrap" id="heroRobotWrap">
+  <svg class="premium-ai-bot" id="premiumAiBot" viewBox="0 0 400 420" width="440" height="460" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- تدرج الجسم الأسود اللامع -->
+      <radialGradient id="botBodyGrad" cx="35%" cy="28%" r="70%">
+        <stop offset="0%" stop-color="#4c1d95" />
+        <stop offset="35%" stop-color="#1e1035" />
+        <stop offset="80%" stop-color="#090412" />
+        <stop offset="100%" stop-color="#2e1065" />
+      </radialGradient>
+
+      <!-- تدرج شاشة الوجه الزجاجية -->
+      <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#140826" />
+        <stop offset="50%" stop-color="#05020a" />
+        <stop offset="100%" stop-color="#1a0933" />
+      </linearGradient>
+
+      <!-- تدرج الإطار البنفسجي المعدني -->
+      <linearGradient id="neonRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f0abfc" />
+        <stop offset="50%" stop-color="#a855f7" />
+        <stop offset="100%" stop-color="#6d28d9" />
+      </linearGradient>
+
+      <!-- توهج النيون -->
+      <filter id="neonGlow" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="5" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#7c3aed" flood-opacity="0.35" />
+      </filter>
+    </defs>
+
+    <!-- هالة إضاءة خلفية ناعمة -->
+    <circle cx="200" cy="210" r="145" fill="url(#neonRimGrad)" opacity="0.12" />
+
+    <!-- قاعدة الروبوت العائمة -->
+    <g class="bot-pedestal">
+      <ellipse cx="200" cy="368" rx="115" ry="22" fill="#090412" stroke="url(#neonRimGrad)" stroke-width="2.5" />
+      <ellipse cx="200" cy="368" rx="85" ry="12" fill="none" stroke="#d946ef" stroke-width="1.5" opacity="0.6" filter="url(#neonGlow)" />
+    </g>
+
+    <!-- جسم ورأس الروبوت -->
+    <g class="bot-head-group" id="botHeadGroup" filter="url(#softShadow)">
+      <!-- الأنتينا العلوية -->
+      <line x1="200" y1="88" x2="200" y2="48" stroke="url(#neonRimGrad)" stroke-width="7" stroke-linecap="round" />
+      <circle cx="200" cy="40" r="15" fill="url(#neonRimGrad)" filter="url(#neonGlow)" />
+      <circle cx="195" cy="35" r="4.5" fill="#ffffff" opacity="0.75" />
+
+      <!-- السماعات الجانبية -->
+      <rect x="64" y="168" width="26" height="84" rx="13" fill="url(#botBodyGrad)" stroke="url(#neonRimGrad)" stroke-width="3" />
+      <rect x="71" y="182" width="10" height="56" rx="5" fill="#d946ef" filter="url(#neonGlow)" />
+
+      <rect x="310" y="168" width="26" height="84" rx="13" fill="url(#botBodyGrad)" stroke="url(#neonRimGrad)" stroke-width="3" />
+      <rect x="319" y="182" width="10" height="56" rx="5" fill="#d946ef" filter="url(#neonGlow)" />
+
+      <!-- الرأس الكروي اللامع -->
+      <rect x="82" y="88" width="236" height="224" rx="108" fill="url(#botBodyGrad)" stroke="url(#neonRimGrad)" stroke-width="3.5" />
+
+      <!-- لمعة إضاءة علوية 3D -->
+      <ellipse cx="165" cy="112" rx="55" ry="14" transform="rotate(-12 165 112)" fill="#ffffff" opacity="0.16" />
+
+      <!-- شاشة الوجه الزجاجية -->
+      <rect x="108" y="128" width="184" height="148" rx="70" fill="url(#visorGrad)" stroke="#a855f7" stroke-width="2.5" />
+
+      <!-- انعكاس زجاج الشاشة -->
+      <path d="M 135 144 Q 185 132 235 146 Q 190 156 135 144 Z" fill="#ffffff" opacity="0.14" />
+
+      <!-- ملامح الوجه التفاعلية (تتحرك مع الماوس) -->
+      <g id="botFaceFeatures" filter="url(#neonGlow)">
+        <!-- العين اليسرى المبتسمة -->
+        <path d="M 138 198 Q 156 176 174 198" fill="none" stroke="#e879f9" stroke-width="7.5" stroke-linecap="round" />
+        <!-- العين اليمنى المبتسمة -->
+        <path d="M 226 198 Q 244 176 262 198" fill="none" stroke="#e879f9" stroke-width="7.5" stroke-linecap="round" />
+        <!-- الابتسامة -->
+        <path d="M 183 224 Q 200 240 217 224" fill="none" stroke="#d946ef" stroke-width="6.5" stroke-linecap="round" />
+      </g>
+    </g>
+  </svg>
+</div>
+<div class="hero-left">
+  <div class="hero-pill">Creative Ideas. Powerful Results.</div>
+  <h1 class="hero-name"><span class="line1">Joe</span><span class="line2">Advertise</span></h1>
+  <p class="hero-title">Graphic Design · AI Ads · Web Development</p>
+  <p class="hero-desc">Graphic Design , Web Development & AI Advertise . We create impactful visual identities, engaging digital experiences, and creative advertising solutions that help businesses stand out and grow.</p>
+  
+  <div class="hero-actions">
+    <a href="https://wa.me/201035419531?text=شفت%20الموقع%20وحابب%20أبدأ%20مشروع" target="_blank" class="btn-hero-solid">
+      Start a Project
+    </a>
+    <a href="#web-dev-section" class="btn-hero-outline">
+      <span class="arrow-box">↗</span> Explore Our Work
+    </a>
+  </div>
+</div>
     </section>
 
     <div style="text-align: center; margin-top: 4rem;">

@@ -1681,3 +1681,286 @@ body.light-mode .exit-popup-box input[type="tel"] {
     font-size: 0.65rem !important;
   }
 }
+/* =========================================================
+   New Hero Section Styling
+   ========================================================= */
+.hero-pill {
+  display: inline-block;
+  padding: 0.45rem 1.2rem;
+  border-radius: 50px;
+  background: rgba(124, 58, 237, 0.16);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: var(--accent2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+
+.hero-headline {
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero-headline span {
+  display: block;
+}
+
+.headline-white {
+  color: var(--text);
+}
+
+.headline-purple {
+  color: #a855f7;
+  text-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+}
+
+.hero-services-line {
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+  opacity: 0.92;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-hero-solid {
+  padding: 0.85rem 1.8rem;
+  border-radius: 50px;
+  background: #221c2b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: none;
+}
+
+.btn-hero-solid:hover {
+  background: var(--accent1);
+  border-color: var(--neon);
+  box-shadow: 0 0 25px rgba(124, 58, 237, 0.5);
+  transform: translateY(-3px);
+}
+
+.btn-hero-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 50px;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  color: var(--accent2);
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: none;
+}
+
+.btn-hero-outline .arrow-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.btn-hero-outline:hover {
+  background: rgba(124, 58, 237, 0.28);
+  border-color: var(--neon);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* توافق مع Light Mode */
+body.light-mode .headline-purple {
+  color: #7c3aed;
+  text-shadow: none;
+}
+
+body.light-mode .btn-hero-solid {
+  background: #2f0854;
+  color: #ffffff;
+}
+
+body.light-mode .btn-hero-outline {
+  background: #f3e8ff;
+  color: #5a269c;
+  border-color: #7c3aed;
+}
+
+/* توسيط الأزرار في الموبايل */
+@media (max-width: 1000px) {
+  .hero-actions {
+    justify-content: center;
+  }
+  .btn-hero-solid,
+  .btn-hero-outline {
+    cursor: pointer;
+  }
+}
+/* =========================================================
+   Hero Pill Badge & Dual Action Buttons
+   ========================================================= */
+.hero-pill {
+  display: inline-block;
+  padding: 0.45rem 1.2rem;
+  border-radius: 50px;
+  background: rgba(124, 58, 237, 0.16);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: var(--accent2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-hero-solid {
+  padding: 0.85rem 1.8rem;
+  border-radius: 50px;
+  background: #221c2b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: none;
+}
+
+.btn-hero-solid:hover {
+  background: var(--accent1);
+  border-color: var(--neon);
+  box-shadow: 0 0 25px rgba(124, 58, 237, 0.5);
+  transform: translateY(-3px);
+}
+
+.btn-hero-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 50px;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  color: var(--accent2);
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: none;
+}
+
+.btn-hero-outline .arrow-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.btn-hero-outline:hover {
+  background: rgba(124, 58, 237, 0.28);
+  border-color: var(--neon);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* Light Mode Support */
+body.light-mode .btn-hero-solid {
+  background: #2f0854;
+  color: #ffffff;
+}
+
+body.light-mode .btn-hero-outline {
+  background: #f3e8ff;
+  color: #5a269c;
+  border-color: #7c3aed;
+}
+
+/* Mobile Alignment */
+@media (max-width: 1000px) {
+  .hero-actions {
+    justify-content: center;
+  }
+  .btn-hero-solid,
+  .btn-hero-outline {
+    cursor: pointer;
+  }
+}
+/* =========================================================
+   Ultra-Fast Interactive 3D-Style SVG Robot
+   ========================================================= */
+.premium-ai-bot {
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  overflow: visible;
+  user-select: none;
+}
+
+.bot-head-group {
+  animation: aiBotFloat 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.bot-pedestal {
+  animation: aiPedestalPulse 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+#botFaceFeatures {
+  transition: transform 0.15s ease-out;
+}
+
+@keyframes aiBotFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes aiPedestalPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(0.92); opacity: 0.55; }
+}
+html[dir="rtl"] .hero-desc {
+  direction: rtl !important;
+  text-align: right;
+}
